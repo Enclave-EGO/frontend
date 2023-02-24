@@ -2,14 +2,14 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { HomePage, SignupPage, SigninPage } from "../pages";
 
-const Screens = () => {
+function Screens() {
   return (
     <Routes>
-      <Route path="/signup" element={<SignupPage />}></Route>
-      <Route path="/signin" element={<SigninPage />}></Route>
-      <Route path="/" element={<HomePage />}></Route>
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/signin" element={<SigninPage />} />
+      <Route path="/" element={<HomePage />} />
     </Routes>
   );
-};
+}
 
 export default Screens;

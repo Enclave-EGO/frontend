@@ -1,9 +1,10 @@
 import "./App.css";
+import Screens from "./screens";
 
 function App() {
   return (
     <div className="App">
-      <h1>EGO - Studying Online</h1>
+      <Screens />
     </div>
   );
 }
