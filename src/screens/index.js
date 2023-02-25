@@ -1,6 +1,5 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { HomePage, SignupPage, SigninPage } from "../pages";
+import { HomePage, SignupPage, SigninPage, NotFoundPage } from "../pages";
 
 function Screens() {
   return (
@@ -8,6 +7,7 @@ function Screens() {
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/signin" element={<SigninPage />} />
       <Route path="/" element={<HomePage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
