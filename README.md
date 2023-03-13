@@ -24,4 +24,4 @@ $ npm install
 $ npm start
 ```
 
-### Started website: http://localhost:3000/
+### Web Server: http://localhost:3000/
