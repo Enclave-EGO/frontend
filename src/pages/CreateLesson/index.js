@@ -3,10 +3,9 @@ import { createLessonApi } from "../../apis/lesson";
 import { getCourseApi } from "../../apis/course";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { isAuthenticated } from "../../components/Auth";
 import styles from "./CreateLesson.module.css";
 
-function createLesson() {
+const CreateLesson = () => {
   function useQuery() {
     return new URLSearchParams(useLocation().search);
   }
@@ -28,11 +27,6 @@ function createLesson() {
     });
   };
 
-  useEffect(() => {
-    getCourse();
-    window.scrollTo(0, 0);
-  }, []);
-
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
@@ -42,12 +36,17 @@ function createLesson() {
 
     createLessonApi(values)
       .then((data) => {
-        toast.success("Created Success");
+        toast.success("Create Success");
       })
-      .catch((err) => {
-        toast.error("Created Fail");
+      .catch((error) => {
+        toast.error("Create Fail");
       });
   };
+
+  useEffect(() => {
+    getCourse();
+    window.scrollTo(0, 0);
+  }, []);
 
   const renderCreateLessonForm = () => {
     return (
@@ -104,6 +103,6 @@ function createLesson() {
       <div className="mt-4 ">{renderCreateLessonForm()}</div>
     </div>
   );
-}
+};
 
-export default createLesson;
+export default CreateLesson;

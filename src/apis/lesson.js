@@ -14,7 +14,7 @@ export const getLessonApi = (lessonId) => {
 
 export const createLessonApi = (lesson) => {
   const token = JSON.parse(localStorage.getItem("signin_token"));
-  return fetch(`/Lessons/`, {
+  return fetch(`/lessons/`, {
     method: "POST",
     headers: {
       "Content-type": "Application/json",
