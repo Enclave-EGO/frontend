@@ -5,7 +5,6 @@ import ProfileModal from "../../modals/ProfileModal";
 import { defaultAvatarUrl } from "../../constants";
 import styles from "./Header.module.css";
 import logo from "../../assets/images/logo.png";
-import cartIcon from "../../assets/icons/shopping-cart.png";
 
 const Header = () => {
   const [openProfileModal, setOpenProfileModal] = useState(false);

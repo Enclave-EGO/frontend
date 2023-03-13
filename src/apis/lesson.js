@@ -11,3 +11,16 @@ export const getLessonApi = (lessonId) => {
     .then((res) => res.json())
     .catch((err) => console.log(err));
 };
+
+export const createLessonApi = (userId, token, lesson) => {
+  return fetch(`/Lessons/`, {
+    method: "POST",
+    headers: {
+      "Content-type": "Application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(userId, lesson)
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+};
