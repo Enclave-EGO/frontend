@@ -1,35 +1,9 @@
-import { useState } from "react";
 import { ImPriceTags } from "react-icons/im";
-import { registerCourse } from "../../apis/register";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import styles from "./style.module.css";
 
 function Course({ course, index }) {
   const navigate = useNavigate();
-  const [register, setRegister] = useState(false);
-
-  const userId = JSON.parse(localStorage.getItem("userId"));
-
-  const handleRegister = () => {
-    setRegister(!register);
-  };
-
-  const registerNewCourse = (userId, courseId) => {
-    if (userId) {
-      registerCourse({ userId, courseId })
-        .then((data) => {
-          if (data.error) toast.error(data.error);
-          else {
-            handleRegister();
-            toast.success("Register Success");
-          }
-        })
-        .catch((error) => toast.error(error));
-    } else {
-      navigate("/signin");
-    }
-  };
 
   return (
     <div key={index} className={styles.listCourse}>
@@ -44,13 +18,13 @@ function Course({ course, index }) {
         <p className={styles.course__description}>{course.description}</p>
         <button
           className={styles.register_button}
-          disabled={register}
+          // disabled={register}
           onClick={() => {
-            registerNewCourse(userId, course._id);
+            navigate(`course/${course._id}`);
           }}
-          style={{ background: register ? "#f9f8f8" : "#adc8e0" }}
+          style={{ background: "#adc8e0" }}
         >
-          {register ? "Registered" : "Register Now"}
+          Register Now
         </button>
       </div>
     </div>

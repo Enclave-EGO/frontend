@@ -4,8 +4,8 @@ import { PageTitle } from "../../constants";
 import { getCoursesApi } from "../../apis/course";
 import { Banner } from "../../assets";
 import Header from "../../components/Header";
-import styles from "./Home.module.css";
 import Course from "../../components/Course";
+import styles from "./Home.module.css";
 
 function Home() {
   const [courseByArrival, setCourseByArrival] = useState([]);
@@ -33,7 +33,6 @@ function Home() {
         <img src={Banner} alt=""></img>
       </section>
       <section className={styles.homeCourseText}>
-        <h1>Course</h1>
         <div className={styles.homeCourseTextP}>
           <p>
             <b>Learning Programming Online Website</b> where you can find low

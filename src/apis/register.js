@@ -1,4 +1,4 @@
-export const registerCourse = ({ userId, courseId }) => {
+export const registerCourseApi = ({ userId, courseId }) => {
   const token = JSON.parse(localStorage.getItem("signin_token"));
   const newRegister = { userId, courseId };
 
