@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { updatePageTitle } from "../../helpers";
 import { PageTitle } from "../../constants";
-import { getCourses } from "../../apis/course";
+import { getCoursesApi } from "../../apis/course";
 import { Banner } from "../../assets";
 import Header from "../../components/Header";
 import styles from "./Home.module.css";
@@ -11,7 +11,7 @@ function Home() {
   const [courseByArrival, setCourseByArrival] = useState([]);
 
   const loadCourseByArrival = () => {
-    getCourses().then((data) => {
+    getCoursesApi().then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {

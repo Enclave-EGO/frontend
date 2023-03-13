@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { isAuth } from "../Auth/index";
 import ProfileModal from "../../modals/ProfileModal";
-import { defaultAvatarUrl } from "../../constants";
+import { DEFAULT_USER_AVATAR } from "../../constants";
 import styles from "./Header.module.css";
 import logo from "../../assets/images/logo.png";
 import cartIcon from "../../assets/icons/shopping-cart.png";
@@ -23,7 +23,7 @@ const Header = () => {
           <div className={`${styles.headerButton} ml-4`}>
             <div onClick={handleClickAvatarImage}>
               <img
-                src={defaultAvatarUrl}
+                src={DEFAULT_USER_AVATAR}
                 alt=""
                 className={styles.avatarImage}
               />
