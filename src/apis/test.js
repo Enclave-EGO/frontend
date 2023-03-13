@@ -1,4 +1,4 @@
-export const createTest = (newTest) => {
+export const createTestApi = (newTest) => {
   const token = JSON.parse(localStorage.getItem("signin_token"));
 
   return fetch(`/tests`, {

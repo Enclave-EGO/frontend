@@ -1,7 +1,7 @@
-import styles from "./style.module.css";
-import { useState } from "react";
-import { createTest } from "../../apis/test";
+import { createTestApi } from "../../apis/test";
 import { toast } from "react-toastify";
+import React, { useState } from "react";
+import styles from "./style.module.css";
 
 function Test({ lessonId, visible, handleVisible }) {
   const [values, setValues] = useState({
@@ -17,7 +17,7 @@ function Test({ lessonId, visible, handleVisible }) {
   const createNewTest = () => {
     const newTest = { lessonId, timeLimit, description };
 
-    createTest(newTest)
+    createTestApi(newTest)
       .then((data) => {
         if (data.error) toast.error(data.error);
         else toast.success("Create Test Success");
@@ -26,7 +26,7 @@ function Test({ lessonId, visible, handleVisible }) {
   };
 
   return (
-    <>
+    <React.Fragment>
       <div className={styles.blur}></div>
       <div className={styles.modal}>
         <form className={styles.form} id="modal_form">
@@ -73,7 +73,7 @@ function Test({ lessonId, visible, handleVisible }) {
           </div>
         </form>
       </div>
-    </>
+    </React.Fragment>
   );
 }
 
