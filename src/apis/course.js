@@ -1,5 +1,5 @@
 export const getCourseApi = (courseId) => {
-  return fetch(`/course/${courseId}`, {
+  return fetch(`/courses/${courseId}`, {
     method: "GET"
   })
     .then((res) => res.json())

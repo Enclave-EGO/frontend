@@ -12,20 +12,19 @@ function createLesson() {
   }
 
   const query = useQuery();
-  const course = query.get("courseId");
+  const courseId = query.get("courseId");
 
   const [values, setValues] = useState({
     name: "",
     description: "",
     videoId: "",
-    courseId: course
+    courseId: courseId
   });
-  const [createdCourse, setCreatedCourse] = useState();
-  const { name, description, videoId, courseId } = values;
+  const [course, setCourse] = useState();
 
   const getCourse = () => {
-    getCourseApi(course).then((data) => {
-      setCreatedCourse(data.id);
+    getCourseApi(courseId).then((data) => {
+      setCourse(data.data);
     });
   };
 
@@ -41,8 +40,7 @@ function createLesson() {
   const submitForm = (e) => {
     e.preventDefault();
 
-    const dataSubmit = { name, description, videoId, courseId };
-    createLessonApi(dataSubmit)
+    createLessonApi(values)
       .then((data) => {
         toast.success("Created Success");
       })
@@ -101,6 +99,7 @@ function createLesson() {
 
   return (
     <div className="mt-4">
+      <h2>Course: {course && course.name}</h2>
       <h2 className="bold">Create Lesson</h2>
       <div className="mt-4 ">{renderCreateLessonForm()}</div>
     </div>
