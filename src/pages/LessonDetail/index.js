@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getLessonApi } from "../../apis/lesson";
+import React, { useEffect, useState } from "react";
 import LessonVideo from "./LessonVideo";
 import styles from "./LessonDetail.module.css";
 import Test from "../../components/Test";
@@ -121,7 +121,7 @@ const LessonDetail = () => {
                   visible={visible}
                 />
               ) : (
-                <></>
+                <React.Fragment></React.Fragment>
               )}
             </div>
           </div>
