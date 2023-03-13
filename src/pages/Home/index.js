@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { updatePageTitle } from "../../helpers";
 import { PageTitle } from "../../constants";
-import { getCourses } from "../../apis/course";
+import { getCoursesApi } from "../../apis/course";
 import { Banner } from "../../assets";
 import Header from "../../components/Header";
-import styles from "./Home.module.css";
 import Course from "../../components/Course";
+import styles from "./Home.module.css";
 
 function Home() {
   const [courseByArrival, setCourseByArrival] = useState([]);
 
   const loadCourseByArrival = () => {
-    getCourses().then((data) => {
+    getCoursesApi().then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -33,7 +33,6 @@ function Home() {
         <img src={Banner} alt=""></img>
       </section>
       <section className={styles.homeCourseText}>
-        <h1>Course</h1>
         <div className={styles.homeCourseTextP}>
           <p>
             <b>Learning Programming Online Website</b> where you can find low

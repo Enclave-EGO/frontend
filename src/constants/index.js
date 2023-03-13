@@ -4,6 +4,5 @@ export const PageTitle = {
   SIGNUP: "EGO Studying Online | Signup",
   NOTFOUND: "Page Not Found"
 };
-
-export const defaultAvatarUrl =
+export const DEFAULT_USER_AVATAR =
   "https://res.cloudinary.com/dhzbsq7fj/image/upload/v1643101647/avatardefault_92824_aifry9.png";

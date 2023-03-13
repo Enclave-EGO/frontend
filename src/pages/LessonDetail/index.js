@@ -1,13 +1,19 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getLessonApi } from "../../apis/lesson";
+import React, { useEffect, useState } from "react";
 import LessonVideo from "./LessonVideo";
 import styles from "./LessonDetail.module.css";
+import Test from "../../components/Test";
 
 const LessonDetail = () => {
   const { lessonId } = useParams();
   const [toggle, setToggle] = useState("description");
   const [lesson, setLesson] = useState();
+  const [visible, setVisible] = useState(false);
+
+  const handleVisible = () => {
+    setVisible(!visible);
+  };
 
   useEffect(() => {
     getLessonApi(lessonId).then((data) => {
@@ -54,6 +60,20 @@ const LessonDetail = () => {
                 </button>
               </h6>
             </div>
+            <div
+              className={
+                toggle === "tests"
+                  ? `${styles.tabItem} ${styles.active}`
+                  : `${styles.tabItem}`
+              }
+              onClick={() => setToggle("tests")}
+            >
+              <h6>
+                <button>
+                  <span>Tests</span>
+                </button>
+              </h6>
+            </div>
           </div>
 
           <div></div>
@@ -80,6 +100,30 @@ const LessonDetail = () => {
                   : `${styles.tabContent}`
               }
             ></div>
+
+            <div
+              className={
+                toggle === "tests"
+                  ? `${styles.tabContent} ${styles.active}`
+                  : `${styles.tabContent}`
+              }
+            >
+              <button
+                className={styles.btn_create}
+                onClick={() => handleVisible()}
+              >
+                Create test
+              </button>
+              {visible ? (
+                <Test
+                  lessonId={lessonId}
+                  handleVisible={handleVisible}
+                  visible={visible}
+                />
+              ) : (
+                <React.Fragment></React.Fragment>
+              )}
+            </div>
           </div>
         </div>
       </div>
