@@ -3,8 +3,8 @@ import { createLessonApi } from "../../apis/lesson";
 import { getCourseApi } from "../../apis/course";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import styles from "./CreateLesson.css";
 import { isAuthenticated } from "../../components/Auth";
+import styles from "./CreateLesson.module.css";
 
 function createLesson() {
   function useQuery() {
@@ -22,7 +22,6 @@ function createLesson() {
   });
   const [createdCourse, setCreatedCourse] = useState();
   const { name, description, videoId, courseId } = values;
-  const { token, user } = isAuthenticated();
 
   const getCourse = () => {
     getCourseApi(course).then((data) => {
@@ -43,62 +42,68 @@ function createLesson() {
     e.preventDefault();
 
     const dataSubmit = { name, description, videoId, courseId };
-    createLessonApi(user.id, token, dataSubmit)
+    createLessonApi(dataSubmit)
       .then((data) => {
         toast.success("Created Success");
       })
       .catch((err) => {
-        toast.success("Created Fail");
+        toast.error("Created Fail");
       });
   };
 
   const renderCreateLessonForm = () => {
     return (
-      <form id="form-1">
-        <div className="form-group">
-          <span className="text-muted">Name</span>
-          <input
-            onChange={handleChange("name")}
-            type="text"
-            className="form-control"
-            value={name}
-          />
+      <form className={styles.container} id="form-1">
+        <div className={styles.form}>
+          <div className={styles.formGroup}>
+            <div className={styles.flex}>
+              <p className={styles.formLabel}>Name</p>
+              <p className={styles.formForce}>*</p>
+            </div>
+            <input
+              className={styles.formControl}
+              type="text"
+              onChange={handleChange("name")}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <div className={styles.flex}>
+              <p className={styles.formLabel}>Video Id</p>
+              <p className={styles.formForce}>*</p>
+            </div>
+            <input
+              className={styles.formControl}
+              type="text"
+              onChange={handleChange("videoId")}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <div className={styles.flex}>
+              <p className={styles.formLabel}>Description</p>
+              <p className={styles.formForce}>*</p>
+            </div>
+            <textarea
+              className={styles.formControl}
+              onChange={handleChange("description")}
+            />
+          </div>
+          <button
+            type="button"
+            className={`${styles.formSubmit}`}
+            onClick={(e) => submitForm(e)}
+          >
+            Create
+          </button>
         </div>
-        <div className="form-group">
-          <span className="text-muted">Description</span>
-          <textarea
-            onChange={handleChange("description")}
-            className="form-control"
-            value={description}
-          ></textarea>
-        </div>
-        <div className="form-group">
-          <span className="text-muted">Video Id</span>
-          <input
-            onChange={handleChange("videoId")}
-            type="text"
-            className="form-control"
-            value={videoId}
-          />
-        </div>
-        <button
-          type="button"
-          className="btn btn-primary mb-4"
-          onClick={(e) => submitForm(e)}
-        >
-          Create
-        </button>
       </form>
     );
   };
 
   return (
-    <section className={`mt-4`}>
-      <div>
-        <h2 className={styles.textCreateLesson}>Create Lesson</h2>
-        <div className="mt-4">{renderCreateLessonForm()}</div>
-      </div>
-    </section>
+    <div className="mt-4">
+      <h2 className="bold">Create Lesson</h2>
+      <div className="mt-4 ">{renderCreateLessonForm()}</div>
+    </div>
   );
 }
 

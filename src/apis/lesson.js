@@ -12,14 +12,15 @@ export const getLessonApi = (lessonId) => {
     .catch((err) => console.log(err));
 };
 
-export const createLessonApi = (userId, token, lesson) => {
+export const createLessonApi = (lesson) => {
+  const token = JSON.parse(localStorage.getItem("signin_token"));
   return fetch(`/Lessons/`, {
     method: "POST",
     headers: {
       "Content-type": "Application/json",
       Authorization: `Bearer ${token}`
     },
-    body: JSON.stringify(userId, lesson)
+    body: JSON.stringify(lesson)
   })
     .then((res) => res.json())
     .catch((err) => console.log(err));
