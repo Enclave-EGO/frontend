@@ -18,7 +18,6 @@ function Course({ course, index }) {
         <p className={styles.course__description}>{course.description}</p>
         <button
           className={styles.register_button}
-          // disabled={register}
           onClick={() => {
             navigate(`course/${course._id}`);
           }}
