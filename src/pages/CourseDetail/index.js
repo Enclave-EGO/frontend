@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getCourseApi } from "../../apis/course";
+import { registerCourseApi } from "../../apis/register";
 import { toast } from "react-toastify";
 import {
   User1Avatar,
   User2Avatar,
   User3Avatar,
-  Course1Image,
-  EmptyStarIcon,
   AddToCartIcon
 } from "../../assets";
 import styles from "./CourseDetail.module.css";
@@ -16,21 +15,35 @@ const CourseDetail = () => {
   const navigate = useNavigate();
   const { courseId } = useParams();
   const [course, setCourse] = useState({});
-  const { description, name, price } = course;
+  const [register, setRegister] = useState(false);
+  const userId = JSON.parse(localStorage.getItem("userId"));
 
-  const goToCourseDetail = () => {
-    if (course && course.parts) {
-      return navigate(
-        `/learning/${courseId}?lessonId=${course.parts[0].lessons[0]._id}`
-      );
+  const goToCourseDetail = () => {};
+
+  const handleRegister = () => {
+    setRegister(!register);
+  };
+
+  const registerNewCourse = (userId, courseId) => {
+    if (userId) {
+      registerCourseApi({ userId, courseId })
+        .then((data) => {
+          if (data.error) toast.error(data.error);
+          else {
+            handleRegister();
+            toast.success("Register Success");
+          }
+        })
+        .catch((error) => toast.error(error));
+    } else {
+      navigate("/signin");
     }
   };
 
-  const addToCart = (course) => {
-    if (user) {
-      addItem(course, () => {
-        navigate("/cart");
-      });
+  const addToCart = () => {
+    if (userId) {
+      registerNewCourse(userId, courseId);
+      navigate("/cart");
     } else {
       toast.info("You must sign in before");
       navigate("/signin");
@@ -41,7 +54,7 @@ const CourseDetail = () => {
     if (course) {
       return (
         <button onClick={() => addToCart(course)} className={`btn btn-info`}>
-          Add to cart
+          Register
         </button>
       );
     } else
@@ -65,7 +78,7 @@ const CourseDetail = () => {
   return (
     <section>
       <body className={`${styles.detailInformation}`}>
-        <h1 className={styles.courseName}>Course: {name}</h1>
+        <h1 className={styles.courseName}>Course: {course.name}</h1>
         <section className={`${styles.courseDetailBox}`}>
           <div className={`${styles.courseInteract}`}>
             <div className={styles.coursePart}>
@@ -74,9 +87,12 @@ const CourseDetail = () => {
                 className={styles.courseThumnail}
               />
               <div className={`${styles.courseDescription}`}>
+                <p className={styles.courseDesP}>
+                  <b>Price</b>: {course.cost} VND
+                </p>
                 <p className={styles.courseDesP}>Description</p>
                 <div className={styles.courseDesBox}>
-                  <p>{description}</p>
+                  <p>{course.description}</p>
                 </div>
               </div>
             </div>
