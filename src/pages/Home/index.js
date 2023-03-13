@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { updatePageTitle } from "../../helpers";
 import { PageTitle } from "../../constants";
-import Header from "../../components/header";
+import Header from "../../components/Header";
 import styles from "./Home.module.css";
 import clsx from "clsx";
 

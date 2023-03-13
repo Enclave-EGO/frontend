@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { isAuth } from "../Auth/index";
 import ProfileModal from "../../modals/ProfileModal";
