@@ -1,17 +1,18 @@
 import { useEffect, useState, useRef } from "react";
-import { createLessonApi } from "../../apis/lesson";
+import { updateLessonApi, getLessonApi } from "../../apis/lesson";
 import { getCourseApi } from "../../apis/course";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import styles from "./CreateLesson.module.css";
+import styles from "./UpdateLesson.module.css";
 
-const CreateLesson = () => {
+const UpdateLesson = () => {
   function useQuery() {
     return new URLSearchParams(useLocation().search);
   }
 
   const query = useQuery();
   const courseId = query.get("courseId");
+  const { lessonId } = useParams();
 
   const [values, setValues] = useState({
     name: "",
@@ -20,13 +21,15 @@ const CreateLesson = () => {
     courseId: courseId
   });
   const [course, setCourse] = useState();
-  const nameInputRef = useRef();
-  const videoIdInputRef = useRef();
-  const descriptionInputRef = useRef();
 
   const getCourse = () => {
     getCourseApi(courseId).then((data) => {
       setCourse(data.data);
+    });
+  };
+  const getLesson = () => {
+    getLessonApi(lessonId).then((data) => {
+      setValues(data.data);
     });
   };
 
@@ -34,71 +37,61 @@ const CreateLesson = () => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const clearInputsText = () => {
-    nameInputRef.current.value = "";
-    videoIdInputRef.current.value = "";
-    descriptionInputRef.current.value = "";
-  };
-
   const submitForm = (e) => {
     e.preventDefault();
 
-    createLessonApi(values)
+    updateLessonApi(lessonId, values)
       .then((data) => {
         if (data.status === "fail") {
           toast.error(`${data.message}`);
         } else {
-          clearInputsText();
-          setValues(initialValues);
-          toast.success("Create Lesson Success");
+          toast.success("Update Lesson Success");
         }
       })
       .catch((error) => {
-        toast.error("Create Lesson Fail");
+        toast.error("Update Lesson Fail");
       });
   };
 
   useEffect(() => {
-    getCourse();
+    getCourse(courseId);
+    getLesson(lessonId);
     window.scrollTo(0, 0);
-  }, []);
+  }, [lessonId]);
 
-  const renderCreateLessonForm = () => {
+  const renderUpdateLessonForm = () => {
     return (
       <form className={styles.container} id="form-1">
         <div className={styles.form}>
           <div className={styles.formGroup}>
             <div className={styles.flex}>
               <p className={styles.formLabel}>Name</p>
-              <p className={styles.formForce}>*</p>
             </div>
             <input
               className={styles.formControl}
               type="text"
-              ref={nameInputRef}
+              value={values?.name}
               onChange={handleChange("name")}
             />
           </div>
           <div className={styles.formGroup}>
             <div className={styles.flex}>
               <p className={styles.formLabel}>Video Id</p>
-              <p className={styles.formForce}>*</p>
             </div>
             <input
               className={styles.formControl}
               type="text"
-              ref={videoIdInputRef}
+              value={values?.videoId}
               onChange={handleChange("videoId")}
             />
           </div>
           <div className={styles.formGroup}>
             <div className={styles.flex}>
               <p className={styles.formLabel}>Description</p>
-              <p className={styles.formForce}>*</p>
             </div>
             <textarea
               className={styles.formControl}
-              ref={descriptionInputRef}
+              value={values?.description}
               onChange={handleChange("description")}
             />
           </div>
@@ -107,7 +100,7 @@ const CreateLesson = () => {
             className={`${styles.formSubmit}`}
             onClick={(e) => submitForm(e)}
           >
-            Create
+            Update
           </button>
         </div>
       </form>
@@ -116,11 +109,11 @@ const CreateLesson = () => {
 
   return (
     <div className="mt-4">
-      <h2>Course: {course && course.name}</h2>
-      <h2 className="bold">Create Lesson</h2>
-      <div className="mt-4 ">{renderCreateLessonForm()}</div>
+      <h2>Course: {course?.name}</h2>
+      <h2 className="bold">Update Lesson</h2>
+      <div className="mt-4 ">{renderUpdateLessonForm()}</div>
     </div>
   );
 };
 
-export default CreateLesson;
+export default UpdateLesson;
