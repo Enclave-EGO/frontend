@@ -28,3 +28,18 @@ export const createCourseApi = (course) => {
     .then((res) => res.json())
     .catch((error) => error);
 };
+
+export const updateCourseApi = (courseId, courseInfo) => {
+  const token = JSON.parse(localStorage.getItem("signin_token"));
+
+  return fetch(`/courses/${courseId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "Application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(courseInfo)
+  })
+    .then((res) => res.json())
+    .catch((error) => error);
+};
