@@ -1,12 +1,25 @@
 import { useEffect, useState } from "react";
-import styles from "./Question.module.css";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BsCheck2 } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import { createQuestionApi, deleteQuestionApi } from "../../apis/question";
+import { toast } from "react-toastify";
+import styles from "./Question.module.css";
+import DeleteModal from "../../modals/DeleteModal";
 
 function Question({ question }) {
   const [listCorrect, setListCorrect] = useState([]);
   const [listAnswers, setListAnswers] = useState([...question.answers]);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [values, setValues] = useState({
+    content: "",
+    isMultiChoice: false,
+    score: 0
+  });
+
+  const handleChangeQuestion = (name) => (event) => {
+    setValues({ ...values, [name]: event.target.value });
+  };
 
   const getListCorrect = () => {
     const corrects = question.answers.map((answer) => answer.isCorrect);
@@ -30,7 +43,22 @@ function Question({ question }) {
     getListCorrect();
   };
 
-  const deleteQuestion = (questionId) => {};
+  const handleSave = () => {
+    const answers = listAnswers
+      .map((answer) => {
+        if (document.getElementById(answer._id).checked) return answer._id;
+      })
+      .filter((item) => item !== undefined);
+
+    const questions = { ...values, answers };
+
+    createQuestionApi(questions)
+      .then((data) => {
+        if (data.error) toast.error(data.message);
+        else toast.success("Create Success");
+      })
+      .catch((error) => toast.error(error));
+  };
 
   useEffect(() => {
     getListCorrect();
@@ -39,10 +67,24 @@ function Question({ question }) {
   return (
     <div className={styles.question_form}>
       <div className={styles.question}>
-        <input type="text" value={question.content} />
-        <RiDeleteBin6Line className={styles.icons} />
+        <input
+          type="text"
+          value={question.content}
+          onChange={handleChangeQuestion("content")}
+        />
+        <RiDeleteBin6Line
+          className={styles.icons}
+          onClick={() => setOpenDeleteModal(!openDeleteModal)}
+        />
+        {openDeleteModal && (
+          <DeleteModal
+            body="Are you sure to delete this question?"
+            setOpenDeleteModal={setOpenDeleteModal}
+            deleteApi={deleteQuestionApi}
+            deleteItemId={question._id}
+          />
+        )}
       </div>
-      {console.log(listCorrect)}
       <div className={styles.answers}>
         {question.answers.map((answer, index) => (
           <>
@@ -78,7 +120,9 @@ function Question({ question }) {
           <button type="button" onClick={() => handleCancel()}>
             Cancel
           </button>
-          <button type="button">Save</button>
+          <button type="button" onClick={() => handleSave(event)}>
+            Save
+          </button>
         </div>
       </div>
     </div>
