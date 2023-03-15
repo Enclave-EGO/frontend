@@ -43,7 +43,7 @@ const UpdateLesson = () => {
     updateLessonApi(lessonId, values)
       .then((data) => {
         if (data.status === "fail") {
-          toast.error(`${data.message}`);
+          toast.error(data.message);
         } else {
           toast.success("Update Lesson Success");
         }
