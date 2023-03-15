@@ -12,7 +12,7 @@ const ManageCourse = () => {
   useEffect(() => {
     getCoursesByUserApi(userId).then((data) => {
       if (data.error) {
-        toast.error(data.error);
+        toast.error(data.message);
       } else {
         setCourses(data.data);
       }

@@ -16,7 +16,7 @@ function DeleteModal({
   const handleClickOK = () => {
     deleteApi(deleteItemId).then((data) => {
       if (data.error) {
-        toast.error(data.error);
+        toast.error(data.message);
       } else {
         toast.success("Delete Success");
         setOpenDeleteModal(false);
