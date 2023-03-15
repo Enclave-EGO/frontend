@@ -32,17 +32,8 @@ function Home() {
       <section className={`container_fluid ${styles.homeBanner}`}>
         <img src={Banner} alt=""></img>
       </section>
-      <section className={styles.homeCourseText}>
-        <div className={styles.homeCourseTextP}>
-          <p>
-            <b>Learning Programming Online Website</b> where you can find low
-            cost online programming courses. We are committed to the quality of
-            each course.
-          </p>
-        </div>
-      </section>
       <section className={`container ${styles.homeSlider}`}>
-        <h2>New courses</h2>
+        <h2>Courses</h2>
         <div className={styles.row}>
           {courseByArrival.map((course, index) => (
             <Course key={index} course={course} index={index} />
