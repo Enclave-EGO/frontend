@@ -51,12 +51,6 @@
 
 .row {
   box-sizing: border-box;
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 12px;
-  margin-right: 12px;
-  margin-left: 12px;
-  margin-bottom: 20px;
 }
 
 .listCourse {
@@ -79,7 +73,7 @@
   box-shadow: 2px 2px 12px rgb(33 47 63 / 10%);
   background: white;
   width: 770px;
-  margin: auto;
+  margin: 20px auto;
 }
 
 .answers {

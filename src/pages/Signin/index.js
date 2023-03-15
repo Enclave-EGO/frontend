@@ -28,7 +28,8 @@ function Signin() {
         toast.error(data.error);
       } else {
         localStorage.setItem("signin_token", JSON.stringify(data.data.token));
-        localStorage.setItem("userId", JSON.stringify(data.data._id));        toast.success("Sign In Success");
+        localStorage.setItem("userId", JSON.stringify(data.data._id));
+        toast.success("Sign In Success");
         navigate("/");
       }
     });

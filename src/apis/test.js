@@ -25,7 +25,7 @@ export const getTestDetailApi = (testId) => {
   })
     .then((res) => {
       console.log(res);
-      res.json();
+      return res.json();
     })
     .catch((error) => error);
 };
