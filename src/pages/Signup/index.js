@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { updatePageTitle } from "../../helpers";
 import { PageTitle } from "../../constants";
-import { signupApi } from "../../apis";
+import { signupApi } from "../../apis/user";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { SigninBackgroundImage } from "../../assets";

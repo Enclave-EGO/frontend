@@ -1,16 +1,29 @@
 import { toast } from "react-toastify";
+import { refreshPage } from "../../helpers";
 import "./DeleteModal.module.css";
 
-function DeleteModal({ body = "Body", setOpenDeleteModal }) {
+function DeleteModal({
+  body = "Body",
+  setOpenDeleteModal,
+  deleteApi,
+  deleteItemId
+}) {
   const handleClickCancel = () => {
     setOpenDeleteModal(false);
     document.body.style.overflow = "visible";
   };
 
   const handleClickOK = () => {
-    setOpenDeleteModal(false);
-    document.body.style.overflow = "visible";
-    toast.success("Delete Success");
+    deleteApi(deleteItemId).then((data) => {
+      if (data.error) {
+        toast.error(data.message);
+      } else {
+        toast.success("Delete Success");
+        setOpenDeleteModal(false);
+        document.body.style.overflow = "visible";
+        refreshPage();
+      }
+    });
   };
 
   return (
