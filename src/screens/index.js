@@ -18,7 +18,7 @@ function Screens() {
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/signin" element={<SigninPage />} />
       <Route path="/courses/:courseId" element={<CourseDetailPage />} />
-      <Route path="/courses/create" element={<CreateCoursePage />} />;
+      <Route path="/courses/create" element={<CreateCoursePage />} />
       <Route path="/lessons/:lessonId" element={<LessonDetailPage />} />
       <Route path="/lessons/create" element={<CreateLessonPage />} />
       <Route path="/lessons/update/:lessonId" element={<UpdateLessonPage />} />
