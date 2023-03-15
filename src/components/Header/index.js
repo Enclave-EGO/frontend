@@ -34,10 +34,10 @@ const Header = () => {
       return (
         <div className={styles.headerButton}>
           <Link to="/signup">
-            <button className="btn btn-secondary">Sign Up</button>
+            <button className={styles.button}>Sign Up</button>
           </Link>
           <Link to="/signin">
-            <button className="btn btn-secondary ml-4 mr-4">Sign In</button>
+            <button className={styles.button}>Sign In</button>
           </Link>
         </div>
       );

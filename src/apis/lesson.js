@@ -25,3 +25,18 @@ export const createLessonApi = (lesson) => {
     .then((res) => res.json())
     .catch((err) => console.log(err));
 };
+
+export const updateLessonApi = (lessonId, lessonInfo) => {
+  const token = JSON.parse(localStorage.getItem("signin_token"));
+
+  return fetch(`/lessons/${lessonId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "Application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(lessonInfo)
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+};
