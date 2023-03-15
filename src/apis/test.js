@@ -12,3 +12,20 @@ export const createTestApi = (newTest) => {
     .then((res) => res.json())
     .catch((err) => err);
 };
+
+export const getTestDetailApi = (testId) => {
+  const token = JSON.parse(localStorage.getItem("signin_token"));
+
+  return fetch(`/tests/${testId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
+    }
+  })
+    .then((res) => {
+      console.log(res);
+      res.json();
+    })
+    .catch((error) => error);
+};
