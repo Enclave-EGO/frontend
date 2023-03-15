@@ -28,3 +28,17 @@ export const createCourseApi = (course) => {
     .then((res) => res.json())
     .catch((error) => error);
 };
+
+export const deleteCourseApi = (courseId) => {
+  const token = JSON.parse(localStorage.getItem("signin_token"));
+
+  return fetch(`/courses/${courseId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-type": "Application/json",
+      Authorization: `Bearer ${token}`
+    }
+  })
+    .then((res) => res.json())
+    .catch((error) => error);
+};

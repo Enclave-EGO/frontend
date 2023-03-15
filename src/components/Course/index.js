@@ -1,6 +1,7 @@
 import { useState, Fragment } from "react";
 import { ImPriceTags } from "react-icons/im";
 import { useNavigate } from "react-router-dom";
+import { deleteCourseApi } from "../../apis/course";
 import DeleteModal from "../../modals/DeleteModal";
 import styles from "./style.module.css";
 
@@ -51,6 +52,8 @@ function Course({ course, index, type = "register" }) {
               <DeleteModal
                 body="Are you sure to delete this course?"
                 setOpenDeleteModal={setOpenDeleteModal}
+                deleteApi={deleteCourseApi}
+                deleteItemId={course._id}
               />
             )}
           </Fragment>
