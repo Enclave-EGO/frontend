@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
-import { getCoursesApi } from "../../apis/course";
+import { getCoursesByUserApi } from "../../apis/course";
 import { toast } from "react-toastify";
 import Course from "../../components/Course";
 import Header from "../../components/Header";
 import styles from "./ManageCourse.module.css";
 
 const ManageCourse = () => {
+  const userId = JSON.parse(localStorage.getItem("userId"));
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    getCoursesApi().then((data) => {
+    getCoursesByUserApi(userId).then((data) => {
       if (data.error) {
         toast.error(data.error);
       } else {
