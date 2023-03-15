@@ -46,7 +46,7 @@ const CreateLesson = () => {
     createLessonApi(values)
       .then((data) => {
         if (data.status === "fail") {
-          toast.error(`${data.message}`);
+          toast.error(data.message);
         } else {
           clearInputsText();
           setValues(initialValues);
