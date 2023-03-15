@@ -6,10 +6,11 @@ import {
   CourseDetailPage,
   CreateCoursePage,
   LessonDetailPage,
-  NotFoundPage,
   CreateLessonPage,
   UpdateLessonPage,
-  TestTeacherPage
+  TestTeacherPage,
+  ManageCoursePage,
+  NotFoundPage
 } from "../pages";
 
 function Screens() {
@@ -23,6 +24,7 @@ function Screens() {
       <Route path="/lessons/create" element={<CreateLessonPage />} />
       <Route path="/lessons/update/:lessonId" element={<UpdateLessonPage />} />
       <Route path="/tests/:id" element={<TestTeacherPage />} />
+      <Route path="/manage/courses" element={<ManageCoursePage />} />
       <Route path="/" element={<HomePage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
