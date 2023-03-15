@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { updatePageTitle } from "../../helpers";
 import { PageTitle } from "../../constants";
 import { Link, useNavigate } from "react-router-dom";
-import { signInAPI } from "../../apis";
+import { signInAPI } from "../../apis/user";
 import { toast } from "react-toastify";
 import { AppLogo } from "../../assets";
 import styles from "./Signin.module.css";
