@@ -19,7 +19,7 @@ function Course({ course, index }) {
         <button
           className={styles.register_button}
           onClick={() => {
-            navigate(`course/${course._id}`);
+            navigate(`courses/${course._id}`);
           }}
           style={{ background: "#adc8e0" }}
         >
