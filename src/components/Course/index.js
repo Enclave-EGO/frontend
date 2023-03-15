@@ -1,9 +1,12 @@
+import { useState, Fragment } from "react";
 import { ImPriceTags } from "react-icons/im";
 import { useNavigate } from "react-router-dom";
+import DeleteModal from "../../modals/DeleteModal";
 import styles from "./style.module.css";
 
-function Course({ course, index }) {
+function Course({ course, index, type = "register" }) {
   const navigate = useNavigate();
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   return (
     <div key={index} className={styles.listCourse}>
@@ -16,15 +19,42 @@ function Course({ course, index }) {
           <ImPriceTags /> {course.cost}
         </div>
         <p className={styles.course__description}>{course.description}</p>
-        <button
-          className={styles.register_button}
-          onClick={() => {
-            navigate(`courses/${course._id}`);
-          }}
-          style={{ background: "#adc8e0" }}
-        >
-          Register Now
-        </button>
+        {type === "register" ? (
+          <button
+            className={styles.register_button}
+            onClick={() => {
+              navigate(`courses/${course._id}`);
+            }}
+            style={{ background: "#adc8e0" }}
+          >
+            Register Now
+          </button>
+        ) : (
+          <Fragment>
+            <button
+              className={styles.register_button}
+              onClick={() => {
+                navigate(`courses/update/${course._id}`);
+              }}
+              style={{ background: "rgb(87 191 136)" }}
+            >
+              Edit
+            </button>
+            <button
+              className={styles.register_button}
+              style={{ background: "rgb(249 84 53)", marginLeft: "4px" }}
+              onClick={(e) => setOpenDeleteModal(!openDeleteModal)}
+            >
+              Delete
+            </button>
+            {openDeleteModal && (
+              <DeleteModal
+                body="Are you sure to delete this course?"
+                setOpenDeleteModal={setOpenDeleteModal}
+              />
+            )}
+          </Fragment>
+        )}
       </div>
     </div>
   );
