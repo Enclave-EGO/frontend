@@ -35,7 +35,7 @@ function Lesson({ lesson, index }) {
         />
         <MdDelete
           className={styles.deleteIcon}
-          onClick={(e) => setOpenDeleteModal(!openDeleteModal)}
+          onClick={() => setOpenDeleteModal(!openDeleteModal)}
         />
         <button
           className={styles.listLessonsBtn}
