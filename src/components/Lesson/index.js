@@ -30,7 +30,7 @@ function Lesson({ lesson, index }) {
         <GrEdit
           className={styles.editIcon}
           onClick={() => {
-            navigate(`lessons/update/${lesson._id}`);
+            navigate(`/lessons/update/${lesson._id}`);
           }}
         />
         <MdDelete
@@ -40,7 +40,7 @@ function Lesson({ lesson, index }) {
         <button
           className={styles.listLessonsBtn}
           onClick={() => {
-            navigate(`manage/tests/`);
+            navigate(`/manage/tests/`);
           }}
         >
           List Tests

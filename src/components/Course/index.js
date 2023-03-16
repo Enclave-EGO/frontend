@@ -26,7 +26,7 @@ function Course({ course, index, type = "register" }) {
           <button
             className={styles.register_button}
             onClick={() => {
-              navigate(`courses/${course._id}`);
+              navigate(`/courses/${course._id}`);
             }}
             style={{ background: "#adc8e0" }}
           >
@@ -37,7 +37,7 @@ function Course({ course, index, type = "register" }) {
             <GrEdit
               className={styles.editIcon}
               onClick={() => {
-                navigate(`courses/update/${course._id}`);
+                navigate(`/courses/update/${course._id}`);
               }}
             />
             <MdDelete
@@ -47,7 +47,7 @@ function Course({ course, index, type = "register" }) {
             <button
               className={styles.listLessonsBtn}
               onClick={() => {
-                navigate(`manage/lessons/`);
+                navigate(`/manage/lessons?courseId=${course._id}`);
               }}
             >
               List Lessons
