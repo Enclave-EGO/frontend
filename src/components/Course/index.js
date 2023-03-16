@@ -1,9 +1,11 @@
 import { useState, Fragment } from "react";
 import { ImPriceTags } from "react-icons/im";
+import { GrEdit } from "react-icons/gr";
+import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { deleteCourseApi } from "../../apis/course";
 import DeleteModal from "../../modals/DeleteModal";
-import styles from "./style.module.css";
+import styles from "./Course.module.css";
 
 function Course({ course, index, type = "register" }) {
   const navigate = useNavigate();
@@ -24,7 +26,7 @@ function Course({ course, index, type = "register" }) {
           <button
             className={styles.register_button}
             onClick={() => {
-              navigate(`courses/${course._id}`);
+              navigate(`/courses/${course._id}`);
             }}
             style={{ background: "#adc8e0" }}
           >
@@ -32,21 +34,23 @@ function Course({ course, index, type = "register" }) {
           </button>
         ) : (
           <Fragment>
-            <button
-              className={styles.register_button}
+            <GrEdit
+              className={styles.editIcon}
               onClick={() => {
-                navigate(`courses/update/${course._id}`);
+                navigate(`/courses/update/${course._id}`);
               }}
-              style={{ background: "rgb(87 191 136)" }}
-            >
-              Edit
-            </button>
+            />
+            <MdDelete
+              className={styles.deleteIcon}
+              onClick={() => setOpenDeleteModal(!openDeleteModal)}
+            />
             <button
-              className={styles.register_button}
-              style={{ background: "rgb(249 84 53)", marginLeft: "4px" }}
-              onClick={(e) => setOpenDeleteModal(!openDeleteModal)}
+              className={styles.listLessonsBtn}
+              onClick={() => {
+                navigate(`/manage/lessons?courseId=${course._id}`);
+              }}
             >
-              Delete
+              List Lessons
             </button>
             {openDeleteModal && (
               <DeleteModal

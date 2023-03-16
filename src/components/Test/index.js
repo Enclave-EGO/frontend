@@ -31,10 +31,10 @@ function Test({ lessonId, visible, handleVisible }) {
       <div className={styles.modal}>
         <form className={styles.form} id="modal_form">
           <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Time Limit</label>
+            <label className={styles.formLabel}>Time limit (Minutes)</label>
             <input
               className={styles.formControl}
-              type="text"
+              type="number"
               placeholder="Enter Time Limit"
               onChange={handleChange("timeLimit")}
             />

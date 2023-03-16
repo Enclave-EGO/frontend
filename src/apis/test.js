@@ -24,5 +24,23 @@ export const getTestDetailApi = (testId) => {
     }
   })
     .then((res) => res.json())
+<<<<<<< HEAD
+=======
+    .catch((err) => err);
+};
+
+export const updateTestApi = (testId, testInfo) => {
+  const token = JSON.parse(localStorage.getItem("signin_token"));
+
+  return fetch(`/tests/${testId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "Application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(testInfo)
+  })
+    .then((res) => res.json())
+>>>>>>> main
     .catch((error) => error);
 };

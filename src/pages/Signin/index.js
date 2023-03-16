@@ -29,8 +29,14 @@ function Signin() {
       } else {
         localStorage.setItem("signin_token", JSON.stringify(data.data.token));
         localStorage.setItem("userId", JSON.stringify(data.data._id));
+        localStorage.setItem("role", JSON.stringify(data.data.role));
+        const role = data.data.role;
         toast.success("Sign In Success");
-        navigate("/");
+        if (role === 0) {
+          navigate("/manage/courses");
+        } else {
+          navigate("/");
+        }
       }
     });
   };
