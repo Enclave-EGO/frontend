@@ -34,7 +34,7 @@ function Test({ lessonId, visible, handleVisible }) {
             <label className={styles.formLabel}>Time Limit</label>
             <input
               className={styles.formControl}
-              type="text"
+              type="number"
               placeholder="Enter Time Limit"
               onChange={handleChange("timeLimit")}
             />
