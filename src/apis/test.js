@@ -24,8 +24,6 @@ export const getTestDetailApi = (testId) => {
     }
   })
     .then((res) => res.json())
-<<<<<<< HEAD
-=======
     .catch((err) => err);
 };
 
@@ -41,6 +39,5 @@ export const updateTestApi = (testId, testInfo) => {
     body: JSON.stringify(testInfo)
   })
     .then((res) => res.json())
->>>>>>> main
     .catch((error) => error);
 };
