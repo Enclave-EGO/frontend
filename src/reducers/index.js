@@ -22,15 +22,17 @@ export const questionReducer = (state, action) => {
   switch (action.type) {
     case "isMultiChoice":
       const { isMultiChoice } = state;
-      console.log(isMultiChoice);
       newState = { ...state, isMultiChoice: !isMultiChoice };
       break;
+
     case "content":
       newState = { ...state, content: action.event.target.value };
       break;
+
     case "score":
       newState = { ...state, score: action.event.target.value };
       break;
+
     case "content-answer":
       const answers = state.answers;
       const newAnswer = {
@@ -50,5 +52,6 @@ export const questionReducer = (state, action) => {
     default:
       throw new Error("Invalid action");
   }
+
   return newState;
 };

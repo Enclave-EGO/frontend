@@ -15,7 +15,6 @@ import styles from "./Question.module.css";
 function Question({ question, testId }) {
   const [listCorrect, setListCorrect] = useState([]);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [isMultiChoice, setIsMultiChoide] = useState(question.isMultiChoice);
 
   let initalValue = question._id
     ? { ...question, testId }
@@ -28,10 +27,6 @@ function Question({ question, testId }) {
       };
 
   let [values, dispatch] = useReducer(questionReducer, initalValue);
-
-  const handleIsMultiChoice = () => {
-    setIsMultiChoide(!isMultiChoice);
-  };
 
   const getListCorrect = () => {
     const corrects = question.answers.map((answer) => answer.isCorrect);
