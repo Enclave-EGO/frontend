@@ -31,7 +31,11 @@ function Signin() {
         localStorage.setItem("userId", JSON.stringify(data.data._id));
         localStorage.setItem("role", JSON.stringify(data.data.role));
         toast.success("Sign In Success");
-        navigate("/");
+        if (data.data.role === 0) {
+          navigate("/manage/courses");
+        } else {
+          navigate("/");
+        }
       }
     });
   };
