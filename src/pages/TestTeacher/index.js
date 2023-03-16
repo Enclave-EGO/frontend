@@ -1,29 +1,41 @@
 import { useEffect, useState } from "react";
-import { updatePageTitle } from "../../helpers";
-import { PageTitle } from "../../constants";
-import styles from "./TestTeacher.module.css";
-import { getTestDetailApi } from "../../apis/test";
+import { useParams } from "react-router";
 import { toast } from "react-toastify";
+import { getTestDetailApi } from "../../apis/test";
 import Question from "../../components/Question";
+import styles from "./TestTeacher.module.css";
 
 function TestTeacher() {
-  const [courseByArrival, setCourseByArrival] = useState([]);
-  const [testDetail, setTestDetail] = useState({});
-  const [status, setStatus] = useState(false);
+  const { testId } = useParams();
+
+  const [testDetail, setTestDetail] = useState({
+    _id: testId,
+    content: "Test",
+    timeLimit: 60,
+    questions: []
+  });
+  const [newQuestion, setNewQuestion] = useState([]);
 
   const getTestDetail = () => {
-    getTestDetailApi("63f6ddd471f240f9034f8e31").then((data) => {
-      console.log(data);
+    getTestDetailApi(testId).then((data) => {
       if (data.error) {
-        console.log(data.error);
+        toast.error(data.message);
       } else {
-        setTestDetail(data.data);
+        setTestDetail(data?.data);
       }
     });
   };
 
-  const changeStatus = () => {
-    setStatus(!status);
+  const handleCreateQuestion = () => {
+    const question = {
+      content: "Question",
+      score: 100,
+      isMultiChoice: false,
+      testId: testId,
+      answers: []
+    };
+
+    setNewQuestion([...newQuestion, question]);
   };
 
   useEffect(() => {
@@ -33,11 +45,25 @@ function TestTeacher() {
   return (
     <div className={styles.home}>
       <section className={`container ${styles.homeSlider}`}>
-        <h2>New courses</h2>
+        <h2>Test</h2>
         <div className={styles.row}>
+          <button
+            onClick={() => handleCreateQuestion()}
+            className={styles.btnCreate}
+          >
+            New Question
+          </button>
           {testDetail &&
             testDetail.questions?.map((question) => (
-              <Question question={question} key={question._id} />
+              <Question
+                question={question}
+                key={question._id}
+                testId={testId}
+              />
+            ))}
+          {newQuestion &&
+            newQuestion.map((question, index) => (
+              <Question question={question} testId={testId} key={index} />
             ))}
         </div>
       </section>
