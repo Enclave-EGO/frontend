@@ -30,8 +30,9 @@ function Signin() {
         localStorage.setItem("signin_token", JSON.stringify(data.data.token));
         localStorage.setItem("userId", JSON.stringify(data.data._id));
         localStorage.setItem("role", JSON.stringify(data.data.role));
+        const role = data.data.role;
         toast.success("Sign In Success");
-        if (data.data.role === 0) {
+        if (role === 0) {
           navigate("/manage/courses");
         } else {
           navigate("/");

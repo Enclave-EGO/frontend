@@ -15,7 +15,6 @@ const UpdateTest = () => {
   const getOldTestData = () => {
     getTestDetailApi(testId).then((data) => {
       setValues(data.data);
-      console.log(data);
     });
   };
 
@@ -43,7 +42,7 @@ const UpdateTest = () => {
         <div className={styles.form}>
           <div className={styles.formGroup}>
             <div className={styles.flex}>
-              <p className={styles.formLabel}>Time Limit</p>
+              <p className={styles.formLabel}>Time limit (Minutes)</p>
             </div>
             <input
               className={styles.formControl}
