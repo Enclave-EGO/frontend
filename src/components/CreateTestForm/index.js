@@ -35,6 +35,7 @@ function Test({ lessonId, visible, handleVisible }) {
             <input
               className={styles.formControl}
               type="number"
+              min={0}
               placeholder="Enter Time Limit"
               onChange={handleChange("timeLimit")}
             />
