@@ -1,24 +1,36 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
+import { toast } from "react-toastify";
+import { IoMdAddCircleOutline } from "react-icons/io";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BsCheck2 } from "react-icons/bs";
-import { IoMdAddCircleOutline } from "react-icons/io";
-import { createQuestionApi, deleteQuestionApi } from "../../apis/question";
-import { toast } from "react-toastify";
-import styles from "./Question.module.css";
+import {
+  createQuestionApi,
+  deleteQuestionApi,
+  updateQuesionApi
+} from "../../apis/question";
+import { questionReducer } from "../../reducers";
 import DeleteModal from "../../modals/DeleteModal";
+import styles from "./Question.module.css";
 
-function Question({ question }) {
+function Question({ question, testId }) {
   const [listCorrect, setListCorrect] = useState([]);
-  const [listAnswers, setListAnswers] = useState([...question.answers]);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [values, setValues] = useState({
-    content: "",
-    isMultiChoice: false,
-    score: 0
-  });
+  const [isMultiChoice, setIsMultiChoide] = useState(question.isMultiChoice);
 
-  const handleChangeQuestion = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
+  let initalValue = question._id
+    ? { ...question, testId }
+    : {
+        content: "Question",
+        isMultiChoice: isMultiChoice,
+        score: 100,
+        testId: testId,
+        answers: []
+      };
+
+  let [values, dispatch] = useReducer(questionReducer, initalValue);
+
+  const handleIsMultiChoice = () => {
+    setIsMultiChoide(!isMultiChoice);
   };
 
   const getListCorrect = () => {
@@ -27,37 +39,57 @@ function Question({ question }) {
   };
 
   const handleChangeCorrect = () => {
-    const newListCorrect = listAnswers.map((answer) =>
-      document.getElementById(answer._id).checked ? true : false
-    );
+    const newListCorrect = values.answers.map((answer, index) => {
+      const id = answer._id ? answer._id : index;
+      return document.getElementById(id).checked ? true : false;
+    });
     setListCorrect(newListCorrect);
   };
 
-  const handleChangeAnswer = (index) => (event) => {
-    const newAnswer = { ...listAnswers[index], content: event.target.value };
-    setListAnswers({ ...listAnswers, [index]: newAnswer });
-  };
-
   const handleCancel = () => {
-    setListAnswers([...question.answers]);
+    values = initalValue;
     getListCorrect();
   };
 
   const handleSave = () => {
-    const answers = listAnswers
-      .map((answer) => {
-        if (document.getElementById(answer._id).checked) return answer._id;
-      })
-      .filter((item) => item !== undefined);
+    const newAnswers = values.answers.map((answer, index) => ({
+      content: answer.content,
+      isCorrect: listCorrect[index],
+      answerId: answer._id
+    }));
 
-    const questions = { ...values, answers };
+    const questions = {
+      ...values,
+      isMultiChoice: isMultiChoice,
+      answers: newAnswers
+    };
+    if (question._id) {
+      const _id = question._id;
 
-    createQuestionApi(questions)
-      .then((data) => {
-        if (data.error) toast.error(data.message);
-        else toast.success("Create Success");
-      })
-      .catch((error) => toast.error(error));
+      updateQuesionApi(questions, _id)
+        .then((data) => {
+          if (data.error) toast.error(data.message);
+          else {
+            toast.success("Update success");
+            question = values;
+          }
+        })
+        .catch((error) => toast.error(error));
+    } else {
+      createQuestionApi(questions)
+        .then((data) => {
+          if (data.error) toast.error(data.message);
+          else {
+            toast.success("Create success");
+            question = { ...values, _id: data.data._id };
+          }
+        })
+        .catch((error) => toast.error(error));
+    }
+  };
+
+  const handleClick = (action) => {
+    dispatch({ type: action });
   };
 
   useEffect(() => {
@@ -69,9 +101,17 @@ function Question({ question }) {
       <div className={styles.question}>
         <input
           type="text"
-          value={question.content}
-          onChange={handleChangeQuestion("content")}
+          value={values.content}
+          onChange={(event) => dispatch({ type: "content", event: event })}
         />
+        <div className={styles.formScore}>
+          <span>Score:</span>
+          <input
+            type="text"
+            value={values.score}
+            onChange={(event) => dispatch({ type: "score", event: event })}
+          />
+        </div>
         <RiDeleteBin6Line
           className={styles.icons}
           onClick={() => setOpenDeleteModal(!openDeleteModal)}
@@ -86,23 +126,29 @@ function Question({ question }) {
         )}
       </div>
       <div className={styles.answers}>
-        {question.answers.map((answer, index) => (
+        {values.answers.map((answer, index) => (
           <>
             <div className={styles.answer_form} key={answer._id}>
               <input
-                type={question.isMultiChoice ? "checkbox" : "radio"}
+                type={isMultiChoice ? "checkbox" : "radio"}
                 onChange={() => handleChangeCorrect()}
                 defaultValue={answer._id}
                 name={question._id}
-                id={answer._id}
+                id={answer._id ? answer._id : index}
                 checked={listCorrect[index]}
               />
               <input
                 className={styles.text}
                 type="text"
                 placeholder="Enter new answer"
-                defaultValue={answer.content}
-                onChange={handleChangeAnswer(index)}
+                value={values.answers[index]?.content}
+                onChange={(event) =>
+                  dispatch({
+                    type: "content-answer",
+                    event: event,
+                    index: index
+                  })
+                }
               />
               {listCorrect[index] && (
                 <BsCheck2 className={styles.answer_correct_icon} />
@@ -113,14 +159,27 @@ function Question({ question }) {
       </div>
       <div className={styles.formAction}>
         <div className={styles.formResult}>
-          <IoMdAddCircleOutline className={styles.icons} />
+          <IoMdAddCircleOutline
+            className={styles.icons}
+            onClick={() => handleClick("add-answer")}
+          />
           <span>Add answer</span>
+        </div>
+        <div className={styles.multiChoice}>
+          <input
+            type="checkbox"
+            onChange={() => handleIsMultiChoice()}
+            name={question._id}
+            id={question._id}
+            checked={isMultiChoice}
+          />
+          <span>Multichoice</span>
         </div>
         <div className={styles.formSubmit}>
           <button type="button" onClick={() => handleCancel()}>
             Cancel
           </button>
-          <button type="button" onClick={() => handleSave(event)}>
+          <button type="button" onClick={() => handleSave()}>
             Save
           </button>
         </div>

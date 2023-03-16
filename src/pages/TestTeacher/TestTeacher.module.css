@@ -161,3 +161,11 @@
 .formResult span {
   padding-left: 10px;
 }
+.btnCreate {
+  border: none;
+  font-size: 16px;
+  padding: 6px 20px;
+  border-radius: 15px;
+  background: #adc8e0;
+  cursor: pointer;
+}

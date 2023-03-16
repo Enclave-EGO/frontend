@@ -23,11 +23,9 @@ export const createQuestionApi = (question) => {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token
     },
-    body: question
+    body: JSON.stringify(question)
   })
-    .then((res) => {
-      return res.json();
-    })
+    .then((res) => res.json())
     .catch((error) => error);
 };
 
@@ -40,10 +38,8 @@ export const updateQuesionApi = (question, questionId) => {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token
     },
-    body: question
+    body: JSON.stringify(question)
   })
-    .then((res) => {
-      return res.json();
-    })
+    .then((res) => res.json())
     .catch((error) => error);
 };

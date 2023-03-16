@@ -23,9 +23,6 @@ export const getTestDetailApi = (testId) => {
       Authorization: "Bearer " + token
     }
   })
-    .then((res) => {
-      console.log(res);
-      return res.json();
-    })
+    .then((res) => res.json())
     .catch((error) => error);
 };
