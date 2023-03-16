@@ -8,7 +8,6 @@ import logo from "../../assets/images/logo.png";
 
 const Header = () => {
   const [openProfileModal, setOpenProfileModal] = useState(false);
-
   const handleClickAvatarImage = () => {
     document.body.style.overflow = openProfileModal ? "visible" : "hidden";
 

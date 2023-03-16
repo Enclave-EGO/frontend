@@ -7,6 +7,5 @@ export { default as CourseDetailPage } from "./CourseDetail";
 export { default as CreateCoursePage } from "./CreateCourse";
 export { default as UpdateCoursePage } from "./UpdateCourse";
 export { default as LessonDetailPage } from "./LessonDetail";
-export { default as TestTeacherPage } from "./TestTeacher";
 export { default as ManageCoursePage } from "./ManageCourse";
 export { default as NotFoundPage } from "./NotFound";
