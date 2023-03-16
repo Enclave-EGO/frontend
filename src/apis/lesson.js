@@ -12,6 +12,20 @@ export const getLessonApi = (lessonId) => {
     .catch((err) => console.log(err));
 };
 
+export const getLessonsByCourseApi = (courseId) => {
+  const token = JSON.parse(localStorage.getItem("signin_token"));
+
+  return fetch(`/lessons?courseId=${courseId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
+    }
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+};
+
 export const createLessonApi = (lesson) => {
   const token = JSON.parse(localStorage.getItem("signin_token"));
   return fetch(`/lessons/`, {
@@ -39,4 +53,18 @@ export const updateLessonApi = (lessonId, lessonInfo) => {
   })
     .then((res) => res.json())
     .catch((err) => console.log(err));
+};
+
+export const deleteLessonApi = (lessonId) => {
+  const token = JSON.parse(localStorage.getItem("signin_token"));
+
+  return fetch(`/lessons/${lessonId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-type": "Application/json",
+      Authorization: `Bearer ${token}`
+    }
+  })
+    .then((res) => res.json())
+    .catch((error) => error);
 };

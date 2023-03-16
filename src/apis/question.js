@@ -25,9 +25,7 @@ export const createQuestionApi = (question) => {
     },
     body: question
   })
-    .then((res) => {
-      return res.json();
-    })
+    .then((res) => res.json())
     .catch((error) => error);
 };
 
@@ -42,8 +40,6 @@ export const updateQuesionApi = (question, questionId) => {
     },
     body: question
   })
-    .then((res) => {
-      return res.json();
-    })
+    .then((res) => res.json())
     .catch((error) => error);
 };
