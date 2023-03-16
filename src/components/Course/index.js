@@ -42,12 +42,12 @@ function Course({ course, index, type = "register" }) {
             />
             <MdDelete
               className={styles.deleteIcon}
-              onClick={(e) => setOpenDeleteModal(!openDeleteModal)}
+              onClick={() => setOpenDeleteModal(!openDeleteModal)}
             />
             <button
               className={styles.listLessonsBtn}
               onClick={() => {
-                navigate(`/manage/lessons/`);
+                navigate(`/manage/lessons?courseId=${course._id}`);
               }}
             >
               List Lessons
