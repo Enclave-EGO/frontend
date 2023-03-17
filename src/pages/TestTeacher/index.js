@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { toast } from "react-toastify";
 import { getTestDetailApi } from "../../apis/test";
 import Question from "../../components/Question";
 import styles from "./TestTeacher.module.css";
 
 function TestTeacher() {
-  let testId = "63f6ddd471f240f9034f8e31";
+  const { testId } = useParams();
+
   const [testDetail, setTestDetail] = useState({
     _id: testId,
     content: "Test",

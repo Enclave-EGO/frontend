@@ -11,4 +11,5 @@ export { default as ManageCoursePage } from "./ManageCourse";
 export { default as ManageLessonPage } from "./ManageLesson";
 export { default as ManageTestPage } from "./ManageTest";
 export { default as UpdateTestPage } from "./UpdateTest";
+export { default as TestTeacherPage } from "./TestTeacher";
 export { default as NotFoundPage } from "./NotFound";

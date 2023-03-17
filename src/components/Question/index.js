@@ -15,23 +15,18 @@ import styles from "./Question.module.css";
 function Question({ question, testId }) {
   const [listCorrect, setListCorrect] = useState([]);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [isMultiChoice, setIsMultiChoide] = useState(question.isMultiChoice);
 
   let initalValue = question._id
     ? { ...question, testId }
     : {
         content: "Question",
-        isMultiChoice: isMultiChoice,
+        isMultiChoice: false,
         score: 100,
         testId: testId,
         answers: []
       };
 
   let [values, dispatch] = useReducer(questionReducer, initalValue);
-
-  const handleIsMultiChoice = () => {
-    setIsMultiChoide(!isMultiChoice);
-  };
 
   const getListCorrect = () => {
     const corrects = question.answers.map((answer) => answer.isCorrect);
@@ -60,7 +55,6 @@ function Question({ question, testId }) {
 
     const questions = {
       ...values,
-      isMultiChoice: isMultiChoice,
       answers: newAnswers
     };
     if (question._id) {
@@ -70,21 +64,21 @@ function Question({ question, testId }) {
         .then((data) => {
           if (data.error) toast.error(data.message);
           else {
-            toast.success("Update success");
+            toast.success("Update question success");
             question = values;
           }
         })
-        .catch((error) => toast.error(error));
+        .catch((error) => toast.error("Update question failed"));
     } else {
       createQuestionApi(questions)
         .then((data) => {
           if (data.error) toast.error(data.message);
           else {
-            toast.success("Create success");
+            toast.success("Create question success");
             question = { ...values, _id: data.data._id };
           }
         })
-        .catch((error) => toast.error(error));
+        .catch((error) => toast.error("Create question failed"));
     }
   };
 
@@ -130,7 +124,7 @@ function Question({ question, testId }) {
           <>
             <div className={styles.answer_form} key={answer._id}>
               <input
-                type={isMultiChoice ? "checkbox" : "radio"}
+                type={values.isMultiChoice ? "checkbox" : "radio"}
                 onChange={() => handleChangeCorrect()}
                 defaultValue={answer._id}
                 name={question._id}
@@ -168,10 +162,10 @@ function Question({ question, testId }) {
         <div className={styles.multiChoice}>
           <input
             type="checkbox"
-            onChange={() => handleIsMultiChoice()}
+            onChange={() => dispatch({ type: "isMultiChoice" })}
             name={question._id}
             id={question._id}
-            checked={isMultiChoice}
+            checked={values.isMultiChoice}
           />
           <span>Multichoice</span>
         </div>
