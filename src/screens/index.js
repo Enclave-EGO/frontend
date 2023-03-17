@@ -9,12 +9,13 @@ import {
   LessonDetailPage,
   CreateLessonPage,
   UpdateLessonPage,
-  TestTeacherPage,
-  UpdateTestPage,
   ManageCoursePage,
   ManageLessonPage,
+  TestTeacherPage,
   ManageTestPage,
-  NotFoundPage
+  UpdateTestPage,
+  NotFoundPage,
+  TestPage
 } from "../pages";
 
 function Screens() {
@@ -29,10 +30,12 @@ function Screens() {
       <Route path="/lessons/update/:lessonId" element={<UpdateLessonPage />} />
       <Route path="/lessons/:lessonId" element={<LessonDetailPage />} />
       <Route path="/tests/update/:testId" element={<UpdateTestPage />} />
-      <Route path="/tests/:testId" element={<TestTeacherPage />} />
       <Route path="/manage/courses" element={<ManageCoursePage />} />
       <Route path="/manage/lessons" element={<ManageLessonPage />} />
       <Route path="/manage/tests" element={<ManageTestPage />} />
+      <Route path="/tests/update/:testId" element={<UpdateTestPage />} />
+      <Route path="/manage/tests/:testId" element={<TestTeacherPage />} />
+      <Route path="/tests/:testId" element={<TestPage />} />
       <Route path="/" element={<HomePage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
