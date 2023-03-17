@@ -29,6 +29,7 @@ function Screens() {
       <Route path="/lessons/create" element={<CreateLessonPage />} />
       <Route path="/lessons/update/:lessonId" element={<UpdateLessonPage />} />
       <Route path="/lessons/:lessonId" element={<LessonDetailPage />} />
+      <Route path="/tests/update/:testId" element={<UpdateTestPage />} />
       <Route path="/manage/courses" element={<ManageCoursePage />} />
       <Route path="/manage/lessons" element={<ManageLessonPage />} />
       <Route path="/manage/tests" element={<ManageTestPage />} />
