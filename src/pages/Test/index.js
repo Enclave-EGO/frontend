@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import Countdown from "react-countdown";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
@@ -7,8 +7,9 @@ import { submitTestApi } from "../../apis/testResult";
 import styles from "./Test.module.css";
 
 function Test() {
-  const { testId } = useParams();
+  const startDate = useRef(Date.now());
 
+  const { testId } = useParams();
   const [testDetail, setTestDetail] = useState({
     _id: testId,
     content: "Test",
@@ -76,16 +77,15 @@ function Test() {
       .catch(() => toast.error("Submit test failed"));
   };
 
-  const renderer = ({ hours, minutes, seconds, completed }) => {
+  const defaultRenderer = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
       // Show test result
-    } else {
+    } else
       return (
         <span>
-          {hours}:{minutes}:{seconds}
+          {minutes}:{seconds}
         </span>
       );
-    }
   };
 
   useEffect(() => {
@@ -98,8 +98,9 @@ function Test() {
         <h2>Test</h2>
         <div className={styles.countdown}>
           <Countdown
-            date={Date.now() + testDetail.timeLimit * 60 * 1000}
-            renderer={renderer}
+            renderer={defaultRenderer}
+            date={startDate.current + testDetail.timeLimit * 60 * 1000}
+            key={startDate.current + testDetail.timeLimit * 60 * 1000}
           />
         </div>
         <div className={styles.row}>
