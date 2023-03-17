@@ -25,7 +25,7 @@ function Test() {
       if (res.error) {
         toast.error(res.message);
       } else {
-        const test = res?.data;
+        const test = res.data;
         setTestDetail(test);
 
         const initResults = test.questions.map((question) => ({
