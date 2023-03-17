@@ -64,21 +64,21 @@ function Question({ question, testId }) {
         .then((data) => {
           if (data.error) toast.error(data.message);
           else {
-            toast.success("Update success");
+            toast.success("Update question success");
             question = values;
           }
         })
-        .catch((error) => toast.error(error));
+        .catch((error) => toast.error("Update question failed"));
     } else {
       createQuestionApi(questions)
         .then((data) => {
           if (data.error) toast.error(data.message);
           else {
-            toast.success("Create success");
+            toast.success("Create question success");
             question = { ...values, _id: data.data._id };
           }
         })
-        .catch((error) => toast.error(error));
+        .catch((error) => toast.error("Create question failed"));
     }
   };
 
