@@ -13,4 +13,5 @@ export { default as ManageTestPage } from "./ManageTest";
 export { default as UpdateTestPage } from "./UpdateTest";
 export { default as TestTeacherPage } from "./TestTeacher";
 export { default as TestResultPage } from "./TestResult";
+export { default as TestPage } from "./Test";
 export { default as NotFoundPage } from "./NotFound";

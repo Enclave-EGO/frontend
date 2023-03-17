@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { toast } from "react-toastify";
 import { getTestDetailApi } from "../../apis/test";
-import Question from "../../components/Question";
+import { toast } from "react-toastify";
+import QuestionResult from "../../components/QuestionResult";
 import styles from "./TestResult.module.css";
 
 function TestResult() {
@@ -14,7 +14,6 @@ function TestResult() {
     timeLimit: 60,
     questions: []
   });
-  const [newQuestion, setNewQuestion] = useState([]);
 
   const getTestDetail = () => {
     getTestDetailApi(testId).then((data) => {
@@ -26,18 +25,6 @@ function TestResult() {
     });
   };
 
-  const handleCreateQuestion = () => {
-    const question = {
-      content: "Question",
-      score: 100,
-      isMultiChoice: false,
-      testId: testId,
-      answers: []
-    };
-
-    setNewQuestion([...newQuestion, question]);
-  };
-
   useEffect(() => {
     getTestDetail();
   }, []);
@@ -45,25 +32,19 @@ function TestResult() {
   return (
     <div className={styles.home}>
       <section className={`container ${styles.homeSlider}`}>
-        <h2>Test</h2>
+        <h2>Test Result</h2>
+        <div className={styles.formScore}>
+          <span>Test Score:</span>
+          {/* <b>{test.testScore}</b> */}
+        </div>
         <div className={styles.row}>
-          <button
-            onClick={() => handleCreateQuestion()}
-            className={styles.btnCreate}
-          >
-            New Question
-          </button>
           {testDetail &&
             testDetail.questions?.map((question) => (
-              <Question
+              <QuestionResult
                 question={question}
                 key={question._id}
                 testId={testId}
               />
-            ))}
-          {newQuestion &&
-            newQuestion.map((question, index) => (
-              <Question question={question} testId={testId} key={index} />
             ))}
         </div>
       </section>
