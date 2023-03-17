@@ -18,8 +18,8 @@ function Test({ lessonId, visible, handleVisible }) {
     const newTest = { lessonId, timeLimit, description };
 
     createTestApi(newTest)
-      .then((data) => {
-        if (data.error) toast.error(data.error);
+      .then((res) => {
+        if (res.error) toast.error(res.error);
         else toast.success("Create Test Success");
       })
       .catch((error) => toast.error(error));

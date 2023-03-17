@@ -11,11 +11,11 @@ function Home() {
   const [courseByArrival, setCourseByArrival] = useState([]);
 
   const loadCourseByArrival = () => {
-    getCoursesApi().then((data) => {
-      if (data.error) {
-        console.log(data.error);
+    getCoursesApi().then((res) => {
+      if (res.error) {
+        console.log(res.error);
       } else {
-        setCourseByArrival(data.data);
+        setCourseByArrival(res.data);
       }
     });
   };

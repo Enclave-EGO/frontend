@@ -23,7 +23,7 @@ function Test() {
   const getTestDetail = () => {
     getTestDetailApi(testId).then((res) => {
       if (res.error) {
-        toast.error(data.message);
+        toast.error(res.message);
       } else {
         const test = res?.data;
         setTestDetail(test);

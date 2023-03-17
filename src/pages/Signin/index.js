@@ -23,14 +23,14 @@ function Signin() {
   const submitForm = (event) => {
     event.preventDefault();
 
-    signInAPI({ username, password }).then((data) => {
-      if (data.error) {
-        toast.error(data.error);
+    signInAPI({ username, password }).then((res) => {
+      if (res.error) {
+        toast.error(res.error);
       } else {
-        localStorage.setItem("signin_token", JSON.stringify(data.data.token));
-        localStorage.setItem("userId", JSON.stringify(data.data._id));
-        localStorage.setItem("role", JSON.stringify(data.data.role));
-        const role = data.data.role;
+        localStorage.setItem("signin_token", JSON.stringify(res.data.token));
+        localStorage.setItem("userId", JSON.stringify(res.data._id));
+        localStorage.setItem("role", JSON.stringify(res.data.role));
+        const role = res.data.role;
         toast.success("Sign In Success");
         if (role === 0) {
           navigate("/manage/courses");

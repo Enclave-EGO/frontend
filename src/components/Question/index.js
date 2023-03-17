@@ -61,24 +61,24 @@ function Question({ question, testId }) {
       const _id = question._id;
 
       updateQuesionApi(questions, _id)
-        .then((data) => {
-          if (data.error) toast.error(data.message);
+        .then((res) => {
+          if (res.error) toast.error(res.message);
           else {
             toast.success("Update question success");
             question = values;
           }
         })
-        .catch((error) => toast.error("Update question failed"));
+        .catch(() => toast.error("Update question failed"));
     } else {
       createQuestionApi(questions)
-        .then((data) => {
-          if (data.error) toast.error(data.message);
+        .then((res) => {
+          if (res.error) toast.error(res.message);
           else {
             toast.success("Create question success");
-            question = { ...values, _id: data.data._id };
+            question = { ...values, _id: res.data._id };
           }
         })
-        .catch((error) => toast.error("Create question failed"));
+        .catch(() => toast.error("Create question failed"));
     }
   };
 
