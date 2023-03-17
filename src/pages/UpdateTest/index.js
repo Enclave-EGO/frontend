@@ -47,6 +47,7 @@ const UpdateTest = () => {
             <input
               className={styles.formControl}
               type="number"
+              min={0}
               value={values.timeLimit}
               onChange={handleChange("timeLimit")}
             />

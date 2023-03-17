@@ -40,7 +40,7 @@ function Lesson({ lesson, index }) {
         <button
           className={styles.listLessonsBtn}
           onClick={() => {
-            navigate(`/manage/tests/`);
+            navigate(`/manage/tests?lessonId=${lesson._id}`);
           }}
         >
           List Tests
