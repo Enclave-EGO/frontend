@@ -25,8 +25,8 @@ const CreateLesson = () => {
   const descriptionInputRef = useRef();
 
   const getCourse = () => {
-    getCourseApi(courseId).then((data) => {
-      setCourse(data.data);
+    getCourseApi(courseId).then((res) => {
+      setCourse(res.data);
     });
   };
 

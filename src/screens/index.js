@@ -9,14 +9,14 @@ import {
   LessonDetailPage,
   CreateLessonPage,
   UpdateLessonPage,
+  TestPage,
   TestTeacherPage,
   TestResultPage,
   UpdateTestPage,
   ManageCoursePage,
   ManageLessonPage,
   ManageTestPage,
-  NotFoundPage,
-  TestPage
+  NotFoundPage
 } from "../pages";
 
 function Screens() {

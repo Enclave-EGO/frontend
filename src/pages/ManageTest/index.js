@@ -14,19 +14,19 @@ const ManageTest = () => {
   const [tests, setTests] = useState([]);
 
   useEffect(() => {
-    getLessonApi(lessonId).then((data) => {
-      if (data.error) {
-        toast.error(data.message);
+    getLessonApi(lessonId).then((res) => {
+      if (res.error) {
+        toast.error(res.message);
       } else {
-        setLesson(data.data);
+        setLesson(res.data);
       }
     });
 
-    getTestsByLessonApi(lessonId).then((data) => {
-      if (data.error) {
-        toast.error(data.message);
+    getTestsByLessonApi(lessonId).then((res) => {
+      if (res.error) {
+        toast.error(res.message);
       } else {
-        setTests(data.data.tests);
+        setTests(res.data.tests);
       }
     });
   }, []);

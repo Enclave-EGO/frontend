@@ -23,13 +23,13 @@ const UpdateLesson = () => {
   const [course, setCourse] = useState();
 
   const getCourse = () => {
-    getCourseApi(courseId).then((data) => {
-      setCourse(data.data);
+    getCourseApi(courseId).then((res) => {
+      setCourse(res.data);
     });
   };
   const getLesson = () => {
-    getLessonApi(lessonId).then((data) => {
-      setValues(data.data);
+    getLessonApi(lessonId).then((res) => {
+      setValues(res.data);
     });
   };
 
@@ -41,14 +41,14 @@ const UpdateLesson = () => {
     e.preventDefault();
 
     updateLessonApi(lessonId, values)
-      .then((data) => {
-        if (data.status === "fail") {
-          toast.error(data.message);
+      .then((res) => {
+        if (res.status === "fail") {
+          toast.error(res.message);
         } else {
           toast.success("Update Lesson Success");
         }
       })
-      .catch((error) => {
+      .catch(() => {
         toast.error("Update Lesson Fail");
       });
   };

@@ -21,11 +21,11 @@ function Test() {
   const [checked, setChecked] = useState({});
 
   const getTestDetail = () => {
-    getTestDetailApi(testId).then((data) => {
-      if (data.error) {
-        toast.error(data.message);
+    getTestDetailApi(testId).then((res) => {
+      if (res.error) {
+        toast.error(res.message);
       } else {
-        const test = data?.data;
+        const test = res.data;
         setTestDetail(test);
 
         const initResults = test.questions.map((question) => ({
@@ -115,24 +115,22 @@ function Test() {
                 </div>
                 <div className={styles.answers}>
                   {question.answers.map((answer) => (
-                    <>
-                      <div className={styles.answer_form} key={answer._id}>
-                        <input
-                          type={question.isMultiChoice ? "checkbox" : "radio"}
-                          onChange={() =>
-                            handleChecked(
-                              answer._id,
-                              question.isMultiChoice,
-                              index
-                            )
-                          }
-                          checked={checked[index].includes(answer._id)}
-                          name={question._id}
-                          id={answer._id}
-                        />
-                        <span>{answer.content}</span>
-                      </div>
-                    </>
+                    <div className={styles.answer_form} key={answer._id}>
+                      <input
+                        type={question.isMultiChoice ? "checkbox" : "radio"}
+                        onChange={() =>
+                          handleChecked(
+                            answer._id,
+                            question.isMultiChoice,
+                            index
+                          )
+                        }
+                        checked={checked[index].includes(answer._id)}
+                        name={question._id}
+                        id={answer._id}
+                      />
+                      <span>{answer.content}</span>
+                    </div>
                   ))}
                 </div>
               </div>
