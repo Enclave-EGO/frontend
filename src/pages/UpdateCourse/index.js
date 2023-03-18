@@ -15,8 +15,8 @@ const UpdateCourse = () => {
   const [values, setValues] = useState(initialValues);
 
   const getOldCourseData = () => {
-    getCourseApi(courseId).then((data) => {
-      setValues(data.data);
+    getCourseApi(courseId).then((res) => {
+      setValues(res.data);
     });
   };
 
@@ -28,14 +28,14 @@ const UpdateCourse = () => {
     e.preventDefault();
 
     updateCourseApi(courseId, values)
-      .then((data) => {
-        if (data.error) {
-          toast.error(data.message);
+      .then((res) => {
+        if (res.error) {
+          toast.error(res.message);
         } else {
           toast.success("Update Course Success");
         }
       })
-      .catch((error) => toast.error("Update Course Fail"));
+      .catch(() => toast.error("Update Course Fail"));
   };
 
   const renderUpdateCourseForm = () => {

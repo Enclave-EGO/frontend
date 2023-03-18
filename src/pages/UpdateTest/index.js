@@ -26,9 +26,9 @@ const UpdateTest = () => {
     e.preventDefault();
 
     updateTestApi(testId, values)
-      .then((data) => {
-        if (data.error) {
-          toast.error(data.message);
+      .then((res) => {
+        if (res.error) {
+          toast.error(res.message);
         } else {
           toast.success("Update Test Success");
         }

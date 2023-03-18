@@ -16,8 +16,8 @@ const LessonDetail = () => {
   };
 
   useEffect(() => {
-    getLessonApi(lessonId).then((data) => {
-      setLesson(data.data);
+    getLessonApi(lessonId).then((res) => {
+      setLesson(res.data);
     });
   }, [lessonId]);
 

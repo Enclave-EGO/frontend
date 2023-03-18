@@ -10,11 +10,11 @@ const ManageCourse = () => {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    getCoursesByUserApi(userId).then((data) => {
-      if (data.error) {
-        toast.error(data.message);
+    getCoursesByUserApi(userId).then((res) => {
+      if (res.error) {
+        toast.error(res.message);
       } else {
-        setCourses(data.data);
+        setCourses(res.data);
       }
     });
   }, []);
