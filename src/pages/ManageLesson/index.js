@@ -15,19 +15,19 @@ const ManageLesson = () => {
   const [lessons, setLessons] = useState([]);
 
   useEffect(() => {
-    getCourseApi(courseId).then((data) => {
-      if (data.error) {
-        toast.error(data.message);
+    getCourseApi(courseId).then((res) => {
+      if (res.error) {
+        toast.error(res.message);
       } else {
-        setCourse(data.data);
+        setCourse(res.data);
       }
     });
 
-    getLessonsByCourseApi(courseId).then((data) => {
-      if (data.error) {
-        toast.error(data.message);
+    getLessonsByCourseApi(courseId).then((res) => {
+      if (res.error) {
+        toast.error(res.message);
       } else {
-        setLessons(data.data);
+        setLessons(res.data);
       }
     });
   }, []);

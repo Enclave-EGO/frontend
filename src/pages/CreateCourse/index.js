@@ -33,16 +33,16 @@ const CreateCourse = () => {
     e.preventDefault();
 
     createCourseApi(values)
-      .then((data) => {
-        if (data.status === "fail") {
-          toast.error(data.message);
+      .then((res) => {
+        if (res.status === "fail") {
+          toast.error(res.message);
         } else {
           clearInputsText();
           setValues(initialValues);
           toast.success("Create Course Success");
         }
       })
-      .catch((error) => {
+      .catch(() => {
         toast.error("Create Course Fail");
       });
   };

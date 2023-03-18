@@ -17,11 +17,11 @@ function TestTeacher() {
   const [newQuestion, setNewQuestion] = useState([]);
 
   const getTestDetail = () => {
-    getTestDetailApi(testId).then((data) => {
-      if (data.error) {
-        toast.error(data.message);
+    getTestDetailApi(testId).then((res) => {
+      if (res.error) {
+        toast.error(res.message);
       } else {
-        setTestDetail(data?.data);
+        setTestDetail(res?.data);
       }
     });
   };

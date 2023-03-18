@@ -26,7 +26,7 @@ function Signup() {
   const submitForm = (e) => {
     e.preventDefault();
 
-    signupApi({ name, username, role, email, password }).then((data) => {
+    signupApi({ name, username, role, email, password }).then((res) => {
       toast.success("Sign Up Success");
       // if (data.error || data.err) {
       //   setValues({

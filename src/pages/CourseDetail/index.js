@@ -66,11 +66,11 @@ const CourseDetail = () => {
   };
 
   useEffect(() => {
-    getCourseApi(courseId).then((data) => {
-      if (data.error) {
-        setError(data.error);
+    getCourseApi(courseId).then((res) => {
+      if (res.error) {
+        setError(res.error);
       } else {
-        setCourse(data.data);
+        setCourse(res.data);
       }
     });
   }, []);
