@@ -4,7 +4,6 @@
 
 .homeCourseText {
   text-align: center;
-  /* padding: 25px 0 60px 0; */
 }
 
 .homeCourseTextP {
@@ -168,4 +167,19 @@
   border-radius: 15px;
   background: #adc8e0;
   cursor: pointer;
+}
+
+.answerCorrectIcon {
+  font-size: 30px;
+  color: green;
+}
+
+.answerIncorrectIcon {
+  font-size: 30px;
+  color: rgb(238, 24, 0);
+}
+
+.testStatus {
+  display: inline-flex;
+  align-items: center;
 }
