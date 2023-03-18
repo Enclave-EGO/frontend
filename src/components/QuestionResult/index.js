@@ -21,7 +21,6 @@ function QuestionResult({ question, testId }) {
         <input
           type="text"
           value={values.content}
-          onChange={(event) => dispatch({ type: "content", event: event })}
         />
         <div className={styles.formScore}>
           <span>Score: </span>
@@ -42,7 +41,6 @@ function QuestionResult({ question, testId }) {
               <input
                 className={styles.text}
                 type="text"
-                placeholder="Enter new answer"
                 value={values.answers[index]?.content}
               />
               {listCorrect[index] && (
