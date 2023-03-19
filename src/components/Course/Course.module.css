@@ -55,11 +55,19 @@
   font-size: 14px;
 }
 
-.listCourse .register_button {
+.listCourse .registerButton {
   font-size: 16px;
   padding: 6px 20px;
   border-radius: 15px;
   background: #adc8e0;
+  cursor: pointer;
+}
+
+.listCourse .continueLearnButton {
+  font-size: 16px;
+  padding: 6px 20px;
+  border-radius: 15px;
+  background: #68ba03;
   cursor: pointer;
 }
 
@@ -77,7 +85,7 @@
 }
 
 .listCourse button:hover {
-  background: #a1c1de;
+  opacity: 0.8;
 }
 
 .editIcon {

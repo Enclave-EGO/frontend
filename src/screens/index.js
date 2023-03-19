@@ -13,6 +13,7 @@ import {
   TestTeacherPage,
   TestResultPage,
   UpdateTestPage,
+  MyCoursesPage,
   ManageCoursePage,
   ManageLessonPage,
   ManageTestPage,
@@ -33,6 +34,7 @@ function Screens() {
       <Route path="/tests/update/:testId" element={<UpdateTestPage />} />
       <Route path="/tests/:testId" element={<TestPage />} />
       <Route path="/test-results/:testId" element={<TestResultPage />} />
+      <Route path="/my-courses" element={<MyCoursesPage />} />
       <Route path="/manage/courses" element={<ManageCoursePage />} />
       <Route path="/manage/lessons" element={<ManageLessonPage />} />
       <Route path="/manage/tests/:testId" element={<TestTeacherPage />} />
