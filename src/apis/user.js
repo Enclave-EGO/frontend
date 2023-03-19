@@ -29,5 +29,3 @@ export const signInAPI = (user) => {
       return err;
     });
 };
-
-

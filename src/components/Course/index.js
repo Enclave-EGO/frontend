@@ -24,13 +24,22 @@ function Course({ course, index, type = "register" }) {
         <p className={styles.course__description}>{course.description}</p>
         {type === "register" ? (
           <button
-            className={styles.register_button}
+            className={styles.registerButton}
             onClick={() => {
               navigate(`/courses/${course._id}`);
             }}
             style={{ background: "#adc8e0" }}
           >
             Register Now
+          </button>
+        ) : type === "learn" ? (
+          <button
+            className={styles.continueLearnButton}
+            onClick={() => {
+              navigate(`/courses/${course._id}`);
+            }}
+          >
+            Continue Learning
           </button>
         ) : (
           <Fragment>
