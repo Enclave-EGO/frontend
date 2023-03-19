@@ -1,18 +1,17 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getCourseApi } from "../../apis/course";
-import { getRegisterApi, registerCourseApi } from "../../apis/register";
 import { toast } from "react-toastify";
 import { IoPricetags } from "react-icons/io5";
 import { HiOutlineFilm } from "react-icons/hi";
 import { MdDescription } from "react-icons/md";
 import { BsYoutube } from "react-icons/bs";
-import LessonVideo from "../../components/Lesson/LessonVideo";
-import { User1Avatar, User2Avatar, User3Avatar } from "../../assets";
-import Lesson from "../../components/Lesson";
-import Header from "../../components/Header";
-import styles from "./CourseDetail.module.css";
+import { getCourseApi } from "../../apis/course";
 import { getLessonsByCourseApi } from "../../apis/lesson";
+import { getRegisterApi, registerCourseApi } from "../../apis/register";
+import { User1Avatar, User2Avatar, User3Avatar } from "../../assets";
+import Header from "../../components/Header";
+import LessonVideo from "../../components/Lesson/LessonVideo";
+import styles from "./CourseDetail.module.css";
 
 const CourseDetail = () => {
   const navigate = useNavigate();
@@ -20,7 +19,7 @@ const CourseDetail = () => {
   const [course, setCourse] = useState({});
   const [register, setRegister] = useState(false);
   const [toggle, setToggle] = useState("description");
-  const [lessons, setLessons] = useState();
+  const [lessons, setLessons] = useState([]);
   const userId = JSON.parse(localStorage.getItem("userId"));
 
   const goToCourseDetail = () => {};
@@ -127,7 +126,7 @@ const CourseDetail = () => {
                   <IoPricetags /> {course.cost} VND
                 </div>
                 <div className={styles.course_lessons}>
-                  <HiOutlineFilm /> <b>2</b> lessons
+                  <HiOutlineFilm /> <b>{lessons.length}</b> lessons
                 </div>
                 {showRegister()}
               </div>
