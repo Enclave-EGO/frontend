@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
-import "./SignoutModal.css";
+import { useContext } from "react";
+import { refreshPage } from "../../helpers";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UserContext } from "../../App";
+import "./SignoutModal.css";
 
 function SignoutModal({
   title,
@@ -21,6 +22,7 @@ function SignoutModal({
 
     toast.success("Sign Out Success");
     navigate("/");
+    refreshPage();
   };
 
   const handleClickCancel = () => {

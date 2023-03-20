@@ -1,3 +1,5 @@
+import httpRequest from "../apis/axiosConfig";
+
 export const signupApi = (user) => {
   return fetch("/users/", {
     method: "POST",
@@ -6,13 +8,8 @@ export const signupApi = (user) => {
     },
     body: JSON.stringify(user)
   })
-    .then((res) => {
-      return res.json();
-    })
-    .catch((err) => {
-      console.log(err);
-      return err;
-    });
+    .then((res) => res.json())
+    .catch((err) => err);
 };
 
 export const signInAPI = (user) => {
@@ -24,8 +21,11 @@ export const signInAPI = (user) => {
     body: JSON.stringify(user)
   })
     .then((res) => res.json())
-    .catch((err) => {
-      console.log(err);
-      return err;
-    });
+    .catch((err) => err);
+};
+
+export const checkValidTokenAPI = (token) => {
+  return httpRequest.post("/users/check-valid-token/", {
+    token: token
+  });
 };
