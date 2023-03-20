@@ -1,16 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import { createLessonApi } from "../../apis/lesson";
 import { getCourseApi } from "../../apis/course";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import useQuery from "../../hooks/useQuery";
 import styles from "./CreateLesson.module.css";
 
 const CreateLesson = () => {
   const navigate = useNavigate();
-  function useQuery() {
-    return new URLSearchParams(useLocation().search);
-  }
-
   const query = useQuery();
   const courseId = query.get("courseId");
 
