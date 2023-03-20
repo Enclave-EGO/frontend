@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import { updatePageTitle } from "../../helpers";
 import { PageTitle } from "../../constants";
+import { checkValidTokenAPI } from "../../apis/user";
 import { getCoursesApi } from "../../apis/course";
 import {
   getMyNotRegisteredCoursesApi,
   getMyRegisteredCoursesApi
 } from "../../apis/register";
-import { isAuth } from "../../components/Auth";
 import { Banner } from "../../assets";
 import Header from "../../components/Header";
 import Course from "../../components/Course";
 import styles from "./Home.module.css";
 
 function Home() {
-  const isLoggedIn = isAuth();
+  const token = localStorage.getItem("signin_token");
   const userId = JSON.parse(localStorage.getItem("userId"));
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [allCourses, setAllCourses] = useState([]);
   const [myRegisteredCourses, setMyRegisteredCourses] = useState([]);
   const [myNotRegisteredCourses, setMyNotRegisteredCourses] = useState([]);
@@ -43,14 +44,23 @@ function Home() {
   useEffect(() => {
     window.scrollTo(0, 0);
     updatePageTitle(PageTitle.HOME);
+  }, []);
 
+  useEffect(() => {
+    if (token) {
+      const checkValidToken = async () => await checkValidTokenAPI(token);
+      checkValidToken().then((res) => setIsLoggedIn(res.data.data));
+    }
+  }, []);
+
+  useEffect(() => {
     if (isLoggedIn) {
       loadMyRegisteredCourses();
       loadMyNotRegisteredCourses();
     } else {
       loadAllCourses();
     }
-  }, []);
+  }, [isLoggedIn]);
 
   return isLoggedIn ? (
     <div className={styles.home}>

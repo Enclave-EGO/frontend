@@ -1,24 +1,23 @@
 import { useEffect, useState, useRef } from "react";
 import { createLessonApi } from "../../apis/lesson";
 import { getCourseApi } from "../../apis/course";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import useQuery from "../../hooks/useQuery";
 import styles from "./CreateLesson.module.css";
 
 const CreateLesson = () => {
-  function useQuery() {
-    return new URLSearchParams(useLocation().search);
-  }
-
+  const navigate = useNavigate();
   const query = useQuery();
   const courseId = query.get("courseId");
 
-  const [values, setValues] = useState({
+  const initialValues = {
     name: "",
     description: "",
     videoId: "",
     courseId: courseId
-  });
+  };
+  const [values, setValues] = useState(initialValues);
   const [course, setCourse] = useState();
   const nameInputRef = useRef();
   const videoIdInputRef = useRef();
@@ -51,6 +50,7 @@ const CreateLesson = () => {
           clearInputsText();
           setValues(initialValues);
           toast.success("Create Lesson Success");
+          navigate(`/manage/lessons?courseId=${courseId}`);
         }
       })
       .catch((error) => {

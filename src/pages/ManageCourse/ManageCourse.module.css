@@ -95,3 +95,35 @@
 .listCourse:hover {
   box-shadow: 4px 4px 12px rgb(33 47 63 / 30%);
 }
+
+.container {
+  justify-content: space-between;
+  display: flex;
+}
+
+.button {
+  display: inline-block;
+  border-radius: 8px;
+  background-color: #adc8e0;
+  border: 2px solid black;
+  font-weight: bold;
+  color: #000000;
+  text-align: center;
+  font-size: 20px;
+  height: 40px;
+  padding: 8px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 20px;
+}
+
+.button {
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  background-color: rgb(79, 82, 115);
+  color: white;
+}
