@@ -1,9 +1,11 @@
 import { useState, useRef } from "react";
 import { toast } from "react-toastify";
 import { createCourseApi } from "../../apis/course";
+import { useNavigate } from "react-router-dom";
 import styles from "./CreateCourse.module.css";
 
 const CreateCourse = () => {
+  const navigate = useNavigate();
   const userId = JSON.parse(localStorage.getItem("userId"));
   const initialValues = {
     name: "",
@@ -40,6 +42,7 @@ const CreateCourse = () => {
           clearInputsText();
           setValues(initialValues);
           toast.success("Create Course Success");
+          navigate("/manage/courses");
         }
       })
       .catch(() => {
