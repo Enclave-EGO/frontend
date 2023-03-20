@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { updatePageTitle } from "../../helpers";
 import { PageTitle } from "../../constants";
 import { Link, useNavigate } from "react-router-dom";
-import { signInAPI } from "../../apis";
+import { signInAPI } from "../../apis/user";
 import { toast } from "react-toastify";
 import { AppLogo } from "../../assets";
 import styles from "./Signin.module.css";
@@ -23,13 +23,20 @@ function Signin() {
   const submitForm = (event) => {
     event.preventDefault();
 
-    signInAPI({ username, password }).then((data) => {
-      if (data.error) {
-        toast.error(data.error);
+    signInAPI({ username, password }).then((res) => {
+      if (res.error) {
+        toast.error(res.error);
       } else {
-        localStorage.setItem("signin_token", JSON.stringify(data.data.token));
-        localStorage.setItem("userId", JSON.stringify(data.data._id));        toast.success("Sign In Success");
-        navigate("/");
+        localStorage.setItem("signin_token", JSON.stringify(res.data.token));
+        localStorage.setItem("userId", JSON.stringify(res.data._id));
+        localStorage.setItem("role", JSON.stringify(res.data.role));
+        const role = res.data.role;
+        toast.success("Sign In Success");
+        if (role === 0) {
+          navigate("/manage/courses");
+        } else {
+          navigate("/");
+        }
       }
     });
   };

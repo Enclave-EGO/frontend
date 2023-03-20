@@ -23,5 +23,3 @@ $ npm install
 ```bash
 $ npm start
 ```
-
-### Web Server: http://localhost:3000/

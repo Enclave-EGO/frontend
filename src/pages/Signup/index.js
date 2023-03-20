@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { updatePageTitle } from "../../helpers";
 import { PageTitle } from "../../constants";
-import { signupApi } from "../../apis";
-import { Link } from "react-router-dom";
+import { signupApi } from "../../apis/user";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { SigninBackgroundImage } from "../../assets";
 import styles from "./Signup.module.css";
 
 function Signup() {
+  const navigate = useNavigate();
   const [values, setValues] = useState({
     name: "",
     username: "",
@@ -26,17 +27,9 @@ function Signup() {
   const submitForm = (e) => {
     e.preventDefault();
 
-    signupApi({ name, username, role, email, password }).then((data) => {
+    signupApi({ name, username, role, email, password }).then((res) => {
       toast.success("Sign Up Success");
-      // if (data.error || data.err) {
-      //   setValues({
-      //     ...values,
-      //     error: data.error || data.err,
-      //     success: false
-      //   });
-      // } else {
-      //   setValues({ ...values, error: "", success: true });
-      // }
+      navigate("/signin");
     });
   };
 

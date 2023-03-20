@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import { getLessonApi } from "../../apis/lesson";
 import React, { useEffect, useState } from "react";
+import CreateTestForm from "../../components/CreateTestForm";
 import LessonVideo from "./LessonVideo";
 import styles from "./LessonDetail.module.css";
-import Test from "../../components/Test";
 
 const LessonDetail = () => {
   const { lessonId } = useParams();
@@ -16,8 +16,8 @@ const LessonDetail = () => {
   };
 
   useEffect(() => {
-    getLessonApi(lessonId).then((data) => {
-      setLesson(data.data);
+    getLessonApi(lessonId).then((res) => {
+      setLesson(res.data);
     });
   }, [lessonId]);
 
@@ -115,7 +115,7 @@ const LessonDetail = () => {
                 Create test
               </button>
               {visible ? (
-                <Test
+                <CreateTestForm
                   lessonId={lessonId}
                   handleVisible={handleVisible}
                   visible={visible}

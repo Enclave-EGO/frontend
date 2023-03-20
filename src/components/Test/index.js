@@ -1,79 +1,55 @@
-import { createTestApi } from "../../apis/test";
-import { toast } from "react-toastify";
-import React, { useState } from "react";
-import styles from "./style.module.css";
+import { useState } from "react";
+import { FiTarget } from "react-icons/fi";
+import { IoMdTimer } from "react-icons/io";
+import { MdPublish } from "react-icons/md";
+import { GrEdit } from "react-icons/gr";
+import { MdDelete } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { deleteTestApi } from "../../apis/test";
+import DeleteModal from "../../modals/DeleteModal";
+import styles from "./Test.module.css";
 
-function Test({ lessonId, visible, handleVisible }) {
-  const [values, setValues] = useState({
-    timeLimit: 0,
-    description: ""
-  });
-  const { timeLimit, description } = values;
-
-  const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
-  };
-
-  const createNewTest = () => {
-    const newTest = { lessonId, timeLimit, description };
-
-    createTestApi(newTest)
-      .then((data) => {
-        if (data.error) toast.error(data.error);
-        else toast.success("Create Test Success");
-      })
-      .catch((error) => toast.error(error));
-  };
+function Test({ test, index }) {
+  const navigate = useNavigate();
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   return (
-    <React.Fragment>
-      <div className={styles.blur}></div>
-      <div className={styles.modal}>
-        <form className={styles.form} id="modal_form">
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Time Limit</label>
-            <input
-              className={styles.formControl}
-              type="text"
-              placeholder="Enter Time Limit"
-              onChange={handleChange("timeLimit")}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Description</label>
-            <textarea
-              className={styles.formControl}
-              type="text"
-              placeholder="Enter description"
-              onChange={handleChange("description")}
-            />
-          </div>
-
-          <div className={styles.submit}>
-            <button
-              type="button"
-              className={styles.formSubmit}
-              onClick={() => {
-                createNewTest();
-                handleVisible();
-              }}
-            >
-              Create
-            </button>
-            <button
-              type="button"
-              className={`${styles.formSubmit} ${styles.button_cancel}`}
-              onClick={() => {
-                handleVisible();
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
+    <div key={index} className={styles.listTest}>
+      <div className={styles.test__right}>
+        <h3 className="test__name">{test.description}</h3>
+        <div className={styles.test__cost}>
+          <IoMdTimer />
+          <b>Time:</b> {test.timeLimit} minutes
+        </div>
+        <div className={styles.test__cost}>
+          <FiTarget />
+          <b>Score:</b> {test.score}
+        </div>
+        <div className={styles.test__cost}>
+          <MdPublish />
+          <b>Created At:</b> {test.createdAt.slice(0, 10)}{" "}
+          {test.createdAt.slice(11, 19)}
+        </div>
+        <GrEdit
+          className={styles.editIcon}
+          onClick={() => {
+            navigate(`/tests/update/${test._id}`);
+          }}
+        />
+        <MdDelete
+          className={styles.deleteIcon}
+          onClick={() => setOpenDeleteModal(!openDeleteModal)}
+        />
+        {openDeleteModal && (
+          <DeleteModal
+            body="Are you sure to delete this test?"
+            setOpenDeleteModal={setOpenDeleteModal}
+            deleteApi={deleteTestApi}
+            deleteItemId={test._id}
+          />
+        )}
       </div>
-    </React.Fragment>
+    </div>
   );
 }
 
