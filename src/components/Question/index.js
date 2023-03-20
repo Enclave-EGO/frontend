@@ -42,7 +42,18 @@ function Question({ question, testId }) {
   };
 
   const handleCancel = () => {
-    values = initalValue;
+    dispatch({
+      type: "cancel",
+      initalValue: question._id
+        ? { ...question, testId }
+        : {
+            content: "Question",
+            isMultiChoice: false,
+            score: 100,
+            testId: testId,
+            answers: []
+          }
+    });
     getListCorrect();
   };
 

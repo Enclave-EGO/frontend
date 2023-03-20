@@ -15,6 +15,21 @@ const Header = () => {
     setOpenProfileModal(!openProfileModal);
   };
 
+  const role = JSON.parse(localStorage.getItem("role"));
+
+  const renderLearnerHeader = () => {
+    return (
+      <div className={styles.headerButton}>
+        <Link to="/">
+          <span className={styles.button}>Home</span>
+        </Link>
+        <Link to="/my-courses">
+          <span className={styles.button}>My courses</span>
+        </Link>
+      </div>
+    );
+  };
+
   const renderList = () => {
     if (isAuth()) {
       return (
@@ -60,6 +75,7 @@ const Header = () => {
             <img alt="" src={logo}></img>
           </div>
         </Link>
+        {role === 1 && <div>{renderLearnerHeader()}</div>}
         {renderList()}
       </header>
     </div>

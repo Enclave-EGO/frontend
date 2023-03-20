@@ -49,6 +49,10 @@ export const questionReducer = (state, action) => {
       newState = { ...state, answers: listAnswers };
       break;
 
+    case "cancel":
+      newState = action?.initalValue ? { ...action.initalValue } : { ...state };
+      break;
+
     default:
       throw new Error("Invalid action");
   }
