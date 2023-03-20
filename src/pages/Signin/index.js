@@ -23,22 +23,26 @@ function Signin() {
   const submitForm = (event) => {
     event.preventDefault();
 
-    signInAPI({ username, password }).then((res) => {
-      if (res.error) {
-        toast.error(res.error);
-      } else {
-        localStorage.setItem("signin_token", JSON.stringify(res.data.token));
-        localStorage.setItem("userId", JSON.stringify(res.data._id));
-        localStorage.setItem("role", JSON.stringify(res.data.role));
-        const role = res.data.role;
-        toast.success("Sign In Success");
-        if (role === 0) {
-          navigate("/manage/courses");
+    signInAPI({ username, password })
+      .then((res) => {
+        if (res.error) {
+          toast.error(res.message);
         } else {
-          navigate("/");
+          localStorage.setItem("signin_token", JSON.stringify(res.data.token));
+          localStorage.setItem("userId", JSON.stringify(res.data._id));
+          localStorage.setItem("role", JSON.stringify(res.data.role));
+
+          const role = res.data.role;
+          if (role === 0) {
+            navigate("/manage/courses");
+          } else {
+            navigate("/");
+          }
+
+          toast.success("Sign In Success");
         }
-      }
-    });
+      })
+      .catch((error) => toast.error("Sign In Failed"));
   };
 
   useEffect(() => updatePageTitle(PageTitle.SIGNIN), []);

@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { getCourseApi } from "../../apis/course";
 import { getLessonsByCourseApi } from "../../apis/lesson";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useQuery from "../../hooks/useQuery";
 import Lesson from "../../components/Lesson";
 import Header from "../../components/Header";
 import styles from "./ManageLesson.module.css";
-import { useNavigate } from "react-router-dom";
 
 const ManageLesson = () => {
   const navigate = useNavigate();
@@ -16,22 +16,27 @@ const ManageLesson = () => {
   const [course, setCourse] = useState();
   const [lessons, setLessons] = useState([]);
 
-  useEffect(() => {
-    getCourseApi(courseId).then((res) => {
-      if (res.error) {
-        toast.error(res.message);
-      } else {
-        setCourse(res.data);
-      }
-    });
+  const getCourse = () => {
+    getCourseApi(courseId)
+      .then((res) => {
+        if (res.error) toast.error(res.message);
+        else setCourse(res.data);
+      })
+      .catch(() => toast.error("Get Course Failed"));
+  };
 
-    getLessonsByCourseApi(courseId).then((res) => {
-      if (res.error) {
-        toast.error(res.message);
-      } else {
-        setLessons(res.data);
-      }
-    });
+  const getLessonsByCourse = () => {
+    getLessonsByCourseApi(courseId)
+      .then((res) => {
+        if (res.error) toast.error(res.message);
+        else setLessons(res.data);
+      })
+      .catch(() => toast.error("Get Lessons Failed"));
+  };
+
+  useEffect(() => {
+    getCourse(courseId);
+    getLessonsByCourse(courseId);
   }, []);
 
   return (

@@ -9,18 +9,18 @@ import { getCourseApi } from "../../apis/course";
 import { getLessonsByCourseApi } from "../../apis/lesson";
 import { getRegisterApi, registerCourseApi } from "../../apis/register";
 import { User1Avatar, User2Avatar, User3Avatar } from "../../assets";
-import Header from "../../components/Header";
 import LessonVideo from "../../components/Lesson/LessonVideo";
+import Header from "../../components/Header";
 import styles from "./CourseDetail.module.css";
 
 const CourseDetail = () => {
   const navigate = useNavigate();
   const { courseId } = useParams();
+  const userId = JSON.parse(localStorage.getItem("userId"));
   const [course, setCourse] = useState({});
   const [register, setRegister] = useState(false);
   const [toggle, setToggle] = useState("description");
   const [lessons, setLessons] = useState([]);
-  const userId = JSON.parse(localStorage.getItem("userId"));
 
   const goToCourseDetail = () => {};
 
@@ -29,14 +29,12 @@ const CourseDetail = () => {
   };
 
   const getRegister = () => {
-    const userId = JSON.parse(localStorage.getItem("userId"));
-
     getRegisterApi({ userId, courseId })
       .then((res) => {
         if (res.error) toast.error(res.message);
         else setRegister(Boolean(res.data));
       })
-      .catch((error) => toast.error(error));
+      .catch(() => toast.error("Get Register Courses Failed"));
   };
 
   const getLessons = () => {
@@ -44,20 +42,21 @@ const CourseDetail = () => {
       .then((res) => {
         if (res.data) setLessons(res.data);
       })
-      .catch((error) => error);
+      .catch(() => toast.error("Get Lessons Failed"));
   };
 
   const registerNewCourse = (userId, courseId) => {
     if (userId) {
       registerCourseApi({ userId, courseId })
         .then((data) => {
-          if (data.error) toast.error(data.message);
-          else {
+          if (data.error) {
+            toast.error(data.message);
+          } else {
             handleRegister();
             toast.success("Register Success");
           }
         })
-        .catch((error) => toast.error(error));
+        .catch(() => toast.error("Register Failed"));
     } else {
       navigate("/signin");
     }
@@ -67,9 +66,8 @@ const CourseDetail = () => {
     if (userId) {
       registerNewCourse(userId, courseId);
       setRegister(!register);
-      // navigate("/");
     } else {
-      toast.info("You must sign in before");
+      toast.info("You Must Signin Before");
       navigate("/signin");
     }
   };
@@ -96,11 +94,8 @@ const CourseDetail = () => {
 
   useEffect(() => {
     getCourseApi(courseId).then((res) => {
-      if (res.error) {
-        setError(res.error);
-      } else {
-        setCourse(res.data);
-      }
+      if (res.error) setError(res.error);
+      else setCourse(res.data);
     });
     getRegister();
     getLessons();

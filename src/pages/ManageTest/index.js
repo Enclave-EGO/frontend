@@ -13,28 +13,33 @@ const ManageTest = () => {
   const lessonId = query.get("lessonId");
   const [lesson, setLesson] = useState();
   const [tests, setTests] = useState([]);
-
   const [visible, setVisible] = useState(false);
+
   const handleVisible = () => {
     setVisible(!visible);
   };
 
-  useEffect(() => {
-    getLessonApi(lessonId).then((res) => {
-      if (res.error) {
-        toast.error(res.message);
-      } else {
-        setLesson(res.data);
-      }
-    });
+  const getLesson = () => {
+    getLessonApi(lessonId)
+      .then((res) => {
+        if (res.error) toast.error(res.message);
+        else setLesson(res.data);
+      })
+      .catch(() => toast.error("Get Lesson Failed"));
+  };
 
-    getTestsByLessonApi(lessonId).then((res) => {
-      if (res.error) {
-        toast.error(res.message);
-      } else {
-        setTests(res.data.tests);
-      }
-    });
+  const getTestsByLesson = () => {
+    getTestsByLessonApi(lessonId)
+      .then((res) => {
+        if (res.error) toast.error(res.message);
+        else setTests(res.data.tests);
+      })
+      .catch(() => toast.error("Get Tests Failed"));
+  };
+
+  useEffect(() => {
+    getLesson();
+    getTestsByLesson();
   }, []);
 
   return (

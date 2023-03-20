@@ -45,9 +45,7 @@ const CreateCourse = () => {
           navigate("/manage/courses");
         }
       })
-      .catch(() => {
-        toast.error("Create Course Fail");
-      });
+      .catch(() => toast.error("Create Course Failed"));
   };
 
   const renderCreateCourseForm = () => {

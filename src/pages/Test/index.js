@@ -21,22 +21,24 @@ function Test() {
   const [checked, setChecked] = useState({});
 
   const getTestDetail = () => {
-    getTestDetailApi(testId).then((res) => {
-      if (res.error) {
-        toast.error(res.message);
-      } else {
-        const test = res.data;
-        setTestDetail(test);
+    getTestDetailApi(testId)
+      .then((res) => {
+        if (res.error) {
+          toast.error(res.message);
+        } else {
+          const test = res.data;
+          setTestDetail(test);
 
-        const initResults = test.questions.map((question) => ({
-          questionId: question._id,
-          answers: []
-        }));
+          const initResults = test.questions.map((question) => ({
+            questionId: question._id,
+            answers: []
+          }));
 
-        setChecked({ ...Array(test.questions.length).fill([]) });
-        setResults({ ...initResults });
-      }
-    });
+          setChecked({ ...Array(test.questions.length).fill([]) });
+          setResults({ ...initResults });
+        }
+      })
+      .catch(() => toast.error("Get Test Failed"));
   };
 
   const handleChecked = (id, isMultiChoice, index) => {
@@ -72,9 +74,9 @@ function Test() {
     submitTestApi(newTestResult)
       .then((data) => {
         if (data.error) toast.error(data.message);
-        else toast.success("Submit test success");
+        else toast.success("Submit Rest Success");
       })
-      .catch(() => toast.error("Submit test failed"));
+      .catch(() => toast.error("Submit Test Failed"));
   };
 
   const defaultRenderer = ({ hours, minutes, seconds, completed }) => {

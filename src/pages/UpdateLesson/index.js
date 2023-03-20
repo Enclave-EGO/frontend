@@ -1,15 +1,12 @@
-import { useEffect, useState, useRef } from "react";
-import { updateLessonApi, getLessonApi } from "../../apis/lesson";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { getCourseApi } from "../../apis/course";
-import { useLocation, useParams } from "react-router-dom";
+import { updateLessonApi, getLessonApi } from "../../apis/lesson";
 import { toast } from "react-toastify";
+import useQuery from "../../hooks/useQuery";
 import styles from "./UpdateLesson.module.css";
 
 const UpdateLesson = () => {
-  function useQuery() {
-    return new URLSearchParams(useLocation().search);
-  }
-
   const query = useQuery();
   const courseId = query.get("courseId");
   const { lessonId } = useParams();
@@ -23,14 +20,19 @@ const UpdateLesson = () => {
   const [course, setCourse] = useState();
 
   const getCourse = () => {
-    getCourseApi(courseId).then((res) => {
-      setCourse(res.data);
-    });
+    getCourseApi(courseId)
+      .then((res) => {
+        setCourse(res.data);
+      })
+      .catch(() => toast.error("Get Course Failed"));
   };
+
   const getLesson = () => {
-    getLessonApi(lessonId).then((res) => {
-      setValues(res.data);
-    });
+    getLessonApi(lessonId)
+      .then((res) => {
+        setValues(res.data);
+      })
+      .catch(() => toast.error("Get Lesson Failed"));
   };
 
   const handleChange = (name) => (event) => {
@@ -42,21 +44,15 @@ const UpdateLesson = () => {
 
     updateLessonApi(lessonId, values)
       .then((res) => {
-        if (res.status === "fail") {
-          toast.error(res.message);
-        } else {
-          toast.success("Update Lesson Success");
-        }
+        if (res.status === "fail") toast.error(res.message);
+        else toast.success("Update Lesson Success");
       })
-      .catch(() => {
-        toast.error("Update Lesson Fail");
-      });
+      .catch(() => toast.error("Update Lesson Failed"));
   };
 
   useEffect(() => {
     getCourse(courseId);
     getLesson(lessonId);
-    window.scrollTo(0, 0);
   }, [lessonId]);
 
   const renderUpdateLessonForm = () => {

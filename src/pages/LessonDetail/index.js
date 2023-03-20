@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import CreateTestForm from "../../components/CreateTestForm";
 import LessonVideo from "./LessonVideo";
 import styles from "./LessonDetail.module.css";
+import { toast } from "react-toastify";
 
 const LessonDetail = () => {
   const { lessonId } = useParams();
@@ -16,9 +17,11 @@ const LessonDetail = () => {
   };
 
   useEffect(() => {
-    getLessonApi(lessonId).then((res) => {
-      setLesson(res.data);
-    });
+    getLessonApi(lessonId)
+      .then((res) => {
+        setLesson(res.data);
+      })
+      .catch(() => toast.error("Get Lesson Failed"));
   }, [lessonId]);
 
   return (
@@ -28,9 +31,7 @@ const LessonDetail = () => {
           <div className={styles.lessonTitle}>
             Lesson: {lesson && lesson.name}
           </div>
-
           <LessonVideo videoId={lesson && lesson.videoId} />
-
           <div className={styles.courseTabs}>
             <div
               className={
@@ -75,9 +76,7 @@ const LessonDetail = () => {
               </h6>
             </div>
           </div>
-
           <div></div>
-
           <div className="tabContents">
             <div
               className={
@@ -92,7 +91,6 @@ const LessonDetail = () => {
                 </div>
               </div>
             </div>
-
             <div
               className={
                 toggle === "comments"
@@ -100,7 +98,6 @@ const LessonDetail = () => {
                   : `${styles.tabContent}`
               }
             ></div>
-
             <div
               className={
                 toggle === "tests"

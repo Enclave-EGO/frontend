@@ -24,9 +24,11 @@ const CreateLesson = () => {
   const descriptionInputRef = useRef();
 
   const getCourse = () => {
-    getCourseApi(courseId).then((res) => {
-      setCourse(res.data);
-    });
+    getCourseApi(courseId)
+      .then((res) => {
+        setCourse(res.data);
+      })
+      .catch(() => toast.error("Get Course Failed"));
   };
 
   const handleChange = (name) => (event) => {
@@ -53,9 +55,7 @@ const CreateLesson = () => {
           navigate(`/manage/lessons?courseId=${courseId}`);
         }
       })
-      .catch((error) => {
-        toast.error("Create Lesson Fail");
-      });
+      .catch(() => toast.error("Create Lesson Failed"));
   };
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import { getCourseApi, updateCourseApi } from "../../apis/course";
+import { toast } from "react-toastify";
 import styles from "./UpdateCourse.module.css";
 
 const UpdateCourse = () => {
@@ -15,9 +15,11 @@ const UpdateCourse = () => {
   const [values, setValues] = useState(initialValues);
 
   const getOldCourseData = () => {
-    getCourseApi(courseId).then((res) => {
-      setValues(res.data);
-    });
+    getCourseApi(courseId)
+      .then((res) => {
+        setValues(res.data);
+      })
+      .catch(() => toast.error("Get Course Failed"));
   };
 
   const handleChange = (name) => (event) => {
@@ -29,13 +31,10 @@ const UpdateCourse = () => {
 
     updateCourseApi(courseId, values)
       .then((res) => {
-        if (res.error) {
-          toast.error(res.message);
-        } else {
-          toast.success("Update Course Success");
-        }
+        if (res.error) toast.error(res.message);
+        else toast.success("Update Course Success");
       })
-      .catch(() => toast.error("Update Course Fail"));
+      .catch(() => toast.error("Update Course Failed"));
   };
 
   const renderUpdateCourseForm = () => {

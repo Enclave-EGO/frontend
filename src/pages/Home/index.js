@@ -21,24 +21,30 @@ function Home() {
   const [myNotRegisteredCourses, setMyNotRegisteredCourses] = useState([]);
 
   const loadAllCourses = () => {
-    getCoursesApi().then((res) => {
-      if (res.error) toast.error("Load all courses failed");
-      else setAllCourses(res.data);
-    });
+    getCoursesApi()
+      .then((res) => {
+        if (res.error) toast.error("Get All Courses Failed");
+        else setAllCourses(res.data);
+      })
+      .catch(() => toast.error("Get All Courses Failed"));
   };
 
   const loadMyRegisteredCourses = () => {
-    getMyRegisteredCoursesApi(userId).then((res) => {
-      if (res.error) toast.error("Load my courses failed");
-      else setMyRegisteredCourses(res.data);
-    });
+    getMyRegisteredCoursesApi(userId)
+      .then((res) => {
+        if (res.error) toast.error("Get Registered Courses Failed");
+        else setMyRegisteredCourses(res.data);
+      })
+      .catch(() => toast.error("Get Registered Courses Failed"));
   };
 
   const loadMyNotRegisteredCourses = () => {
-    getMyNotRegisteredCoursesApi(userId).then((res) => {
-      if (res.error) toast.error("Load other courses failed");
-      else setMyNotRegisteredCourses(res.data);
-    });
+    getMyNotRegisteredCoursesApi(userId)
+      .then((res) => {
+        if (res.error) toast.error("Get Not Registered Courses Failed");
+        else setMyNotRegisteredCourses(res.data);
+      })
+      .catch(() => toast.error("Get Not Registered Courses Failed"));
   };
 
   useEffect(() => {

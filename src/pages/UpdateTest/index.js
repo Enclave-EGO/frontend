@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import { getTestDetailApi, updateTestApi } from "../../apis/test";
+import { toast } from "react-toastify";
 import styles from "./UpdateTest.module.css";
 
 const UpdateTest = () => {
@@ -13,9 +13,11 @@ const UpdateTest = () => {
   const [values, setValues] = useState(initialValues);
 
   const getOldTestData = () => {
-    getTestDetailApi(testId).then((data) => {
-      setValues(data.data);
-    });
+    getTestDetailApi(testId)
+      .then((data) => {
+        setValues(data.data);
+      })
+      .catch(() => toast.error("Get Test Failed"));
   };
 
   const handleChange = (name) => (event) => {
@@ -27,13 +29,10 @@ const UpdateTest = () => {
 
     updateTestApi(testId, values)
       .then((res) => {
-        if (res.error) {
-          toast.error(res.message);
-        } else {
-          toast.success("Update Test Success");
-        }
+        if (res.error) toast.error(res.message);
+        else toast.success("Update Test Success");
       })
-      .catch((error) => toast.error("Update Test Fail"));
+      .catch(() => toast.error("Update Test Failed"));
   };
 
   const renderUpdateTestForm = () => {

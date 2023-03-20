@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { toast } from "react-toastify";
 import { getTestDetailApi } from "../../apis/test";
+import { toast } from "react-toastify";
 import Question from "../../components/Question";
 import styles from "./TestTeacher.module.css";
 
@@ -17,13 +17,12 @@ function TestTeacher() {
   const [newQuestion, setNewQuestion] = useState([]);
 
   const getTestDetail = () => {
-    getTestDetailApi(testId).then((res) => {
-      if (res.error) {
-        toast.error(res.message);
-      } else {
-        setTestDetail(res?.data);
-      }
-    });
+    getTestDetailApi(testId)
+      .then((res) => {
+        if (res.error) toast.error(res.message);
+        else setTestDetail(res?.data);
+      })
+      .catch(() => toast.error("Get Test Failed"));
   };
 
   const handleCreateQuestion = () => {
