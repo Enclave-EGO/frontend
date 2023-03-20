@@ -80,6 +80,12 @@
   background: linear-gradient(180deg, #6e6ce0 0%, #4d4cad 100%);
   border-radius: 7.05133px;
 }
+
+.formSubmit:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
 .formRemind {
   display: flex;
   justify-content: space-between;

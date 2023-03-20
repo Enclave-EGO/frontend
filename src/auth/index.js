@@ -1,12 +1,13 @@
-import { checkValidTokenAPI } from "../apis/user";
+import { getSigninToken } from "../helpers";
+import { checkValidTokenApi } from "../apis/user";
 
 export const isAuth = () => {
   if (typeof window == "undefined") {
     return false;
   } else {
-    const token = localStorage.getItem("signin_token");
+    const token = getSigninToken();
     if (token) {
-      const isValid = checkValidTokenAPI(token);
+      const isValid = checkValidTokenApi(token);
       return isValid;
     } else {
       return false;
@@ -18,7 +19,7 @@ export const isAuthenticated = () => {
   if (typeof window == "undefined") {
     return false;
   } else {
-    const token = localStorage.getItem("signin_token");
+    const token = getSigninToken();
     if (token) {
       return JSON.parse(token);
     } else {

@@ -1,45 +1,36 @@
-export const deleteQuestionApi = (questionId) => {
-  const token = JSON.parse(localStorage.getItem("signin_token"));
-
-  return fetch(`/questions/${questionId}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token
-    }
-  })
-    .then((res) => {
-      return res.json();
-    })
-    .catch((error) => error);
-};
+import httpRequest from "./axiosConfig";
+import { getSigninToken } from "../helpers";
 
 export const createQuestionApi = (question) => {
-  const token = JSON.parse(localStorage.getItem("signin_token"));
-
-  return fetch(`/questions`, {
-    method: "POST",
+  const token = getSigninToken();
+  return httpRequest.post("/questions", JSON.stringify(question), {
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token
-    },
-    body: JSON.stringify(question)
-  })
-    .then((res) => res.json())
-    .catch((error) => error);
+      Authorization: `Bearer ${token}`
+    }
+  });
 };
 
 export const updateQuesionApi = (question, questionId) => {
-  const token = JSON.parse(localStorage.getItem("signin_token"));
+  const token = getSigninToken();
+  return httpRequest.patch(
+    `/questions/${questionId}`,
+    JSON.stringify(question),
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+};
 
-  return fetch(`/questions/${questionId}`, {
-    method: "PATCH",
+export const deleteQuestionApi = (questionId) => {
+  const token = getSigninToken();
+  return httpRequest.delete(`/questions/${questionId}`, null, {
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token
-    },
-    body: JSON.stringify(question)
-  })
-    .then((res) => res.json())
-    .catch((error) => error);
+      Authorization: `Bearer ${token}`
+    }
+  });
 };

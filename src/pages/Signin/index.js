@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { updatePageTitle } from "../../helpers";
 import { PageTitle } from "../../constants";
 import { Link, useNavigate } from "react-router-dom";
-import { signInAPI } from "../../apis/user";
+import { signInApi } from "../../apis/user";
 import { toast } from "react-toastify";
 import { AppLogo } from "../../assets";
 import styles from "./Signin.module.css";
@@ -23,7 +23,7 @@ function Signin() {
   const submitForm = (event) => {
     event.preventDefault();
 
-    signInAPI({ username, password })
+    signInApi({ username, password })
       .then((res) => {
         if (res.error) {
           toast.error(res.message);

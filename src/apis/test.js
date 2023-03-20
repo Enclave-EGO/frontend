@@ -1,71 +1,52 @@
-export const createTestApi = (newTest) => {
-  const token = JSON.parse(localStorage.getItem("signin_token"));
+import httpRequest from "./axiosConfig";
+import { getSigninToken } from "../helpers";
 
-  return fetch(`/tests`, {
-    method: "POST",
+export const createTestApi = (test) => {
+  const token = getSigninToken();
+  return httpRequest.post("/tests", JSON.stringify(test), {
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token
-    },
-    body: JSON.stringify(newTest)
-  })
-    .then((res) => res.json())
-    .catch((err) => err);
+      Authorization: `Bearer ${token}`
+    }
+  });
 };
 
 export const getTestDetailApi = (testId) => {
-  const token = JSON.parse(localStorage.getItem("signin_token"));
-
-  return fetch(`/tests/${testId}`, {
-    method: "GET",
+  const token = getSigninToken();
+  return httpRequest.get(`/tests/${testId}`, null, {
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token
+      Authorization: `Bearer ${token}`
     }
-  })
-    .then((res) => res.json())
-    .catch((err) => err);
+  });
 };
 
 export const getTestsByLessonApi = (lessonId) => {
-  const token = JSON.parse(localStorage.getItem("signin_token"));
-
-  return fetch(`/tests?lessonId=${lessonId}`, {
-    method: "GET",
+  const token = getSigninToken();
+  return httpRequest.get(`/tests?lessonId=${lessonId}`, null, {
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token
+      Authorization: `Bearer ${token}`
     }
-  })
-    .then((res) => res.json())
-    .catch((err) => console.log(err));
+  });
 };
 
-export const updateTestApi = (testId, testInfo) => {
-  const token = JSON.parse(localStorage.getItem("signin_token"));
-
-  return fetch(`/tests/${testId}`, {
-    method: "PATCH",
+export const updateTestApi = (testId, test) => {
+  const token = getSigninToken();
+  return httpRequest.patch(`/tests/${testId}`, JSON.stringify(test), {
     headers: {
-      "Content-type": "Application/json",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
-    },
-    body: JSON.stringify(testInfo)
-  })
-    .then((res) => res.json())
-    .catch((error) => error);
+    }
+  });
 };
 
 export const deleteTestApi = (testId) => {
-  const token = JSON.parse(localStorage.getItem("signin_token"));
-
-  return fetch(`/tests/${testId}`, {
-    method: "DELETE",
+  const token = getSigninToken();
+  return httpRequest.delete(`/tests/${testId}`, null, {
     headers: {
-      "Content-type": "Application/json",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
     }
-  })
-    .then((res) => res.json())
-    .catch((error) => error);
+  });
 };

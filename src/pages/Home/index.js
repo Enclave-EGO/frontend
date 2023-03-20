@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { updatePageTitle } from "../../helpers";
 import { PageTitle } from "../../constants";
-import { checkValidTokenAPI } from "../../apis/user";
+import { checkValidTokenApi } from "../../apis/user";
 import { getCoursesApi } from "../../apis/course";
 import {
   getMyNotRegisteredCoursesApi,
   getMyRegisteredCoursesApi
 } from "../../apis/register";
+import { toast } from "react-toastify";
 import { Banner } from "../../assets";
 import Header from "../../components/Header";
 import Course from "../../components/Course";
@@ -54,8 +55,10 @@ function Home() {
 
   useEffect(() => {
     if (token) {
-      const checkValidToken = async () => await checkValidTokenAPI(token);
-      checkValidToken().then((res) => setIsLoggedIn(res.data.data));
+      const checkValidToken = async () => await checkValidTokenApi(token);
+      checkValidToken()
+        .then((res) => setIsLoggedIn(res.data.data))
+        .catch((err) => toast.error(err.message));
     }
   }, []);
 

@@ -1,31 +1,31 @@
-import httpRequest from "../apis/axiosConfig";
+import httpRequest from "./axiosConfig";
 
 export const signupApi = (user) => {
-  return fetch("/users/", {
-    method: "POST",
+  return httpRequest.post("/users", JSON.stringify(user), {
     headers: {
       "Content-Type": "application/json"
-    },
-    body: JSON.stringify(user)
-  })
-    .then((res) => res.json())
-    .catch((err) => err);
-};
-
-export const signInAPI = (user) => {
-  return fetch("/users/signin/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(user)
-  })
-    .then((res) => res.json())
-    .catch((err) => err);
-};
-
-export const checkValidTokenAPI = (token) => {
-  return httpRequest.post("/users/check-valid-token/", {
-    token: token
+    }
   });
+};
+
+export const signInApi = (user) => {
+  return httpRequest.post("/users/signin", JSON.stringify(user), {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+};
+
+export const checkValidTokenApi = (token) => {
+  return httpRequest.post(
+    "/users/check-valid-token/",
+    {
+      token: token
+    },
+    {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+  );
 };
