@@ -9,14 +9,14 @@ import {
   updateQuesionApi
 } from "../../apis/question";
 import { questionReducer } from "../../reducers";
-import DeleteModal from "../../modals/DeleteModal";
 import styles from "./Question.module.css";
+import DeleteModal from "../../modals/DeleteModal";
 
 function Question({ question, testId }) {
   const [listCorrect, setListCorrect] = useState([]);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
-  let initalValue = question._id
+  const initialValue = question._id
     ? { ...question, testId }
     : {
         content: "Question",
@@ -26,7 +26,7 @@ function Question({ question, testId }) {
         answers: []
       };
 
-  let [values, dispatch] = useReducer(questionReducer, initalValue);
+  const [values, dispatch] = useReducer(questionReducer, initialValue);
 
   const getListCorrect = () => {
     const corrects = question.answers.map((answer) => answer.isCorrect);
@@ -42,7 +42,10 @@ function Question({ question, testId }) {
   };
 
   const handleCancel = () => {
-    values = initalValue;
+    dispatch({
+      type: "cancel",
+      initialValue: initialValue
+    });
     getListCorrect();
   };
 

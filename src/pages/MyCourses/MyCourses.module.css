@@ -1,3 +1,6 @@
+.home {
+  height: 100vh;
+}
 .homeBanner img {
   width: 100%;
 }
@@ -64,7 +67,7 @@
   flex-direction: column;
   max-width: 1350px;
   margin: auto;
-  margin-top: 20px;
+  height: 100%;
 }
 .itemImage {
   width: 100%;

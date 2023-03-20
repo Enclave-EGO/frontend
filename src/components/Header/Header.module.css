@@ -2,10 +2,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: #adc8e0;
 }
 
 .headerRightFrame {
   align-items: center;
+  margin-right: 40px;
 }
 
 .headerButton {
@@ -107,15 +109,15 @@ cartBadge:hover {
 }
 
 .avatarImage {
-  width: 44px;
-  height: 44px;
+  width: 50px;
+  height: 50px;
   border-radius: 90%;
 }
 
 .button {
   display: inline-block;
   border-radius: 8px;
-  background-color: #adc8e0;
+  background-color: #f9f8f8;
   border: none;
   font-weight: bold;
   color: #000000;
