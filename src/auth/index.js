@@ -7,7 +7,6 @@ export const isAuth = () => {
     const token = localStorage.getItem("signin_token");
     if (token) {
       const isValid = checkValidTokenAPI(token);
-      console.log(isValid);
       return isValid;
     } else {
       return false;
