@@ -27,7 +27,6 @@ function Test({ test, index }) {
         </div>
         <div className={styles.test__cost}>
           <MdPublish />
-          {console.log(test)}
           <b>Created At:</b> {test.createdAt.slice(0, 10)}{" "}
           {test.createdAt.slice(11, 19)}
         </div>
