@@ -24,19 +24,23 @@ function Signup() {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const submitForm = (e) => {
-    e.preventDefault();
-
-    signupApi({ name, username, role, email, password })
+  const signup = async (data) => {
+    signupApi(data)
       .then((res) => {
-        if (res.error) {
-          toast.error(res.message);
-        } else {
+        const { error, message } = res.data;
+        if (error) toast.error(message);
+        else {
           toast.success("Sign Up Success");
           navigate("/signin");
         }
       })
-      .catch((error) => toast.error("Sign Up Failed"));
+      .catch(() => toast.error("Sign Up Failed"));
+  };
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    const newUser = { name, username, role, email, password };
+    signup(newUser);
   };
 
   const renderSignupForm = () => {

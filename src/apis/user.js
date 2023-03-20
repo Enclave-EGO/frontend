@@ -3,6 +3,7 @@ import httpRequest from "./axiosConfig";
 export const signupApi = (user) => {
   return httpRequest.post("/users", JSON.stringify(user), {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json"
     }
   });
@@ -11,6 +12,7 @@ export const signupApi = (user) => {
 export const signInApi = (user) => {
   return httpRequest.post("/users/signin", JSON.stringify(user), {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json"
     }
   });
@@ -24,6 +26,7 @@ export const checkValidTokenApi = (token) => {
     },
     {
       headers: {
+        "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json"
       }
     }

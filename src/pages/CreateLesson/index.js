@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { createLessonApi } from "../../apis/lesson";
 import { getCourseApi } from "../../apis/course";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,6 @@ const CreateLesson = () => {
   const navigate = useNavigate();
   const query = useQuery();
   const courseId = query.get("courseId");
-
   const initialValues = {
     name: "",
     description: "",
@@ -19,14 +18,13 @@ const CreateLesson = () => {
   };
   const [values, setValues] = useState(initialValues);
   const [course, setCourse] = useState();
-  const nameInputRef = useRef();
-  const videoIdInputRef = useRef();
-  const descriptionInputRef = useRef();
 
   const getCourse = () => {
     getCourseApi(courseId)
       .then((res) => {
-        setCourse(res.data);
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
+        else setCourse(data);
       })
       .catch(() => toast.error("Get Course Failed"));
   };
@@ -35,22 +33,14 @@ const CreateLesson = () => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const clearInputsText = () => {
-    nameInputRef.current.value = "";
-    videoIdInputRef.current.value = "";
-    descriptionInputRef.current.value = "";
-  };
-
   const submitForm = (e) => {
     e.preventDefault();
-
     createLessonApi(values)
-      .then((data) => {
-        if (data.status === "fail") {
-          toast.error(data.message);
+      .then((res) => {
+        const { error, message } = res.data;
+        if (error) {
+          toast.error(message);
         } else {
-          clearInputsText();
-          setValues(initialValues);
           toast.success("Create Lesson Success");
           navigate(`/manage/lessons?courseId=${courseId}`);
         }
@@ -73,9 +63,8 @@ const CreateLesson = () => {
               <p className={styles.formForce}>*</p>
             </div>
             <input
-              className={styles.formControl}
               type="text"
-              ref={nameInputRef}
+              className={styles.formControl}
               onChange={handleChange("name")}
             />
           </div>
@@ -85,9 +74,8 @@ const CreateLesson = () => {
               <p className={styles.formForce}>*</p>
             </div>
             <input
-              className={styles.formControl}
               type="text"
-              ref={videoIdInputRef}
+              className={styles.formControl}
               onChange={handleChange("videoId")}
             />
           </div>
@@ -98,7 +86,6 @@ const CreateLesson = () => {
             </div>
             <textarea
               className={styles.formControl}
-              ref={descriptionInputRef}
               onChange={handleChange("description")}
             />
           </div>

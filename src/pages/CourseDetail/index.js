@@ -15,8 +15,8 @@ import styles from "./CourseDetail.module.css";
 
 const CourseDetail = () => {
   const navigate = useNavigate();
-  const { courseId } = useParams();
   const userId = JSON.parse(localStorage.getItem("userId"));
+  const { courseId } = useParams();
   const [course, setCourse] = useState({});
   const [register, setRegister] = useState(false);
   const [toggle, setToggle] = useState("description");
@@ -28,11 +28,20 @@ const CourseDetail = () => {
     setRegister(!register);
   };
 
+  const getCourse = (courseId) => {
+    getCourseApi(courseId).then((res) => {
+      const { error, message, data } = res.data;
+      if (error) toast.error(message);
+      else setCourse(data);
+    });
+  };
+
   const getRegister = () => {
     getRegisterApi({ userId, courseId })
       .then((res) => {
-        if (res.error) toast.error(res.message);
-        else setRegister(Boolean(res.data));
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
+        else setRegister(Boolean(data));
       })
       .catch(() => toast.error("Get Register Courses Failed"));
   };
@@ -40,7 +49,9 @@ const CourseDetail = () => {
   const getLessons = () => {
     getLessonsByCourseApi(courseId)
       .then((res) => {
-        if (res.data) setLessons(res.data);
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
+        else setLessons(data);
       })
       .catch(() => toast.error("Get Lessons Failed"));
   };
@@ -48,9 +59,10 @@ const CourseDetail = () => {
   const registerNewCourse = (userId, courseId) => {
     if (userId) {
       registerCourseApi({ userId, courseId })
-        .then((data) => {
-          if (data.error) {
-            toast.error(data.message);
+        .then((res) => {
+          const { error, message } = res.data;
+          if (error) {
+            toast.error(message);
           } else {
             handleRegister();
             toast.success("Register Success");
@@ -93,10 +105,7 @@ const CourseDetail = () => {
   };
 
   useEffect(() => {
-    getCourseApi(courseId).then((res) => {
-      if (res.error) setError(res.error);
-      else setCourse(res.data);
-    });
+    getCourse(courseId);
     getRegister();
     getLessons();
   }, []);

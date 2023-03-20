@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getMyRegisteredCoursesApi } from "../../apis/register";
+import { toast } from "react-toastify";
 import Header from "../../components/Header";
 import Course from "../../components/Course";
 import styles from "./MyCourses.module.css";
@@ -11,8 +12,9 @@ function MyCourses() {
   const getMyRegisteredCourses = () => {
     getMyRegisteredCoursesApi(userId)
       .then((res) => {
-        if (res.error) toast.error("Load all courses failed");
-        else setMyRegisteredCourses(res.data);
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
+        else setMyRegisteredCourses(data);
       })
       .catch(() => toast.error("Get Courses Failed"));
   };

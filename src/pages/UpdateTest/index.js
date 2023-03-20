@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getTestDetailApi, updateTestApi } from "../../apis/test";
 import { toast } from "react-toastify";
 import styles from "./UpdateTest.module.css";
 
 const UpdateTest = () => {
   const { testId } = useParams();
+  const navigate = useNavigate();
   const initialValues = {
     timeLimit: 0,
     description: ""
@@ -14,8 +15,10 @@ const UpdateTest = () => {
 
   const getOldTestData = () => {
     getTestDetailApi(testId)
-      .then((data) => {
-        setValues(data.data);
+      .then((res) => {
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
+        else setValues(data);
       })
       .catch(() => toast.error("Get Test Failed"));
   };
@@ -26,11 +29,15 @@ const UpdateTest = () => {
 
   const submitForm = (e) => {
     e.preventDefault();
-
     updateTestApi(testId, values)
       .then((res) => {
-        if (res.error) toast.error(res.message);
-        else toast.success("Update Test Success");
+        const { error, message } = res.data;
+        if (error) toast.error(message);
+        else {
+          toast.success("Update Test Success");
+          // Back previous page
+          navigate(-1);
+        }
       })
       .catch(() => toast.error("Update Test Failed"));
   };

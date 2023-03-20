@@ -22,8 +22,9 @@ const ManageTest = () => {
   const getLesson = () => {
     getLessonApi(lessonId)
       .then((res) => {
-        if (res.error) toast.error(res.message);
-        else setLesson(res.data);
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
+        else setLesson(data);
       })
       .catch(() => toast.error("Get Lesson Failed"));
   };
@@ -31,8 +32,9 @@ const ManageTest = () => {
   const getTestsByLesson = () => {
     getTestsByLessonApi(lessonId)
       .then((res) => {
-        if (res.error) toast.error(res.message);
-        else setTests(res.data.tests);
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
+        else setTests(data.tests);
       })
       .catch(() => toast.error("Get Tests Failed"));
   };

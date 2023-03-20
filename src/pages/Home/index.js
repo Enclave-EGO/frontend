@@ -24,8 +24,9 @@ function Home() {
   const loadAllCourses = () => {
     getCoursesApi()
       .then((res) => {
-        if (res.error) toast.error("Get All Courses Failed");
-        else setAllCourses(res.data);
+        const { error, data } = res.data;
+        if (error) toast.error("Get All Courses Failed");
+        else setAllCourses(data);
       })
       .catch(() => toast.error("Get All Courses Failed"));
   };
@@ -33,8 +34,10 @@ function Home() {
   const loadMyRegisteredCourses = () => {
     getMyRegisteredCoursesApi(userId)
       .then((res) => {
-        if (res.error) toast.error("Get Registered Courses Failed");
-        else setMyRegisteredCourses(res.data);
+        const { error, data } = res.data;
+        console.log(data);
+        if (error) toast.error("Get Registered Courses Failed");
+        else setMyRegisteredCourses(data);
       })
       .catch(() => toast.error("Get Registered Courses Failed"));
   };
@@ -42,8 +45,10 @@ function Home() {
   const loadMyNotRegisteredCourses = () => {
     getMyNotRegisteredCoursesApi(userId)
       .then((res) => {
-        if (res.error) toast.error("Get Not Registered Courses Failed");
-        else setMyNotRegisteredCourses(res.data);
+        const { error, data } = res.data;
+        console.log(data);
+        if (error) toast.error("Get Not Registered Courses Failed");
+        else setMyNotRegisteredCourses(data);
       })
       .catch(() => toast.error("Get Not Registered Courses Failed"));
   };
@@ -75,7 +80,7 @@ function Home() {
     <div className={styles.home}>
       <Header />
       <section className={`container_fluid ${styles.homeBanner}`}>
-        <img src={Banner} alt=""></img>
+        <img src={Banner} alt="" />
       </section>
       <section className={`container ${styles.homeSlider}`}>
         <h2>My Courses</h2>

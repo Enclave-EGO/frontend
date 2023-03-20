@@ -5,6 +5,7 @@ export const submitTestApi = (testResult) => {
   const token = getSigninToken();
   return httpRequest.post(`/test-results`, JSON.stringify(testResult), {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
     }
@@ -13,14 +14,11 @@ export const submitTestApi = (testResult) => {
 
 export const getTestResultApi = (userId, testId) => {
   const token = getSigninToken();
-  return httpRequest.get(
-    `/test-results?userId=${userId}&testId=${testId}`,
-    null,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
+  return httpRequest.get(`/test-results?userId=${userId}&testId=${testId}`, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
     }
-  );
+  });
 };

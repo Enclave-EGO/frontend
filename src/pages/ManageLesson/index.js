@@ -12,15 +12,15 @@ const ManageLesson = () => {
   const navigate = useNavigate();
   const query = useQuery();
   const courseId = query.get("courseId");
-  const userId = JSON.parse(localStorage.getItem("userId"));
   const [course, setCourse] = useState();
   const [lessons, setLessons] = useState([]);
 
   const getCourse = () => {
     getCourseApi(courseId)
       .then((res) => {
-        if (res.error) toast.error(res.message);
-        else setCourse(res.data);
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
+        else setCourse(data);
       })
       .catch(() => toast.error("Get Course Failed"));
   };
@@ -28,8 +28,9 @@ const ManageLesson = () => {
   const getLessonsByCourse = () => {
     getLessonsByCourseApi(courseId)
       .then((res) => {
-        if (res.error) toast.error(res.message);
-        else setLessons(res.data);
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
+        else setLessons(data);
       })
       .catch(() => toast.error("Get Lessons Failed"));
   };

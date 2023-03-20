@@ -14,8 +14,9 @@ const ManageCourse = () => {
   useEffect(() => {
     getCoursesByUserApi(userId)
       .then((res) => {
-        if (res.error) toast.error(res.message);
-        else setCourses(res.data);
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
+        else setCourses(data);
       })
       .catch(() => toast.error("Get Courses Failed"));
   }, []);

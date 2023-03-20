@@ -1,10 +1,10 @@
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getLessonApi } from "../../apis/lesson";
-import React, { useEffect, useState } from "react";
-import CreateTestForm from "../../components/CreateTestForm";
-import LessonVideo from "./LessonVideo";
-import styles from "./LessonDetail.module.css";
 import { toast } from "react-toastify";
+import LessonVideo from "./LessonVideo";
+import CreateTestForm from "../../components/CreateTestForm";
+import styles from "./LessonDetail.module.css";
 
 const LessonDetail = () => {
   const { lessonId } = useParams();
@@ -16,12 +16,18 @@ const LessonDetail = () => {
     setVisible(!visible);
   };
 
-  useEffect(() => {
+  const getLesson = () => {
     getLessonApi(lessonId)
       .then((res) => {
-        setLesson(res.data);
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
+        else setLesson(data);
       })
       .catch(() => toast.error("Get Lesson Failed"));
+  };
+
+  useEffect(() => {
+    getLesson(lessonId);
   }, [lessonId]);
 
   return (

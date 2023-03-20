@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getCourseApi } from "../../apis/course";
 import { updateLessonApi, getLessonApi } from "../../apis/lesson";
 import { toast } from "react-toastify";
@@ -10,6 +10,7 @@ const UpdateLesson = () => {
   const query = useQuery();
   const courseId = query.get("courseId");
   const { lessonId } = useParams();
+  const navigate = useNavigate();
 
   const [values, setValues] = useState({
     name: "",
@@ -22,7 +23,9 @@ const UpdateLesson = () => {
   const getCourse = () => {
     getCourseApi(courseId)
       .then((res) => {
-        setCourse(res.data);
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
+        else setCourse(data);
       })
       .catch(() => toast.error("Get Course Failed"));
   };
@@ -30,9 +33,25 @@ const UpdateLesson = () => {
   const getLesson = () => {
     getLessonApi(lessonId)
       .then((res) => {
-        setValues(res.data);
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
+        else setValues(data);
       })
       .catch(() => toast.error("Get Lesson Failed"));
+  };
+
+  const updateLesson = (lessonId, values) => {
+    updateLessonApi(lessonId, values)
+      .then((res) => {
+        const { error, message } = res.data;
+        if (error) toast.error(message);
+        else {
+          toast.success("Update Lesson Success");
+          // Back previous page
+          navigate(-1);
+        }
+      })
+      .catch(() => toast.error("Update Lesson Failed"));
   };
 
   const handleChange = (name) => (event) => {
@@ -41,13 +60,7 @@ const UpdateLesson = () => {
 
   const submitForm = (e) => {
     e.preventDefault();
-
-    updateLessonApi(lessonId, values)
-      .then((res) => {
-        if (res.status === "fail") toast.error(res.message);
-        else toast.success("Update Lesson Success");
-      })
-      .catch(() => toast.error("Update Lesson Failed"));
+    updateLesson(lessonId, values);
   };
 
   useEffect(() => {
@@ -64,8 +77,8 @@ const UpdateLesson = () => {
               <p className={styles.formLabel}>Name</p>
             </div>
             <input
-              className={styles.formControl}
               type="text"
+              className={styles.formControl}
               value={values?.name}
               onChange={handleChange("name")}
             />
@@ -75,8 +88,8 @@ const UpdateLesson = () => {
               <p className={styles.formLabel}>Video Id</p>
             </div>
             <input
-              className={styles.formControl}
               type="text"
+              className={styles.formControl}
               value={values?.videoId}
               onChange={handleChange("videoId")}
             />

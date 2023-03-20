@@ -1,11 +1,12 @@
-import { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { getCourseApi, updateCourseApi } from "../../apis/course";
 import { toast } from "react-toastify";
 import styles from "./UpdateCourse.module.css";
 
 const UpdateCourse = () => {
   const { courseId } = useParams();
+  const navigate = useNavigate();
   const initialValues = {
     name: "",
     cost: "",
@@ -17,7 +18,9 @@ const UpdateCourse = () => {
   const getOldCourseData = () => {
     getCourseApi(courseId)
       .then((res) => {
-        setValues(res.data);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Course Failed");
+        else setValues(data);
       })
       .catch(() => toast.error("Get Course Failed"));
   };
@@ -32,7 +35,11 @@ const UpdateCourse = () => {
     updateCourseApi(courseId, values)
       .then((res) => {
         if (res.error) toast.error(res.message);
-        else toast.success("Update Course Success");
+        else {
+          toast.success("Update Course Success");
+          // Back previous page
+          navigate(-1);
+        }
       })
       .catch(() => toast.error("Update Course Failed"));
   };

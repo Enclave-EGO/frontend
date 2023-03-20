@@ -11,10 +11,8 @@ function Signin() {
   const navigate = useNavigate();
   const [values, setValues] = useState({
     username: "",
-    password: "",
-    error: ""
+    password: ""
   });
-  const { username, password, error } = values;
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -22,17 +20,17 @@ function Signin() {
 
   const submitForm = (event) => {
     event.preventDefault();
-
-    signInApi({ username, password })
+    signInApi(values)
       .then((res) => {
-        if (res.error) {
+        const { error, data } = res.data;
+        if (error) {
           toast.error(res.message);
         } else {
-          localStorage.setItem("signin_token", JSON.stringify(res.data.token));
-          localStorage.setItem("userId", JSON.stringify(res.data._id));
-          localStorage.setItem("role", JSON.stringify(res.data.role));
+          localStorage.setItem("signin_token", JSON.stringify(data.token));
+          localStorage.setItem("userId", JSON.stringify(data._id));
+          localStorage.setItem("role", JSON.stringify(data.role));
 
-          const role = res.data.role;
+          const role = data.role;
           if (role === 0) {
             navigate("/manage/courses");
           } else {
@@ -42,7 +40,7 @@ function Signin() {
           toast.success("Sign In Success");
         }
       })
-      .catch((error) => toast.error("Sign In Failed"));
+      .catch(() => toast.error("Sign In Failed"));
   };
 
   useEffect(() => updatePageTitle(PageTitle.SIGNIN), []);
@@ -57,8 +55,8 @@ function Signin() {
         <div className={styles.formGroup}>
           <label className={styles.formLabel}>Username</label>
           <input
-            className={styles.formControl}
             type="text"
+            className={styles.formControl}
             placeholder="Enter username"
             onChange={handleChange("username")}
           />
@@ -67,8 +65,8 @@ function Signin() {
         <div className={styles.formGroup}>
           <label className={styles.formLabel}>Password</label>
           <input
-            className={styles.formControl}
             type="password"
+            className={styles.formControl}
             placeholder="Enter password"
             onChange={handleChange("password")}
           />
