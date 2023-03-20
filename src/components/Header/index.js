@@ -2,19 +2,18 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { isAuth } from "../../auth/index";
 import { DEFAULT_USER_AVATAR } from "../../constants";
-import ProfileModal from "../../modals/ProfileModal";
 import logo from "../../assets/images/logo.png";
 import styles from "./Header.module.css";
+import ProfileModal from "../../modals/ProfileModal";
 
 const Header = () => {
+  const role = JSON.parse(localStorage.getItem("role"));
   const [openProfileModal, setOpenProfileModal] = useState(false);
 
   const handleClickAvatarImage = () => {
     document.body.style.overflow = openProfileModal ? "visible" : "hidden";
     setOpenProfileModal(!openProfileModal);
   };
-
-  const role = JSON.parse(localStorage.getItem("role"));
 
   const renderLearnerHeader = () => {
     return (

@@ -34,23 +34,30 @@ export const questionReducer = (state, action) => {
       break;
 
     case "content-answer":
-      const answers = state.answers;
-      const newAnswer = {
+      let answers = { ...state.answers };
+      let newAnswer = {
         ...answers[action.index],
         content: action.event.target.value
       };
-      answers[action.index] = newAnswer;
-      newState = { ...state, answers };
+      answers = { ...answers, [action.index]: newAnswer };
+      newState = { ...state, answers: Object.values(answers) };
       break;
 
     case "add-answer":
-      const listAnswers = state.answers;
-      listAnswers.push({ content: "", isCorrect: false });
-      newState = { ...state, answers: listAnswers };
+      let listAnswers = { ...state.answers };
+      const length = state.answers.length;
+      listAnswers = {
+        ...listAnswers,
+        [length]: { content: "", isCorrect: false }
+      };
+      newState = { ...state, answers: Object.values(listAnswers) };
       break;
 
     case "cancel":
-      newState = action?.initalValue ? { ...action.initalValue } : { ...state };
+      newState =
+        action && action.initialValue
+          ? { ...action.initialValue }
+          : { ...state };
       break;
 
     default:
