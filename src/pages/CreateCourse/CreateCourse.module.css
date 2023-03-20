@@ -86,6 +86,11 @@
   border-radius: 7.05133px;
 }
 
+.formSubmit:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
 .formRemind {
   display: flex;
   justify-content: space-between;

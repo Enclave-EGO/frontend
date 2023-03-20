@@ -2,6 +2,7 @@ import { createTestApi } from "../../apis/test";
 import { toast } from "react-toastify";
 import React, { useState } from "react";
 import styles from "./CreateTestForm.module.css";
+import { refreshPage } from "../../helpers";
 
 function Test({ lessonId, visible, handleVisible }) {
   const [values, setValues] = useState({
@@ -20,7 +21,10 @@ function Test({ lessonId, visible, handleVisible }) {
     createTestApi(newTest)
       .then((res) => {
         if (res.error) toast.error(res.error);
-        else toast.success("Create Test Success");
+        else {
+          toast.success("Create Test Success");
+          refreshPage();
+        }
       })
       .catch((error) => toast.error(error));
   };

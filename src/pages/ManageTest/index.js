@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { getLessonApi } from "../../apis/lesson";
 import { getTestsByLessonApi } from "../../apis/test";
 import { toast } from "react-toastify";
+import CreateTestForm from "../../components/CreateTestForm";
 import useQuery from "../../hooks/useQuery";
 import Header from "../../components/Header";
 import Test from "../../components/Test";
@@ -12,6 +13,11 @@ const ManageTest = () => {
   const lessonId = query.get("lessonId");
   const [lesson, setLesson] = useState();
   const [tests, setTests] = useState([]);
+
+  const [visible, setVisible] = useState(false);
+  const handleVisible = () => {
+    setVisible(!visible);
+  };
 
   useEffect(() => {
     getLessonApi(lessonId).then((res) => {
@@ -35,7 +41,12 @@ const ManageTest = () => {
     <div>
       <Header />
       <section className={`container ${styles.homeSlider}`}>
-        <h2 className={styles.homeSliderHeading}>Manage Tests</h2>
+        <div className={styles.container}>
+          <h2 className={styles.homeSliderHeading}>Manage Tests</h2>
+          <button className={styles.button} onClick={() => handleVisible()}>
+            Create test
+          </button>
+        </div>
         <h2 className={styles.lessonName}>Lesson: {lesson && lesson.name}</h2>
         <div className={styles.row}>
           {tests &&
@@ -44,6 +55,15 @@ const ManageTest = () => {
             ))}
         </div>
       </section>
+      {visible ? (
+        <CreateTestForm
+          lessonId={lessonId}
+          handleVisible={handleVisible}
+          visible={visible}
+        />
+      ) : (
+        <React.Fragment></React.Fragment>
+      )}
     </div>
   );
 };

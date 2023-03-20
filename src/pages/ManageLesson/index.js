@@ -6,8 +6,10 @@ import useQuery from "../../hooks/useQuery";
 import Lesson from "../../components/Lesson";
 import Header from "../../components/Header";
 import styles from "./ManageLesson.module.css";
+import { useNavigate } from "react-router-dom";
 
 const ManageLesson = () => {
+  const navigate = useNavigate();
   const query = useQuery();
   const courseId = query.get("courseId");
   const userId = JSON.parse(localStorage.getItem("userId"));
@@ -36,7 +38,16 @@ const ManageLesson = () => {
     <div>
       <Header />
       <section className={`container ${styles.homeSlider}`}>
-        <h2 className={styles.homeSliderHeading}>Manage Lessons</h2>
+        <div className={styles.container}>
+          <h2 className={styles.homeSliderHeading}>Manage Lessons</h2>
+          <button
+            type="button"
+            className={styles.button}
+            onClick={() => navigate(`/lessons/create?courseId=${courseId}`)}
+          >
+            Create Lesson
+          </button>
+        </div>
         <h2 className={styles.courseName}>Course: {course && course.name}</h2>
         <div className={styles.row}>
           {lessons.map((lesson, index) => (
