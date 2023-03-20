@@ -39,6 +39,12 @@
   margin-left: 20px;
 }
 
+h3:hover {
+  color: rgb(79, 68, 136);
+  opacity: 0.6;
+  cursor: pointer;
+}
+
 .lesson__cost {
   font-size: 14px;
 }

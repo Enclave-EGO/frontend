@@ -37,6 +37,7 @@
   align-self: center;
   box-shadow: 0 10px 12px 0 rgb(51 62 73 / 12%);
 }
+
 .headingSignIn {
   text-align: center;
   color: #3751fe;
@@ -44,6 +45,7 @@
   font-size: 48px;
   line-height: 56px;
 }
+
 .heading {
   color: #3751fe;
   font-size: 18px;
@@ -77,6 +79,7 @@
   color: rgb(211, 52, 52);
   font-family: Poppins;
 }
+
 .formControl {
   color: #544444;
   border: 1px solid #c1b9b9 !important;
@@ -94,6 +97,7 @@
   background: linear-gradient(180deg, #6e6ce0 0%, #4d4cad 100%);
   border-radius: 7.05133px;
 }
+
 .formRemind {
   display: flex;
   justify-content: space-between;

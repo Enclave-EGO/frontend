@@ -10,8 +10,8 @@ import { getLessonsByCourseApi } from "../../apis/lesson";
 import { getRegisterApi, registerCourseApi } from "../../apis/register";
 import { User1Avatar, User2Avatar, User3Avatar } from "../../assets";
 import Header from "../../components/Header";
-import LessonVideo from "../../components/Lesson/LessonVideo";
 import styles from "./CourseDetail.module.css";
+import LessonVideo from "../../components/Lesson/LessonVideo";
 
 const CourseDetail = () => {
   const navigate = useNavigate();
@@ -185,7 +185,14 @@ const CourseDetail = () => {
                               <LessonVideo videoId={lesson.videoId} />
                             </div>
                             <div className={styles.lesson__right}>
-                              <h3 className="lesson__name">{lesson.name}</h3>
+                              <h3
+                                className="lesson__name"
+                                onClick={() =>
+                                  navigate(`/lessons/${lesson._id}`)
+                                }
+                              >
+                                {lesson.name}
+                              </h3>
                               <div className={styles.lesson__cost}>
                                 <BsYoutube /> {lesson.videoId}
                               </div>
