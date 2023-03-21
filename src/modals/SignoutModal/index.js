@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { refreshPage } from "../../helpers";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { UserContext } from "../../App";
+import { refreshPage } from "../../helpers";
+import { toast } from "react-toastify";
 import "./SignoutModal.css";
 
 function SignoutModal({

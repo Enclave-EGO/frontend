@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { createCourseApi } from "../../apis/course";
 import { useNavigate } from "react-router-dom";
@@ -15,39 +15,28 @@ const CreateCourse = () => {
     userId: userId
   };
   const [values, setValues] = useState(initialValues);
-  const nameInputRef = useRef();
-  const costInputRef = useRef();
-  const descriptionInputRef = useRef();
-  const thumbnailInputRef = useRef();
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const clearInputsText = () => {
-    nameInputRef.current.value = "";
-    costInputRef.current.value = "";
-    descriptionInputRef.current.value = "";
-    thumbnailInputRef.current.value = "";
-  };
-
-  const submitForm = (e) => {
-    e.preventDefault();
-
-    createCourseApi(values)
+  const createCourse = (course) => {
+    createCourseApi(course)
       .then((res) => {
-        if (res.status === "fail") {
-          toast.error(res.message);
-        } else {
-          clearInputsText();
+        const { error } = res.data;
+        if (error) toast.error("Create Course Failed");
+        else {
           setValues(initialValues);
           toast.success("Create Course Success");
           navigate("/manage/courses");
         }
       })
-      .catch(() => {
-        toast.error("Create Course Fail");
-      });
+      .catch((err) => toast.error(err.response.data.error));
+  };
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    createCourse(values);
   };
 
   const renderCreateCourseForm = () => {
@@ -60,9 +49,8 @@ const CreateCourse = () => {
               <p className={styles.formForce}>*</p>
             </div>
             <input
-              className={styles.formControl}
               type="text"
-              ref={nameInputRef}
+              className={styles.formControl}
               onChange={handleChange("name")}
             />
           </div>
@@ -72,9 +60,8 @@ const CreateCourse = () => {
               <p className={styles.formForce}>*</p>
             </div>
             <input
-              className={styles.formControl}
               type="text"
-              ref={costInputRef}
+              className={styles.formControl}
               onChange={handleChange("cost")}
             />
           </div>
@@ -85,7 +72,6 @@ const CreateCourse = () => {
             </div>
             <textarea
               className={styles.formControl}
-              ref={descriptionInputRef}
               onChange={handleChange("description")}
             />
           </div>
@@ -95,9 +81,8 @@ const CreateCourse = () => {
               <p className={styles.formForce}>*</p>
             </div>
             <input
-              className={styles.formControl}
               type="text"
-              ref={thumbnailInputRef}
+              className={styles.formControl}
               onChange={handleChange("thumbnail")}
             />
           </div>

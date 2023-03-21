@@ -1,26 +1,31 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { getCourseApi } from "../../apis/course";
+import { getLessonsByCourseApi } from "../../apis/lesson";
+import { getRegisterApi, registerCourseApi } from "../../apis/register";
 import { toast } from "react-toastify";
 import { IoPricetags } from "react-icons/io5";
 import { HiOutlineFilm } from "react-icons/hi";
 import { MdDescription } from "react-icons/md";
 import { BsYoutube } from "react-icons/bs";
-import { getCourseApi } from "../../apis/course";
-import { getLessonsByCourseApi } from "../../apis/lesson";
-import { getRegisterApi, registerCourseApi } from "../../apis/register";
-import { User1Avatar, User2Avatar, User3Avatar } from "../../assets";
+import {
+  DefaultLessonImage,
+  User1Avatar,
+  User2Avatar,
+  User3Avatar
+} from "../../assets";
+import LessonVideo from "../../components/Lesson/LessonVideo";
 import Header from "../../components/Header";
 import styles from "./CourseDetail.module.css";
-import LessonVideo from "../../components/Lesson/LessonVideo";
 
 const CourseDetail = () => {
   const navigate = useNavigate();
+  const userId = JSON.parse(localStorage.getItem("userId"));
   const { courseId } = useParams();
   const [course, setCourse] = useState({});
   const [register, setRegister] = useState(false);
   const [toggle, setToggle] = useState("description");
   const [lessons, setLessons] = useState([]);
-  const userId = JSON.parse(localStorage.getItem("userId"));
 
   const goToCourseDetail = () => {};
 
@@ -28,36 +33,48 @@ const CourseDetail = () => {
     setRegister(!register);
   };
 
-  const getRegister = () => {
-    const userId = JSON.parse(localStorage.getItem("userId"));
+  const getCourse = (courseId) => {
+    getCourseApi(courseId)
+      .then((res) => {
+        const { error, data } = res.data;
+        if (error) toast.error("Get Course Failed");
+        else setCourse(data);
+      })
+      .catch(() => toast.error("Get Course Failed"));
+  };
 
+  const getRegister = () => {
     getRegisterApi({ userId, courseId })
       .then((res) => {
-        if (res.error) toast.error(res.message);
-        else setRegister(Boolean(res.data));
+        const { error, data } = res.data;
+        if (error) toast.error("Get Registered Courses Failed");
+        else setRegister(Boolean(data));
       })
-      .catch((error) => toast.error(error));
+      .catch(() => toast.error("Get Registered Courses Failed"));
   };
 
   const getLessons = () => {
     getLessonsByCourseApi(courseId)
       .then((res) => {
-        if (res.data) setLessons(res.data);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Lessons Failed");
+        else setLessons(data);
       })
-      .catch((error) => error);
+      .catch(() => toast.error("Get Lessons Failed"));
   };
 
   const registerNewCourse = (userId, courseId) => {
     if (userId) {
       registerCourseApi({ userId, courseId })
-        .then((data) => {
-          if (data.error) toast.error(data.message);
+        .then((res) => {
+          const { error } = res.data;
+          if (error) toast.error("Register Course Failed");
           else {
             handleRegister();
-            toast.success("Register Success");
+            toast.success("Register Course Success");
           }
         })
-        .catch((error) => toast.error(error));
+        .catch(() => toast.error(err.response.data.error));
     } else {
       navigate("/signin");
     }
@@ -67,9 +84,8 @@ const CourseDetail = () => {
     if (userId) {
       registerNewCourse(userId, courseId);
       setRegister(!register);
-      // navigate("/");
     } else {
-      toast.info("You must sign in before");
+      toast.info("You Must Signin Before");
       navigate("/signin");
     }
   };
@@ -95,13 +111,7 @@ const CourseDetail = () => {
   };
 
   useEffect(() => {
-    getCourseApi(courseId).then((res) => {
-      if (res.error) {
-        setError(res.error);
-      } else {
-        setCourse(res.data);
-      }
-    });
+    getCourse(courseId);
     getRegister();
     getLessons();
   }, []);
@@ -177,19 +187,28 @@ const CourseDetail = () => {
                     <p className={styles.description_header}>{course.name}</p>
                     <p className={styles.description}>{course.description}</p>
                     <div className={styles.row}>
-                      {register &&
-                        lessons &&
+                      {lessons &&
                         lessons.map((lesson, index) => (
                           <div key={index} className={styles.listLesson}>
                             <div className={styles.lesson__left}>
-                              <LessonVideo videoId={lesson.videoId} />
+                              {register ? (
+                                <LessonVideo videoId={lesson.videoId} />
+                              ) : (
+                                <img
+                                  className={styles.defaultLessonImage}
+                                  src={DefaultLessonImage}
+                                  alt=""
+                                />
+                              )}
                             </div>
                             <div className={styles.lesson__right}>
                               <h3
                                 className="lesson__name"
-                                onClick={() =>
-                                  navigate(`/lessons/${lesson._id}`)
-                                }
+                                onClick={(event) => {
+                                  if (register)
+                                    navigate(`/lessons/${lesson._id}`);
+                                  else event.preventDefault();
+                                }}
                               >
                                 {lesson.name}
                               </h3>

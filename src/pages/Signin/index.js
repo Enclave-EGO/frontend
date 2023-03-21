@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { updatePageTitle } from "../../helpers";
 import { PageTitle } from "../../constants";
 import { Link, useNavigate } from "react-router-dom";
-import { signInAPI } from "../../apis/user";
+import { signinApi } from "../../apis/user";
 import { toast } from "react-toastify";
 import { AppLogo } from "../../assets";
 import styles from "./Signin.module.css";
@@ -11,34 +11,38 @@ function Signin() {
   const navigate = useNavigate();
   const [values, setValues] = useState({
     username: "",
-    password: "",
-    error: ""
+    password: ""
   });
-  const { username, password, error } = values;
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
+  const signin = (values) => {
+    signinApi(values)
+      .then((res) => {
+        const { error, data } = res.data;
+        if (error) toast.error("Sign In Failed");
+        else {
+          localStorage.setItem("signin_token", JSON.stringify(data.token));
+          localStorage.setItem("userId", JSON.stringify(data._id));
+          localStorage.setItem("role", JSON.stringify(data.role));
+
+          const role = data.role;
+          if (role === 0) {
+            navigate("/manage/courses");
+          } else {
+            navigate("/");
+          }
+          toast.success("Sign In Success");
+        }
+      })
+      .catch((err) => toast.error(err.response.data.error));
+  };
+
   const submitForm = (event) => {
     event.preventDefault();
-
-    signInAPI({ username, password }).then((res) => {
-      if (res.error) {
-        toast.error(res.error);
-      } else {
-        localStorage.setItem("signin_token", JSON.stringify(res.data.token));
-        localStorage.setItem("userId", JSON.stringify(res.data._id));
-        localStorage.setItem("role", JSON.stringify(res.data.role));
-        const role = res.data.role;
-        toast.success("Sign In Success");
-        if (role === 0) {
-          navigate("/manage/courses");
-        } else {
-          navigate("/");
-        }
-      }
-    });
+    signin(values);
   };
 
   useEffect(() => updatePageTitle(PageTitle.SIGNIN), []);
@@ -53,8 +57,8 @@ function Signin() {
         <div className={styles.formGroup}>
           <label className={styles.formLabel}>Username</label>
           <input
-            className={styles.formControl}
             type="text"
+            className={styles.formControl}
             placeholder="Enter username"
             onChange={handleChange("username")}
           />
@@ -63,8 +67,8 @@ function Signin() {
         <div className={styles.formGroup}>
           <label className={styles.formLabel}>Password</label>
           <input
-            className={styles.formControl}
             type="password"
+            className={styles.formControl}
             placeholder="Enter password"
             onChange={handleChange("password")}
           />

@@ -1,42 +1,54 @@
 import { useRef, useEffect, useState } from "react";
-import Countdown from "react-countdown";
-import { useParams } from "react-router";
-import { toast } from "react-toastify";
+import { useNavigate, useParams } from "react-router";
 import { getTestDetailApi } from "../../apis/test";
 import { submitTestApi } from "../../apis/testResult";
+import { toast } from "react-toastify";
+import Countdown from "react-countdown";
+import Header from "../../components/Header";
 import styles from "./Test.module.css";
 
 function Test() {
+  const navigate = useNavigate();
   const startDate = useRef(Date.now());
-
   const { testId } = useParams();
-  const [testDetail, setTestDetail] = useState({
-    _id: testId,
-    content: "Test",
-    timeLimit: 60,
-    questions: []
-  });
-
+  const [testDetail, setTestDetail] = useState();
+  const [questions, setQuestions] = useState([]);
   const [results, setResults] = useState({});
   const [checked, setChecked] = useState({});
 
   const getTestDetail = () => {
-    getTestDetailApi(testId).then((res) => {
-      if (res.error) {
-        toast.error(res.message);
-      } else {
-        const test = res.data;
-        setTestDetail(test);
+    getTestDetailApi(testId)
+      .then((res) => {
+        const { error, data } = res.data;
+        if (error) toast.error("Get Test Failed");
+        else {
+          const test = data;
+          setTestDetail(data);
+          setQuestions(data.questions);
 
-        const initResults = test.questions.map((question) => ({
-          questionId: question._id,
-          answers: []
-        }));
+          const initResults = test.questions.map((question) => ({
+            questionId: question._id,
+            answers: []
+          }));
 
-        setChecked({ ...Array(test.questions.length).fill([]) });
-        setResults({ ...initResults });
-      }
-    });
+          setChecked({ ...Array(test.questions.length).fill([]) });
+          setResults({ ...initResults });
+        }
+      })
+      .catch(() => toast.error("Get Test Failed"));
+  };
+
+  const submitTest = (test) => {
+    submitTestApi(test)
+      .then((res) => {
+        const { error } = res.data;
+        if (error) toast.error("Submit Test Failed");
+        else {
+          toast.success("Submit Test Success");
+          navigate(`/test-results/${testId}`);
+        }
+      })
+      .catch((err) => toast.error(err.response.data.error));
   };
 
   const handleChecked = (id, isMultiChoice, index) => {
@@ -68,13 +80,7 @@ function Test() {
       userId: userId,
       results: Object.values(results)
     };
-
-    submitTestApi(newTestResult)
-      .then((data) => {
-        if (data.error) toast.error(data.message);
-        else toast.success("Submit test success");
-      })
-      .catch(() => toast.error("Submit test failed"));
+    submitTest(newTestResult);
   };
 
   const defaultRenderer = ({ hours, minutes, seconds, completed }) => {
@@ -95,21 +101,25 @@ function Test() {
   return (
     <div className={styles.home}>
       <section className={`container ${styles.homeSlider}`}>
+        <Header />
+        <br />
         <h2>Test</h2>
-        <div className={styles.countdown}>
-          <Countdown
-            renderer={defaultRenderer}
-            date={startDate.current + testDetail.timeLimit * 60 * 1000}
-            key={startDate.current + testDetail.timeLimit * 60 * 1000}
-          />
-        </div>
+        {questions.length != 0 && (
+          <div className={styles.countdown}>
+            <Countdown
+              renderer={defaultRenderer}
+              date={startDate.current + testDetail.timeLimit * 60 * 1000}
+              key={startDate.current + testDetail.timeLimit * 60 * 1000}
+            />
+          </div>
+        )}
         <div className={styles.row}>
           {testDetail &&
             testDetail.questions?.map((question, index) => (
               <div className={styles.question_form}>
                 <div className={styles.question}>
                   <span className={styles.content}>
-                    Question {index}. {question.content}
+                    Question {index + 1}: {question.content}
                   </span>
                   <span className={styles.score}>Score: {question.score}</span>
                 </div>
@@ -136,14 +146,16 @@ function Test() {
               </div>
             ))}
         </div>
-        <div>
-          <button
-            onClick={() => handleSubmitTest()}
-            className={styles.btnSubmit}
-          >
-            Submit test
-          </button>
-        </div>
+        {questions.length != 0 && (
+          <div>
+            <button
+              onClick={() => handleSubmitTest()}
+              className={styles.btnSubmit}
+            >
+              Submit test
+            </button>
+          </div>
+        )}
       </section>
     </div>
   );

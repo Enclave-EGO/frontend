@@ -21,7 +21,7 @@ const Header = () => {
         <Link to="/">
           <span className={styles.button}>Home</span>
         </Link>
-        <Link to="/my-courses">
+        <Link to="/courses/my-courses">
           <span className={styles.button}>My courses</span>
         </Link>
       </div>
@@ -35,8 +35,8 @@ const Header = () => {
           <div className={`${styles.headerButton} ml-4`}>
             <div onClick={handleClickAvatarImage}>
               <img
-                src={DEFAULT_USER_AVATAR}
                 alt=""
+                src={DEFAULT_USER_AVATAR}
                 className={styles.avatarImage}
               />
             </div>

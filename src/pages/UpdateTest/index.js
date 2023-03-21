@@ -1,39 +1,49 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useNavigate, useParams } from "react-router-dom";
 import { getTestDetailApi, updateTestApi } from "../../apis/test";
+import { toast } from "react-toastify";
 import styles from "./UpdateTest.module.css";
 
 const UpdateTest = () => {
   const { testId } = useParams();
+  const navigate = useNavigate();
   const initialValues = {
     timeLimit: 0,
     description: ""
   };
   const [values, setValues] = useState(initialValues);
 
-  const getOldTestData = () => {
-    getTestDetailApi(testId).then((data) => {
-      setValues(data.data);
-    });
-  };
-
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const submitForm = (e) => {
-    e.preventDefault();
-
-    updateTestApi(testId, values)
+  const getOldTestData = (testId) => {
+    getTestDetailApi(testId)
       .then((res) => {
-        if (res.error) {
-          toast.error(res.message);
-        } else {
+        const { error, data } = res.data;
+        if (error) toast.error("Get Test Failed");
+        else setValues(data);
+      })
+      .catch(() => toast.error("Get Test Failed"));
+  };
+
+  const updateTest = (testId, test) => {
+    updateTestApi(testId, test)
+      .then((res) => {
+        const { error } = res.data;
+        if (error) toast.error("Update Test Failed");
+        else {
           toast.success("Update Test Success");
+          // Back previous page
+          navigate(-1);
         }
       })
-      .catch((error) => toast.error("Update Test Fail"));
+      .catch((err) => toast.error(err.response.data.error));
+  };
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    updateTest(testId, values);
   };
 
   const renderUpdateTestForm = () => {
@@ -75,7 +85,7 @@ const UpdateTest = () => {
   };
 
   useEffect(() => {
-    getOldTestData();
+    getOldTestData(testId);
   }, []);
 
   return (

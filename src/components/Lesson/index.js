@@ -10,9 +10,9 @@ import LessonVideo from "./LessonVideo";
 import styles from "./Lesson.module.css";
 
 function Lesson({ lesson, index }) {
+  const navigate = useNavigate();
   const lessonId = lesson._id;
   const role = JSON.parse(localStorage.getItem("role"));
-  const navigate = useNavigate();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   return (

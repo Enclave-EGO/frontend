@@ -1,18 +1,16 @@
-import { useEffect, useState, useRef } from "react";
-import { updateLessonApi, getLessonApi } from "../../apis/lesson";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { getCourseApi } from "../../apis/course";
-import { useLocation, useParams } from "react-router-dom";
+import { updateLessonApi, getLessonApi } from "../../apis/lesson";
 import { toast } from "react-toastify";
+import useQuery from "../../hooks/useQuery";
 import styles from "./UpdateLesson.module.css";
 
 const UpdateLesson = () => {
-  function useQuery() {
-    return new URLSearchParams(useLocation().search);
-  }
-
   const query = useQuery();
   const courseId = query.get("courseId");
   const { lessonId } = useParams();
+  const navigate = useNavigate();
 
   const [values, setValues] = useState({
     name: "",
@@ -22,15 +20,38 @@ const UpdateLesson = () => {
   });
   const [course, setCourse] = useState();
 
-  const getCourse = () => {
-    getCourseApi(courseId).then((res) => {
-      setCourse(res.data);
-    });
+  const getCourse = (courseId) => {
+    getCourseApi(courseId)
+      .then((res) => {
+        const { error, data } = res.data;
+        if (error) toast.error("Get Course Failed");
+        else setCourse(data);
+      })
+      .catch(() => toast.error("Get Course Failed"));
   };
-  const getLesson = () => {
-    getLessonApi(lessonId).then((res) => {
-      setValues(res.data);
-    });
+
+  const getLesson = (lessonId) => {
+    getLessonApi(lessonId)
+      .then((res) => {
+        const { error, data } = res.data;
+        if (error) toast.error("Get Lesson Failed");
+        else setValues(data);
+      })
+      .catch(() => toast.error("Get Lesson Failed"));
+  };
+
+  const updateLesson = (lessonId, values) => {
+    updateLessonApi(lessonId, values)
+      .then((res) => {
+        const { error } = res.data;
+        if (error) toast.error("Update Lesson Failed");
+        else {
+          toast.success("Update Lesson Success");
+          // Back previous page
+          navigate(-1);
+        }
+      })
+      .catch((err) => toast.error(err.response.data.error));
   };
 
   const handleChange = (name) => (event) => {
@@ -39,24 +60,12 @@ const UpdateLesson = () => {
 
   const submitForm = (e) => {
     e.preventDefault();
-
-    updateLessonApi(lessonId, values)
-      .then((res) => {
-        if (res.status === "fail") {
-          toast.error(res.message);
-        } else {
-          toast.success("Update Lesson Success");
-        }
-      })
-      .catch(() => {
-        toast.error("Update Lesson Fail");
-      });
+    updateLesson(lessonId, values);
   };
 
   useEffect(() => {
     getCourse(courseId);
     getLesson(lessonId);
-    window.scrollTo(0, 0);
   }, [lessonId]);
 
   const renderUpdateLessonForm = () => {
@@ -68,8 +77,8 @@ const UpdateLesson = () => {
               <p className={styles.formLabel}>Name</p>
             </div>
             <input
-              className={styles.formControl}
               type="text"
+              className={styles.formControl}
               value={values?.name}
               onChange={handleChange("name")}
             />
@@ -79,8 +88,8 @@ const UpdateLesson = () => {
               <p className={styles.formLabel}>Video Id</p>
             </div>
             <input
-              className={styles.formControl}
               type="text"
+              className={styles.formControl}
               value={values?.videoId}
               onChange={handleChange("videoId")}
             />

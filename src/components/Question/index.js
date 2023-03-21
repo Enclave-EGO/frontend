@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState, Fragment } from "react";
 import { toast } from "react-toastify";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -11,6 +11,7 @@ import {
 import { questionReducer } from "../../reducers";
 import styles from "./Question.module.css";
 import DeleteModal from "../../modals/DeleteModal";
+import { refreshPage } from "../../helpers";
 
 function Question({ question, testId }) {
   const [listCorrect, setListCorrect] = useState([]);
@@ -25,12 +26,39 @@ function Question({ question, testId }) {
         testId: testId,
         answers: []
       };
-
   const [values, dispatch] = useReducer(questionReducer, initialValue);
 
   const getListCorrect = () => {
     const corrects = question.answers.map((answer) => answer.isCorrect);
     setListCorrect(corrects);
+  };
+
+  const updateQuesion = (questions, _id) => {
+    updateQuesionApi(questions, _id)
+      .then((res) => {
+        const { error } = res.data;
+        if (error) toast.error("Update Question Failed");
+        else {
+          question = values;
+          toast.success("Update Question Success");
+          refreshPage();
+        }
+      })
+      .catch((err) => toast.error(err.response.data.error));
+  };
+
+  const createQuestion = (questions) => {
+    createQuestionApi(questions)
+      .then((res) => {
+        const { error, data } = res.data;
+        if (error) toast.error("Create Question Failed");
+        else {
+          question = { ...values, _id: data._id };
+          toast.success("Create Question Success");
+          refreshPage();
+        }
+      })
+      .catch((err) => toast.error(err.response.data.error));
   };
 
   const handleChangeCorrect = () => {
@@ -62,26 +90,9 @@ function Question({ question, testId }) {
     };
     if (question._id) {
       const _id = question._id;
-
-      updateQuesionApi(questions, _id)
-        .then((res) => {
-          if (res.error) toast.error(res.message);
-          else {
-            toast.success("Update question success");
-            question = values;
-          }
-        })
-        .catch(() => toast.error("Update question failed"));
+      updateQuesion(questions, _id);
     } else {
-      createQuestionApi(questions)
-        .then((res) => {
-          if (res.error) toast.error(res.message);
-          else {
-            toast.success("Create question success");
-            question = { ...values, _id: res.data._id };
-          }
-        })
-        .catch(() => toast.error("Create question failed"));
+      createQuestion(questions);
     }
   };
 
@@ -124,7 +135,7 @@ function Question({ question, testId }) {
       </div>
       <div className={styles.answers}>
         {values.answers.map((answer, index) => (
-          <>
+          <Fragment>
             <div className={styles.answer_form} key={answer._id}>
               <input
                 type={values.isMultiChoice ? "checkbox" : "radio"}
@@ -135,8 +146,8 @@ function Question({ question, testId }) {
                 checked={listCorrect[index]}
               />
               <input
-                className={styles.text}
                 type="text"
+                className={styles.text}
                 placeholder="Enter new answer"
                 value={values.answers[index]?.content}
                 onChange={(event) =>
@@ -151,7 +162,7 @@ function Question({ question, testId }) {
                 <BsCheck2 className={styles.answer_correct_icon} />
               )}
             </div>
-          </>
+          </Fragment>
         ))}
       </div>
       <div className={styles.formAction}>
@@ -160,7 +171,7 @@ function Question({ question, testId }) {
             className={styles.icons}
             onClick={() => handleClick("add-answer")}
           />
-          <span>Add answer</span>
+          <span onClick={() => handleClick("add-answer")}>Add answer</span>
         </div>
         <div className={styles.multiChoice}>
           <input

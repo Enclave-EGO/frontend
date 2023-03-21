@@ -1,12 +1,12 @@
+import { useEffect, useState, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { getLessonApi } from "../../apis/lesson";
-import React, { useEffect, useState } from "react";
-import CreateTestForm from "../../components/CreateTestForm";
-import LessonVideo from "./LessonVideo";
-import styles from "./LessonDetail.module.css";
 import { getTestsByLessonApi } from "../../apis/test";
 import Test from "../../components/Test";
 import Header from "../../components/Header";
+import CreateTestForm from "../../components/CreateTestForm";
+import LessonVideo from "./LessonVideo";
+import styles from "./LessonDetail.module.css";
 
 const LessonDetail = () => {
   const role = JSON.parse(localStorage.getItem("role"));
@@ -20,14 +20,29 @@ const LessonDetail = () => {
     setVisible(!visible);
   };
 
-  useEffect(() => {
-    getLessonApi(lessonId).then((res) => {
-      setLesson(res.data);
-    });
+  const getLesson = () => {
+    getLessonApi(lessonId)
+      .then((res) => {
+        const { error, data } = res.data;
+        if (error) toast.error("Get Lesson Failed");
+        else setLesson(data);
+      })
+      .catch(() => toast.error("Get Lesson Failed"));
+  };
 
-    getTestsByLessonApi(lessonId).then((res) => {
-      setTests(res.data.tests);
-    });
+  const getTestsByLesson = () => {
+    getTestsByLessonApi(lessonId)
+      .then((res) => {
+        const { error, data } = res.data;
+        if (error) toast.error("Get Tests Failed");
+        else setTests(data.tests);
+      })
+      .catch(() => toast.error("Get Tests Failed"));
+  };
+
+  useEffect(() => {
+    getLesson(lessonId);
+    getTestsByLesson(lessonId);
   }, [lessonId]);
 
   return (
@@ -121,7 +136,7 @@ const LessonDetail = () => {
                       visible={visible}
                     />
                   ) : (
-                    <React.Fragment></React.Fragment>
+                    <Fragment />
                   )}
                 </>
               )}

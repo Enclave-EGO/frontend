@@ -1,70 +1,47 @@
-export const getLessonApi = (lessonId) => {
-  const token = JSON.parse(localStorage.getItem("signin_token"));
+import httpRequest from "./axiosConfig";
+import { getSigninToken } from "../helpers";
 
-  return fetch(`/lessons/${lessonId}`, {
-    method: "GET",
+export const getLessonApi = (lessonId) => {
+  const token = getSigninToken();
+  return httpRequest.get(`/lessons/${lessonId}`, {
     headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token
+      Authorization: `Bearer ${token}`
     }
-  })
-    .then((res) => res.json())
-    .catch((err) => console.log(err));
+  });
 };
 
 export const getLessonsByCourseApi = (courseId) => {
-  const token = JSON.parse(localStorage.getItem("signin_token"));
-
-  return fetch(`/lessons?courseId=${courseId}`, {
-    method: "GET",
+  const token = getSigninToken();
+  return httpRequest.get(`/lessons?courseId=${courseId}`, {
     headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token
+      Authorization: `Bearer ${token}`
     }
-  })
-    .then((res) => res.json())
-    .catch((err) => console.log(err));
+  });
 };
 
 export const createLessonApi = (lesson) => {
-  const token = JSON.parse(localStorage.getItem("signin_token"));
-  return fetch(`/lessons/`, {
-    method: "POST",
+  const token = getSigninToken();
+  return httpRequest.post("/lessons", JSON.stringify(lesson), {
     headers: {
-      "Content-type": "Application/json",
       Authorization: `Bearer ${token}`
-    },
-    body: JSON.stringify(lesson)
-  })
-    .then((res) => res.json())
-    .catch((err) => console.log(err));
+    }
+  });
 };
 
-export const updateLessonApi = (lessonId, lessonInfo) => {
-  const token = JSON.parse(localStorage.getItem("signin_token"));
-
-  return fetch(`/lessons/${lessonId}`, {
-    method: "PATCH",
+export const updateLessonApi = (lessonId, lesson) => {
+  const token = getSigninToken();
+  return httpRequest.patch(`/lessons/${lessonId}`, JSON.stringify(lesson), {
     headers: {
-      "Content-type": "Application/json",
       Authorization: `Bearer ${token}`
-    },
-    body: JSON.stringify(lessonInfo)
-  })
-    .then((res) => res.json())
-    .catch((err) => console.log(err));
+    }
+  });
 };
 
 export const deleteLessonApi = (lessonId) => {
-  const token = JSON.parse(localStorage.getItem("signin_token"));
-
-  return fetch(`/lessons/${lessonId}`, {
-    method: "DELETE",
+  const token = getSigninToken();
+  return httpRequest.delete(`/lessons/${lessonId}`, {
     headers: {
-      "Content-type": "Application/json",
       Authorization: `Bearer ${token}`
     }
-  })
-    .then((res) => res.json())
-    .catch((error) => error);
+  });
 };

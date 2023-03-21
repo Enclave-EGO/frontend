@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { updatePageTitle } from "../../helpers";
 import { PageTitle } from "../../constants";
-import { checkValidTokenAPI } from "../../apis/user";
+import { checkValidTokenApi } from "../../apis/user";
 import { getCoursesApi } from "../../apis/course";
 import {
   getMyNotRegisteredCoursesApi,
   getMyRegisteredCoursesApi
 } from "../../apis/register";
+import { toast } from "react-toastify";
 import { Banner } from "../../assets";
 import Header from "../../components/Header";
 import Course from "../../components/Course";
@@ -21,24 +22,33 @@ function Home() {
   const [myNotRegisteredCourses, setMyNotRegisteredCourses] = useState([]);
 
   const loadAllCourses = () => {
-    getCoursesApi().then((res) => {
-      if (res.error) toast.error("Load all courses failed");
-      else setAllCourses(res.data);
-    });
+    getCoursesApi()
+      .then((res) => {
+        const { error, data } = res.data;
+        if (error) toast.error("Get Courses Failed");
+        else setAllCourses(data);
+      })
+      .catch(() => toast.error("Get Courses Failed"));
   };
 
   const loadMyRegisteredCourses = () => {
-    getMyRegisteredCoursesApi(userId).then((res) => {
-      if (res.error) toast.error("Load my courses failed");
-      else setMyRegisteredCourses(res.data);
-    });
+    getMyRegisteredCoursesApi(userId)
+      .then((res) => {
+        const { error, data } = res.data;
+        if (error) toast.error("Get Registered Courses Failed");
+        else setMyRegisteredCourses(data);
+      })
+      .catch(() => toast.error("Get Registered Courses Failed"));
   };
 
   const loadMyNotRegisteredCourses = () => {
-    getMyNotRegisteredCoursesApi(userId).then((res) => {
-      if (res.error) toast.error("Load other courses failed");
-      else setMyNotRegisteredCourses(res.data);
-    });
+    getMyNotRegisteredCoursesApi(userId)
+      .then((res) => {
+        const { error, data } = res.data;
+        if (error) toast.error("Get Other Courses Failed");
+        else setMyNotRegisteredCourses(data);
+      })
+      .catch(() => toast.error("Get Other Courses Failed"));
   };
 
   useEffect(() => {
@@ -48,8 +58,10 @@ function Home() {
 
   useEffect(() => {
     if (token) {
-      const checkValidToken = async () => await checkValidTokenAPI(token);
-      checkValidToken().then((res) => setIsLoggedIn(res.data.data));
+      const checkValidToken = async () => await checkValidTokenApi(token);
+      checkValidToken()
+        .then((res) => setIsLoggedIn(res.data.data))
+        .catch((err) => toast.error(err.message));
     }
   }, []);
 
@@ -66,7 +78,7 @@ function Home() {
     <div className={styles.home}>
       <Header />
       <section className={`container_fluid ${styles.homeBanner}`}>
-        <img src={Banner} alt=""></img>
+        <img src={Banner} alt="" />
       </section>
       <section className={`container ${styles.homeSlider}`}>
         <h2>My Courses</h2>

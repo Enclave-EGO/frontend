@@ -10,24 +10,32 @@ import styles from "./TestResult.module.css";
 function TestResult() {
   const { testId } = useParams();
   const userId = JSON.parse(localStorage.getItem("userId"));
-
   const [testDetail, setTestDetail] = useState();
   const [testResult, setTestResult] = useState();
 
   const getTestDetail = () => {
-    getTestDetailApi(testId).then((res) => {
-      if (res.error) toast.error(res.message);
-      else setTestDetail(res.data);
-    });
+    getTestDetailApi(testId)
+      .then((res) => {
+        const { error, data } = res.data;
+        if (error) toast.error("Get Test Failed");
+        else setTestDetail(data);
+      })
+      .catch(() => toast.error("Get Test Failed"));
+  };
 
-    getTestResultApi(userId, testId).then((res) => {
-      if (res.error) toast.error(res.message);
-      else setTestResult(res.data);
-    });
+  const getTestResult = () => {
+    getTestResultApi(userId, testId)
+      .then((res) => {
+        const { error, data } = res.data;
+        if (error) toast.error("Get Test Result Failed");
+        else setTestResult(data);
+      })
+      .catch(() => toast.error("Get Test Result Failed"));
   };
 
   useEffect(() => {
     getTestDetail();
+    getTestResult();
   }, []);
 
   return (

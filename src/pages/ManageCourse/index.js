@@ -1,24 +1,28 @@
 import { useState, useEffect } from "react";
 import { getCoursesByUserApi } from "../../apis/course";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Course from "../../components/Course";
 import Header from "../../components/Header";
 import styles from "./ManageCourse.module.css";
-import { useNavigate } from "react-router-dom";
 
 const ManageCourse = () => {
   const navigate = useNavigate();
   const userId = JSON.parse(localStorage.getItem("userId"));
   const [courses, setCourses] = useState([]);
 
+  const getCoursesByUser = (userId) => {
+    getCoursesByUserApi(userId)
+      .then((res) => {
+        const { error, data } = res.data;
+        if (error) toast.error("Get Courses Failed");
+        else setCourses(data);
+      })
+      .catch(() => toast.error("Get Courses Failed"));
+  };
+
   useEffect(() => {
-    getCoursesByUserApi(userId).then((res) => {
-      if (res.error) {
-        toast.error(res.message);
-      } else {
-        setCourses(res.data);
-      }
-    });
+    getCoursesByUser(userId);
   }, []);
 
   return (

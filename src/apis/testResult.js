@@ -1,28 +1,20 @@
-export const submitTestApi = (newTestResult) => {
-  const token = JSON.parse(localStorage.getItem("signin_token"));
+import httpRequest from "./axiosConfig";
+import { getSigninToken } from "../helpers";
 
-  return fetch(`/test-results`, {
-    method: "POST",
+export const submitTestApi = (testResult) => {
+  const token = getSigninToken();
+  return httpRequest.post(`/test-results`, JSON.stringify(testResult), {
     headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token
-    },
-    body: JSON.stringify(newTestResult)
-  })
-    .then((res) => res.json())
-    .catch((err) => err);
+      Authorization: `Bearer ${token}`
+    }
+  });
 };
 
 export const getTestResultApi = (userId, testId) => {
-  const token = JSON.parse(localStorage.getItem("signin_token"));
-
-  return fetch(`/test-results?userId=${userId}&testId=${testId}`, {
-    method: "GET",
+  const token = getSigninToken();
+  return httpRequest.get(`/test-results?userId=${userId}&testId=${testId}`, {
     headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token
+      Authorization: `Bearer ${token}`
     }
-  })
-    .then((res) => res.json())
-    .catch((err) => err);
+  });
 };

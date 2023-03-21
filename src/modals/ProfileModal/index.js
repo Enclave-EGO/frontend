@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import SignoutModal from "../SignoutModal";
 import { CgProfile } from "react-icons/cg";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { IoLogOutOutline } from "react-icons/io5";
+import SignoutModal from "../SignoutModal";
 import "./ProfileModal.css";
 
 function ProfileModal({ setOpenProfileModal }) {

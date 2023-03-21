@@ -1,11 +1,12 @@
-import { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { getCourseApi, updateCourseApi } from "../../apis/course";
+import { toast } from "react-toastify";
 import styles from "./UpdateCourse.module.css";
 
 const UpdateCourse = () => {
   const { courseId } = useParams();
+  const navigate = useNavigate();
   const initialValues = {
     name: "",
     cost: "",
@@ -14,28 +15,37 @@ const UpdateCourse = () => {
   };
   const [values, setValues] = useState(initialValues);
 
-  const getOldCourseData = () => {
-    getCourseApi(courseId).then((res) => {
-      setValues(res.data);
-    });
-  };
-
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const submitForm = (e) => {
-    e.preventDefault();
-
-    updateCourseApi(courseId, values)
+  const getOldCourseData = (courseId) => {
+    getCourseApi(courseId)
       .then((res) => {
-        if (res.error) {
-          toast.error(res.message);
-        } else {
+        const { error, data } = res.data;
+        if (error) toast.error("Get Course Failed");
+        else setValues(data);
+      })
+      .catch(() => toast.error("Get Course Failed"));
+  };
+
+  const updateCourse = (courseId, course) => {
+    updateCourseApi(courseId, course)
+      .then((res) => {
+        const { error } = res.data;
+        if (error) toast.error("Update Course Failed");
+        else {
           toast.success("Update Course Success");
+          // Back previous page
+          navigate(-1);
         }
       })
-      .catch(() => toast.error("Update Course Fail"));
+      .catch((err) => toast.error(err.response.data.error));
+  };
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    updateCourse(courseId, values);
   };
 
   const renderUpdateCourseForm = () => {
@@ -102,7 +112,7 @@ const UpdateCourse = () => {
   };
 
   useEffect(() => {
-    getOldCourseData();
+    getOldCourseData(courseId);
   }, []);
 
   return (
