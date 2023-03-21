@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { getCourseApi } from "../../apis/course";
+import { getLessonsByCourseApi } from "../../apis/lesson";
+import { getRegisterApi, registerCourseApi } from "../../apis/register";
 import { toast } from "react-toastify";
 import { IoPricetags } from "react-icons/io5";
 import { HiOutlineFilm } from "react-icons/hi";
 import { MdDescription } from "react-icons/md";
 import { BsYoutube } from "react-icons/bs";
-import { getCourseApi } from "../../apis/course";
-import { getLessonsByCourseApi } from "../../apis/lesson";
-import { getRegisterApi, registerCourseApi } from "../../apis/register";
 import { User1Avatar, User2Avatar, User3Avatar } from "../../assets";
 import LessonVideo from "../../components/Lesson/LessonVideo";
 import Header from "../../components/Header";
@@ -181,15 +181,23 @@ const CourseDetail = () => {
                     <p className={styles.description_header}>{course.name}</p>
                     <p className={styles.description}>{course.description}</p>
                     <div className={styles.row}>
-                      {register &&
-                        lessons &&
+                      {lessons &&
                         lessons.map((lesson, index) => (
                           <div key={index} className={styles.listLesson}>
                             <div className={styles.lesson__left}>
                               <LessonVideo videoId={lesson.videoId} />
                             </div>
                             <div className={styles.lesson__right}>
-                              <h3 className="lesson__name">{lesson.name}</h3>
+                              <h3
+                                className="lesson__name"
+                                onClick={(event) => {
+                                  if (register)
+                                    navigate(`/lessons/${lesson._id}`);
+                                  else event.preventDefault();
+                                }}
+                              >
+                                {lesson.name}
+                              </h3>
                               <div className={styles.lesson__cost}>
                                 <BsYoutube /> {lesson.videoId}
                               </div>

@@ -10,6 +10,8 @@ import LessonVideo from "./LessonVideo";
 import styles from "./Lesson.module.css";
 
 function Lesson({ lesson, index }) {
+  const lessonId = lesson._id;
+  const role = JSON.parse(localStorage.getItem("role"));
   const navigate = useNavigate();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
@@ -19,7 +21,12 @@ function Lesson({ lesson, index }) {
         <LessonVideo videoId={lesson.videoId} />
       </div>
       <div className={styles.lesson__right}>
-        <h3 className="lesson__name">{lesson.name}</h3>
+        <h3
+          className="lesson__name"
+          onClick={() => navigate(`/lessons/${lessonId}`)}
+        >
+          {lesson.name}
+        </h3>
         <div className={styles.lesson__cost}>
           <BsYoutube /> {lesson.videoId}
         </div>
@@ -27,31 +34,35 @@ function Lesson({ lesson, index }) {
           <MdDescription />
           {lesson.description}
         </p>
-        <GrEdit
-          className={styles.editIcon}
-          onClick={() => {
-            navigate(`/lessons/update/${lesson._id}`);
-          }}
-        />
-        <MdDelete
-          className={styles.deleteIcon}
-          onClick={() => setOpenDeleteModal(!openDeleteModal)}
-        />
-        <button
-          className={styles.listLessonsBtn}
-          onClick={() => {
-            navigate(`/manage/tests?lessonId=${lesson._id}`);
-          }}
-        >
-          List Tests
-        </button>
-        {openDeleteModal && (
-          <DeleteModal
-            body="Are you sure to delete this lesson?"
-            setOpenDeleteModal={setOpenDeleteModal}
-            deleteApi={deleteLessonApi}
-            deleteItemId={lesson._id}
-          />
+        {role === 0 && (
+          <div>
+            <GrEdit
+              className={styles.editIcon}
+              onClick={() => {
+                navigate(`/lessons/update/${lesson._id}`);
+              }}
+            />
+            <MdDelete
+              className={styles.deleteIcon}
+              onClick={() => setOpenDeleteModal(!openDeleteModal)}
+            />
+            <button
+              className={styles.listLessonsBtn}
+              onClick={() => {
+                navigate(`/manage/tests?lessonId=${lesson._id}`);
+              }}
+            >
+              List Tests
+            </button>
+            {openDeleteModal && (
+              <DeleteModal
+                body="Are you sure to delete this lesson?"
+                setOpenDeleteModal={setOpenDeleteModal}
+                deleteApi={deleteLessonApi}
+                deleteItemId={lesson._id}
+              />
+            )}
+          </div>
         )}
       </div>
     </div>

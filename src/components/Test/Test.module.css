@@ -107,3 +107,9 @@
   width: 140px;
   height: 100px;
 }
+
+h3:hover {
+  color: rgb(79, 68, 136);
+  opacity: 0.6;
+  cursor: pointer;
+}

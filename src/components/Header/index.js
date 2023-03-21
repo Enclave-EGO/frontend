@@ -2,16 +2,30 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { isAuth } from "../../auth/index";
 import { DEFAULT_USER_AVATAR } from "../../constants";
-import ProfileModal from "../../modals/ProfileModal";
 import logo from "../../assets/images/logo.png";
 import styles from "./Header.module.css";
+import ProfileModal from "../../modals/ProfileModal";
 
 const Header = () => {
+  const role = JSON.parse(localStorage.getItem("role"));
   const [openProfileModal, setOpenProfileModal] = useState(false);
 
   const handleClickAvatarImage = () => {
     document.body.style.overflow = openProfileModal ? "visible" : "hidden";
     setOpenProfileModal(!openProfileModal);
+  };
+
+  const renderLearnerHeader = () => {
+    return (
+      <div className={styles.headerButton}>
+        <Link to="/">
+          <span className={styles.button}>Home</span>
+        </Link>
+        <Link to="/courses/my-courses">
+          <span className={styles.button}>My courses</span>
+        </Link>
+      </div>
+    );
   };
 
   const renderList = () => {
@@ -21,8 +35,8 @@ const Header = () => {
           <div className={`${styles.headerButton} ml-4`}>
             <div onClick={handleClickAvatarImage}>
               <img
-                src={DEFAULT_USER_AVATAR}
                 alt=""
+                src={DEFAULT_USER_AVATAR}
                 className={styles.avatarImage}
               />
             </div>
@@ -55,6 +69,7 @@ const Header = () => {
             <img alt="" src={logo}></img>
           </div>
         </Link>
+        {role === 1 && <div>{renderLearnerHeader()}</div>}
         {renderList()}
       </header>
     </div>
