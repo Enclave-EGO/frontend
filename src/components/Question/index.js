@@ -11,6 +11,7 @@ import {
 import { questionReducer } from "../../reducers";
 import styles from "./Question.module.css";
 import DeleteModal from "../../modals/DeleteModal";
+import { refreshPage } from "../../helpers";
 
 function Question({ question, testId }) {
   const [listCorrect, setListCorrect] = useState([]);
@@ -41,6 +42,7 @@ function Question({ question, testId }) {
         else {
           question = values;
           toast.success("Update Question Success");
+          refreshPage();
         }
       })
       .catch(() => toast.error("Update Question Failed"));
@@ -54,6 +56,7 @@ function Question({ question, testId }) {
         else {
           question = { ...values, _id: data._id };
           toast.success("Create Question Success");
+          refreshPage();
         }
       })
       .catch(() => toast.error("Create Question Failed"));
