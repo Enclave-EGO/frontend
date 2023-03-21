@@ -2,9 +2,9 @@ name: Deploy to AWS EC2
 
 on:
   push:
-    branches: ["FT36"]
+    branches: ["main"]
   pull_request:
-    branches: ["FT36"]
+    branches: ["main"]
 
 jobs:
   deploy:
