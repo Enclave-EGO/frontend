@@ -29,7 +29,7 @@ export const updateQuesionApi = (question, questionId) => {
 
 export const deleteQuestionApi = (questionId) => {
   const token = getSigninToken();
-  return httpRequest.delete(`/questions/${questionId}`, null, {
+  return httpRequest.delete(`/questions/${questionId}`, {
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",

@@ -25,6 +25,7 @@ function Screens() {
     <Routes>
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/signin" element={<SigninPage />} />
+      <Route path="/courses/my-courses" element={<MyCoursesPage />} />
       <Route path="/courses/create" element={<CreateCoursePage />} />
       <Route path="/courses/update/:courseId" element={<UpdateCoursePage />} />
       <Route path="/courses/:courseId" element={<CourseDetailPage />} />
@@ -34,7 +35,6 @@ function Screens() {
       <Route path="/tests/update/:testId" element={<UpdateTestPage />} />
       <Route path="/tests/:testId" element={<TestPage />} />
       <Route path="/test-results/:testId" element={<TestResultPage />} />
-      <Route path="/my-courses" element={<MyCoursesPage />} />
       <Route path="/manage/courses" element={<ManageCoursePage />} />
       <Route path="/manage/lessons" element={<ManageLessonPage />} />
       <Route path="/manage/tests/:testId" element={<TestTeacherPage />} />

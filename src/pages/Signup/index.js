@@ -27,14 +27,13 @@ function Signup() {
   const signup = async (data) => {
     signupApi(data)
       .then((res) => {
-        const { error, message } = res.data;
-        if (error) toast.error(message);
+        if (res.error) toast.error("Sign Up Failed");
         else {
           toast.success("Sign Up Success");
           navigate("/signin");
         }
       })
-      .catch(() => toast.error("Sign Up Failed"));
+      .catch((err) => toast.error(err.response.data.message));
   };
 
   const submitForm = (e) => {

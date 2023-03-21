@@ -47,7 +47,7 @@ export const updateTestApi = (testId, test) => {
 
 export const deleteTestApi = (testId) => {
   const token = getSigninToken();
-  return httpRequest.delete(`/tests/${testId}`, null, {
+  return httpRequest.delete(`/tests/${testId}`, {
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",

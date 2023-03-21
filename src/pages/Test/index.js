@@ -1,9 +1,9 @@
 import { useRef, useEffect, useState } from "react";
-import Countdown from "react-countdown";
 import { useParams } from "react-router";
-import { toast } from "react-toastify";
 import { getTestDetailApi } from "../../apis/test";
 import { submitTestApi } from "../../apis/testResult";
+import { toast } from "react-toastify";
+import Countdown from "react-countdown";
 import styles from "./Test.module.css";
 
 function Test() {
@@ -23,11 +23,11 @@ function Test() {
   const getTestDetail = () => {
     getTestDetailApi(testId)
       .then((res) => {
-        if (res.error) {
-          toast.error(res.message);
-        } else {
-          const test = res.data;
-          setTestDetail(test);
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
+        else {
+          const test = data;
+          setTestDetail(data);
 
           const initResults = test.questions.map((question) => ({
             questionId: question._id,
@@ -72,9 +72,10 @@ function Test() {
     };
 
     submitTestApi(newTestResult)
-      .then((data) => {
-        if (data.error) toast.error(data.message);
-        else toast.success("Submit Rest Success");
+      .then((res) => {
+        const { error, message } = res.data;
+        if (error) toast.error(message);
+        else toast.success("Submit Test Success");
       })
       .catch(() => toast.error("Submit Test Failed"));
   };
@@ -111,7 +112,7 @@ function Test() {
               <div className={styles.question_form}>
                 <div className={styles.question}>
                   <span className={styles.content}>
-                    Question {index}. {question.content}
+                    Question {index + 1}: {question.content}
                   </span>
                   <span className={styles.score}>Score: {question.score}</span>
                 </div>

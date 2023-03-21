@@ -30,7 +30,7 @@ export const getMyRegisteredCoursesApi = (userId) => {
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
-      Authorization: `Basic ${token}`
+      Authorization: `Bearer ${token}`
     }
   });
 };

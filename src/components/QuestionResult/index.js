@@ -18,10 +18,7 @@ function QuestionResult({ question, testId }) {
   return (
     <div className={styles.question_form}>
       <div className={styles.question}>
-        <input
-          type="text"
-          value={values.content}
-        />
+        <input type="text" value={values.content} />
         <div className={styles.formScore}>
           <span>Score: </span>
           <b>{values && values.score}</b>

@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { FiTarget } from "react-icons/fi";
-import { IoMdTimer } from "react-icons/io";
-import { MdPublish } from "react-icons/md";
-import { GrEdit } from "react-icons/gr";
-import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { deleteTestApi } from "../../apis/test";
+import { GrEdit } from "react-icons/gr";
+import { IoMdTimer } from "react-icons/io";
+import { FiTarget } from "react-icons/fi";
+import { MdPublish, MdDelete } from "react-icons/md";
 import DeleteModal from "../../modals/DeleteModal";
 import styles from "./Test.module.css";
 

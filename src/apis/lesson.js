@@ -47,7 +47,7 @@ export const updateLessonApi = (lessonId, lesson) => {
 
 export const deleteLessonApi = (lessonId) => {
   const token = getSigninToken();
-  return httpRequest.delete(`/lessons/${lessonId}`, null, {
+  return httpRequest.delete(`/lessons/${lessonId}`, {
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",

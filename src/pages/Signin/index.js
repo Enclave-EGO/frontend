@@ -24,7 +24,7 @@ function Signin() {
       .then((res) => {
         const { error, data } = res.data;
         if (error) {
-          toast.error(res.message);
+          toast.success("Sign In Failed");
         } else {
           localStorage.setItem("signin_token", JSON.stringify(data.token));
           localStorage.setItem("userId", JSON.stringify(data._id));
@@ -40,7 +40,7 @@ function Signin() {
           toast.success("Sign In Success");
         }
       })
-      .catch(() => toast.error("Sign In Failed"));
+      .catch((err) => toast.error(err.response.data.message));
   };
 
   useEffect(() => updatePageTitle(PageTitle.SIGNIN), []);

@@ -24,8 +24,8 @@ function Home() {
   const loadAllCourses = () => {
     getCoursesApi()
       .then((res) => {
-        const { error, data } = res.data;
-        if (error) toast.error("Get All Courses Failed");
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
         else setAllCourses(data);
       })
       .catch(() => toast.error("Get All Courses Failed"));
@@ -34,9 +34,8 @@ function Home() {
   const loadMyRegisteredCourses = () => {
     getMyRegisteredCoursesApi(userId)
       .then((res) => {
-        const { error, data } = res.data;
-        console.log(data);
-        if (error) toast.error("Get Registered Courses Failed");
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
         else setMyRegisteredCourses(data);
       })
       .catch(() => toast.error("Get Registered Courses Failed"));
@@ -45,9 +44,8 @@ function Home() {
   const loadMyNotRegisteredCourses = () => {
     getMyNotRegisteredCoursesApi(userId)
       .then((res) => {
-        const { error, data } = res.data;
-        console.log(data);
-        if (error) toast.error("Get Not Registered Courses Failed");
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
         else setMyNotRegisteredCourses(data);
       })
       .catch(() => toast.error("Get Not Registered Courses Failed"));

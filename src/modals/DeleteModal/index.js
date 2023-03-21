@@ -14,16 +14,21 @@ function DeleteModal({
   };
 
   const handleClickOK = () => {
-    deleteApi(deleteItemId).then((res) => {
-      if (res.error) {
-        toast.error(res.message);
-      } else {
-        toast.success("Delete Success");
-        setOpenDeleteModal(false);
-        document.body.style.overflow = "visible";
-        refreshPage();
-      }
-    });
+    deleteApi(deleteItemId)
+      .then((res) => {
+        const { error, message } = res.data;
+        if (error) toast.error(message);
+        else {
+          toast.success("Delete Success");
+          setOpenDeleteModal(false);
+          document.body.style.overflow = "visible";
+          refreshPage();
+        }
+      })
+      .catch((err) => {
+        toast.error("Delete Failed");
+        toast.error(err.response.data.message);
+      });
   };
 
   return (

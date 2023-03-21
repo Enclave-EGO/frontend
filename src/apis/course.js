@@ -37,7 +37,7 @@ export const updateCourseApi = (courseId, course) => {
 
 export const deleteCourseApi = (courseId) => {
   const token = getSigninToken();
-  return httpRequest.delete(`/courses/${courseId}`, null, {
+  return httpRequest.delete(`/courses/${courseId}`, {
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",

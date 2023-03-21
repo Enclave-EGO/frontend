@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState, Fragment } from "react";
 import { toast } from "react-toastify";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -33,6 +33,32 @@ function Question({ question, testId }) {
     setListCorrect(corrects);
   };
 
+  const updateQuesion = (questions, _id) => {
+    updateQuesionApi(questions, _id)
+      .then((res) => {
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
+        else {
+          question = values;
+          toast.success("Update Question Success");
+        }
+      })
+      .catch(() => toast.error("Update Question Failed"));
+  };
+
+  const createQuestion = (questions) => {
+    createQuestionApi(questions)
+      .then((res) => {
+        const { error, message, data } = res.data;
+        if (error) toast.error(message);
+        else {
+          question = { ...values, _id: data._id };
+          toast.success("Create Question Success");
+        }
+      })
+      .catch(() => toast.error("Create Question Failed"));
+  };
+
   const handleChangeCorrect = () => {
     const newListCorrect = values.answers.map((answer, index) => {
       const id = answer._id ? answer._id : index;
@@ -59,26 +85,9 @@ function Question({ question, testId }) {
     };
     if (question._id) {
       const _id = question._id;
-
-      updateQuesionApi(questions, _id)
-        .then((res) => {
-          if (res.error) toast.error(res.message);
-          else {
-            toast.success("Update question success");
-            question = values;
-          }
-        })
-        .catch(() => toast.error("Update question failed"));
+      updateQuesion(questions, _id);
     } else {
-      createQuestionApi(questions)
-        .then((res) => {
-          if (res.error) toast.error(res.message);
-          else {
-            toast.success("Create question success");
-            question = { ...values, _id: res.data._id };
-          }
-        })
-        .catch(() => toast.error("Create question failed"));
+      createQuestion(questions);
     }
   };
 
@@ -121,7 +130,7 @@ function Question({ question, testId }) {
       </div>
       <div className={styles.answers}>
         {values.answers.map((answer, index) => (
-          <>
+          <Fragment>
             <div className={styles.answer_form} key={answer._id}>
               <input
                 type={values.isMultiChoice ? "checkbox" : "radio"}
@@ -132,8 +141,8 @@ function Question({ question, testId }) {
                 checked={listCorrect[index]}
               />
               <input
-                className={styles.text}
                 type="text"
+                className={styles.text}
                 placeholder="Enter new answer"
                 value={values.answers[index]?.content}
                 onChange={(event) =>
@@ -148,7 +157,7 @@ function Question({ question, testId }) {
                 <BsCheck2 className={styles.answer_correct_icon} />
               )}
             </div>
-          </>
+          </Fragment>
         ))}
       </div>
       <div className={styles.formAction}>
