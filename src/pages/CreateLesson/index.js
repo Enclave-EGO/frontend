@@ -22,11 +22,24 @@ const CreateLesson = () => {
   const getCourse = () => {
     getCourseApi(courseId)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Course Failed");
         else setCourse(data);
       })
-      .catch(() => toast.error("Get Course Failed"));
+      .catch((err) => toast.error(err.response.data.error));
+  };
+
+  const createLesson = (lesson) => {
+    createLessonApi(lesson)
+      .then((res) => {
+        const { error } = res.data;
+        if (error) toast.error("Create Lesson Failed");
+        else {
+          toast.success("Create Lesson Success");
+          navigate(`/manage/lessons?courseId=${courseId}`);
+        }
+      })
+      .catch((err) => toast.error(err.response.data.error));
   };
 
   const handleChange = (name) => (event) => {
@@ -35,17 +48,7 @@ const CreateLesson = () => {
 
   const submitForm = (e) => {
     e.preventDefault();
-    createLessonApi(values)
-      .then((res) => {
-        const { error, message } = res.data;
-        if (error) {
-          toast.error(message);
-        } else {
-          toast.success("Create Lesson Success");
-          navigate(`/manage/lessons?courseId=${courseId}`);
-        }
-      })
-      .catch(() => toast.error("Create Lesson Failed"));
+    createLesson(values);
   };
 
   useEffect(() => {

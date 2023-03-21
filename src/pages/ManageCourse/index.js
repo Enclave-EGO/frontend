@@ -11,14 +11,18 @@ const ManageCourse = () => {
   const userId = JSON.parse(localStorage.getItem("userId"));
   const [courses, setCourses] = useState([]);
 
-  useEffect(() => {
+  const getCoursesByUser = (userId) => {
     getCoursesByUserApi(userId)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Courses Failed");
         else setCourses(data);
       })
       .catch(() => toast.error("Get Courses Failed"));
+  };
+
+  useEffect(() => {
+    getCoursesByUser(userId);
   }, []);
 
   return (

@@ -18,8 +18,8 @@ const ManageLesson = () => {
   const getCourse = () => {
     getCourseApi(courseId)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Course Failed");
         else setCourse(data);
       })
       .catch(() => toast.error("Get Course Failed"));
@@ -28,8 +28,8 @@ const ManageLesson = () => {
   const getLessonsByCourse = () => {
     getLessonsByCourseApi(courseId)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Lessons Failed");
         else setLessons(data);
       })
       .catch(() => toast.error("Get Lessons Failed"));

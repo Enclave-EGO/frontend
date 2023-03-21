@@ -16,8 +16,8 @@ function TestResult() {
   const getTestDetail = () => {
     getTestDetailApi(testId)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Test Failed");
         else setTestDetail(data);
       })
       .catch(() => toast.error("Get Test Failed"));
@@ -26,8 +26,8 @@ function TestResult() {
   const getTestResult = () => {
     getTestResultApi(userId, testId)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Test Result Failed");
         else setTestResult(data);
       })
       .catch(() => toast.error("Get Test Result Failed"));

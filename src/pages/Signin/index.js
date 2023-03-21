@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { updatePageTitle } from "../../helpers";
 import { PageTitle } from "../../constants";
 import { Link, useNavigate } from "react-router-dom";
-import { signInApi } from "../../apis/user";
+import { signinApi } from "../../apis/user";
 import { toast } from "react-toastify";
 import { AppLogo } from "../../assets";
 import styles from "./Signin.module.css";
@@ -18,14 +18,12 @@ function Signin() {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const submitForm = (event) => {
-    event.preventDefault();
-    signInApi(values)
+  const signin = (values) => {
+    signinApi(values)
       .then((res) => {
         const { error, data } = res.data;
-        if (error) {
-          toast.error(error);
-        } else {
+        if (error) toast.error("Sign In Failed");
+        else {
           localStorage.setItem("signin_token", JSON.stringify(data.token));
           localStorage.setItem("userId", JSON.stringify(data._id));
           localStorage.setItem("role", JSON.stringify(data.role));
@@ -36,11 +34,15 @@ function Signin() {
           } else {
             navigate("/");
           }
-
           toast.success("Sign In Success");
         }
       })
       .catch((err) => toast.error(err.response.data.error));
+  };
+
+  const submitForm = (event) => {
+    event.preventDefault();
+    signin(values);
   };
 
   useEffect(() => updatePageTitle(PageTitle.SIGNIN), []);

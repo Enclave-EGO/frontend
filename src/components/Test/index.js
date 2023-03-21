@@ -16,7 +16,6 @@ function Test({ test, index }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-
     if (role === 1) {
       navigate(`/tests/${testId}`);
     } else {
@@ -27,7 +26,9 @@ function Test({ test, index }) {
   return (
     <div key={index} className={styles.listTest}>
       <div className={styles.test__right}>
-        <h3 className="test__name" onClick={handleClick}>{test.description}</h3>
+        <h3 className="test__name" onClick={handleClick}>
+          {test.description}
+        </h3>
         <div className={styles.test__cost}>
           <IoMdTimer />
           <b>Time:</b> {test.timeLimit} minutes

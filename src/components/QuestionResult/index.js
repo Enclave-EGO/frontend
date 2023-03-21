@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import { BsCheck2 } from "react-icons/bs";
 import styles from "./QuestionResult.module.css";
 

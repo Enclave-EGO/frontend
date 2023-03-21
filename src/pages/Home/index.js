@@ -24,18 +24,18 @@ function Home() {
   const loadAllCourses = () => {
     getCoursesApi()
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Courses Failed");
         else setAllCourses(data);
       })
-      .catch(() => toast.error("Get All Courses Failed"));
+      .catch(() => toast.error("Get Courses Failed"));
   };
 
   const loadMyRegisteredCourses = () => {
     getMyRegisteredCoursesApi(userId)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Registered Courses Failed");
         else setMyRegisteredCourses(data);
       })
       .catch(() => toast.error("Get Registered Courses Failed"));
@@ -44,11 +44,11 @@ function Home() {
   const loadMyNotRegisteredCourses = () => {
     getMyNotRegisteredCoursesApi(userId)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Other Courses Failed");
         else setMyNotRegisteredCourses(data);
       })
-      .catch(() => toast.error("Get Not Registered Courses Failed"));
+      .catch(() => toast.error("Get Other Courses Failed"));
   };
 
   useEffect(() => {

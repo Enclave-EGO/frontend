@@ -23,8 +23,8 @@ const LessonDetail = () => {
   const getLesson = () => {
     getLessonApi(lessonId)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Lesson Failed");
         else setLesson(data);
       })
       .catch(() => toast.error("Get Lesson Failed"));
@@ -33,8 +33,8 @@ const LessonDetail = () => {
   const getTestsByLesson = () => {
     getTestsByLessonApi(lessonId)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Tests Failed");
         else setTests(data.tests);
       })
       .catch(() => toast.error("Get Tests Failed"));

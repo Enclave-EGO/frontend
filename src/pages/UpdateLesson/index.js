@@ -20,21 +20,21 @@ const UpdateLesson = () => {
   });
   const [course, setCourse] = useState();
 
-  const getCourse = () => {
+  const getCourse = (courseId) => {
     getCourseApi(courseId)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Course Failed");
         else setCourse(data);
       })
       .catch(() => toast.error("Get Course Failed"));
   };
 
-  const getLesson = () => {
+  const getLesson = (lessonId) => {
     getLessonApi(lessonId)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Lesson Failed");
         else setValues(data);
       })
       .catch(() => toast.error("Get Lesson Failed"));
@@ -43,15 +43,15 @@ const UpdateLesson = () => {
   const updateLesson = (lessonId, values) => {
     updateLessonApi(lessonId, values)
       .then((res) => {
-        const { error, message } = res.data;
-        if (error) toast.error(message);
+        const { error } = res.data;
+        if (error) toast.error("Update Lesson Failed");
         else {
           toast.success("Update Lesson Success");
           // Back previous page
           navigate(-1);
         }
       })
-      .catch(() => toast.error("Update Lesson Failed"));
+      .catch((err) => toast.error(err.response.data.error));
   };
 
   const handleChange = (name) => (event) => {

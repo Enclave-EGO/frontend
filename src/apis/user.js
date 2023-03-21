@@ -9,7 +9,7 @@ export const signupApi = (user) => {
   });
 };
 
-export const signInApi = (user) => {
+export const signinApi = (user) => {
   return httpRequest.post("/users/signin", JSON.stringify(user), {
     headers: {
       "Access-Control-Allow-Origin": "*",

@@ -8,7 +8,12 @@ import { IoPricetags } from "react-icons/io5";
 import { HiOutlineFilm } from "react-icons/hi";
 import { MdDescription } from "react-icons/md";
 import { BsYoutube } from "react-icons/bs";
-import { User1Avatar, User2Avatar, User3Avatar } from "../../assets";
+import {
+  DefaultLessonImage,
+  User1Avatar,
+  User2Avatar,
+  User3Avatar
+} from "../../assets";
 import LessonVideo from "../../components/Lesson/LessonVideo";
 import Header from "../../components/Header";
 import styles from "./CourseDetail.module.css";
@@ -29,28 +34,30 @@ const CourseDetail = () => {
   };
 
   const getCourse = (courseId) => {
-    getCourseApi(courseId).then((res) => {
-      const { error, message, data } = res.data;
-      if (error) toast.error(message);
-      else setCourse(data);
-    });
+    getCourseApi(courseId)
+      .then((res) => {
+        const { error, data } = res.data;
+        if (error) toast.error("Get Course Failed");
+        else setCourse(data);
+      })
+      .catch(() => toast.error("Get Course Failed"));
   };
 
   const getRegister = () => {
     getRegisterApi({ userId, courseId })
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Registered Courses Failed");
         else setRegister(Boolean(data));
       })
-      .catch(() => toast.error("Get Register Courses Failed"));
+      .catch(() => toast.error("Get Registered Courses Failed"));
   };
 
   const getLessons = () => {
     getLessonsByCourseApi(courseId)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Lessons Failed");
         else setLessons(data);
       })
       .catch(() => toast.error("Get Lessons Failed"));
@@ -60,15 +67,14 @@ const CourseDetail = () => {
     if (userId) {
       registerCourseApi({ userId, courseId })
         .then((res) => {
-          const { error, message } = res.data;
-          if (error) {
-            toast.error(message);
-          } else {
+          const { error } = res.data;
+          if (error) toast.error("Register Course Failed");
+          else {
             handleRegister();
-            toast.success("Register Success");
+            toast.success("Register Course Success");
           }
         })
-        .catch(() => toast.error("Register Failed"));
+        .catch(() => toast.error(err.response.data.error));
     } else {
       navigate("/signin");
     }
@@ -185,7 +191,15 @@ const CourseDetail = () => {
                         lessons.map((lesson, index) => (
                           <div key={index} className={styles.listLesson}>
                             <div className={styles.lesson__left}>
-                              <LessonVideo videoId={lesson.videoId} />
+                              {register ? (
+                                <LessonVideo videoId={lesson.videoId} />
+                              ) : (
+                                <img
+                                  className={styles.defaultLessonImage}
+                                  src={DefaultLessonImage}
+                                  alt=""
+                                />
+                              )}
                             </div>
                             <div className={styles.lesson__right}>
                               <h3

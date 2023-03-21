@@ -20,14 +20,13 @@ function Test({ lessonId, visible, handleVisible }) {
 
     createTestApi(newTest)
       .then((res) => {
-        if (res.error) {
-          toast.error(res.error);
-        } else {
+        if (res.error) toast.error("Create Test Failed");
+        else {
           toast.success("Create Test Success");
           refreshPage();
         }
       })
-      .catch(() => toast.error("Create Test Failed"));
+      .catch((err) => toast.error(err.response.data.error));
   };
 
   return (

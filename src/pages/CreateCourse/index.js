@@ -20,19 +20,23 @@ const CreateCourse = () => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const submitForm = (e) => {
-    e.preventDefault();
-    createCourseApi(values)
+  const createCourse = (course) => {
+    createCourseApi(course)
       .then((res) => {
-        if (res.data.error) {
-          toast.error(res.message);
-        } else {
+        const { error } = res.data;
+        if (error) toast.error("Create Course Failed");
+        else {
           setValues(initialValues);
           toast.success("Create Course Success");
           navigate("/manage/courses");
         }
       })
-      .catch(() => toast.error("Create Course Failed"));
+      .catch((err) => toast.error(err.response.data.error));
+  };
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    createCourse(values);
   };
 
   const renderCreateCourseForm = () => {

@@ -13,33 +13,37 @@ const UpdateTest = () => {
   };
   const [values, setValues] = useState(initialValues);
 
-  const getOldTestData = () => {
+  const handleChange = (name) => (event) => {
+    setValues({ ...values, [name]: event.target.value });
+  };
+
+  const getOldTestData = (testId) => {
     getTestDetailApi(testId)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Test Failed");
         else setValues(data);
       })
       .catch(() => toast.error("Get Test Failed"));
   };
 
-  const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
-  };
-
-  const submitForm = (e) => {
-    e.preventDefault();
-    updateTestApi(testId, values)
+  const updateTest = (testId, test) => {
+    updateTestApi(testId, test)
       .then((res) => {
-        const { error, message } = res.data;
-        if (error) toast.error(message);
+        const { error } = res.data;
+        if (error) toast.error("Update Test Failed");
         else {
           toast.success("Update Test Success");
           // Back previous page
           navigate(-1);
         }
       })
-      .catch(() => toast.error("Update Test Failed"));
+      .catch((err) => toast.error(err.response.data.error));
+  };
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    updateTest(testId, values);
   };
 
   const renderUpdateTestForm = () => {
@@ -81,7 +85,7 @@ const UpdateTest = () => {
   };
 
   useEffect(() => {
-    getOldTestData();
+    getOldTestData(testId);
   }, []);
 
   return (

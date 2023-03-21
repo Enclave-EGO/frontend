@@ -26,7 +26,6 @@ function Question({ question, testId }) {
         testId: testId,
         answers: []
       };
-
   const [values, dispatch] = useReducer(questionReducer, initialValue);
 
   const getListCorrect = () => {
@@ -37,29 +36,29 @@ function Question({ question, testId }) {
   const updateQuesion = (questions, _id) => {
     updateQuesionApi(questions, _id)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error } = res.data;
+        if (error) toast.error("Update Question Failed");
         else {
           question = values;
           toast.success("Update Question Success");
           refreshPage();
         }
       })
-      .catch(() => toast.error("Update Question Failed"));
+      .catch((err) => toast.error(err.response.data.error));
   };
 
   const createQuestion = (questions) => {
     createQuestionApi(questions)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Create Question Failed");
         else {
           question = { ...values, _id: data._id };
           toast.success("Create Question Success");
           refreshPage();
         }
       })
-      .catch(() => toast.error("Create Question Failed"));
+      .catch((err) => toast.error(err.response.data.error));
   };
 
   const handleChangeCorrect = () => {
@@ -172,7 +171,7 @@ function Question({ question, testId }) {
             className={styles.icons}
             onClick={() => handleClick("add-answer")}
           />
-          <span>Add answer</span>
+          <span onClick={() => handleClick("add-answer")}>Add answer</span>
         </div>
         <div className={styles.multiChoice}>
           <input

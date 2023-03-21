@@ -15,7 +15,11 @@ const UpdateCourse = () => {
   };
   const [values, setValues] = useState(initialValues);
 
-  const getOldCourseData = () => {
+  const handleChange = (name) => (event) => {
+    setValues({ ...values, [name]: event.target.value });
+  };
+
+  const getOldCourseData = (courseId) => {
     getCourseApi(courseId)
       .then((res) => {
         const { error, data } = res.data;
@@ -25,23 +29,23 @@ const UpdateCourse = () => {
       .catch(() => toast.error("Get Course Failed"));
   };
 
-  const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
-  };
-
-  const submitForm = (e) => {
-    e.preventDefault();
-
-    updateCourseApi(courseId, values)
+  const updateCourse = (courseId, course) => {
+    updateCourseApi(courseId, course)
       .then((res) => {
-        if (res.error) toast.error(res.message);
+        const { error } = res.data;
+        if (error) toast.error("Update Course Failed");
         else {
           toast.success("Update Course Success");
           // Back previous page
           navigate(-1);
         }
       })
-      .catch(() => toast.error("Update Course Failed"));
+      .catch((err) => toast.error(err.response.data.error));
+  };
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    updateCourse(courseId, values);
   };
 
   const renderUpdateCourseForm = () => {
@@ -108,7 +112,7 @@ const UpdateCourse = () => {
   };
 
   useEffect(() => {
-    getOldCourseData();
+    getOldCourseData(courseId);
   }, []);
 
   return (

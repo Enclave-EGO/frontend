@@ -12,8 +12,8 @@ function MyCourses() {
   const getMyRegisteredCourses = () => {
     getMyRegisteredCoursesApi(userId)
       .then((res) => {
-        const { error, message, data } = res.data;
-        if (error) toast.error(message);
+        const { error, data } = res.data;
+        if (error) toast.error("Get Courses Failed");
         else setMyRegisteredCourses(data);
       })
       .catch(() => toast.error("Get Courses Failed"));
