@@ -2,6 +2,7 @@ import httpRequest from "../configs/axiosConfig";
 import { getSigninToken } from "../helpers";
 
 export const registerCourseApi = ({ userId, courseId }) => {
+  const token = getSigninToken();
   const register = { userId, courseId };
   return httpRequest.post("/registers", JSON.stringify(register), {
     headers: {
