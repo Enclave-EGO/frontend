@@ -1,4 +1,4 @@
-import httpRequest from "./axiosConfig";
+import httpRequest from "../configs/axiosConfig";
 import { getSigninToken } from "../helpers";
 
 export const registerCourseApi = ({ userId, courseId }) => {

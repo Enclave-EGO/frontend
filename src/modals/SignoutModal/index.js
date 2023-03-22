@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../App";
+import { UserContext } from "../../contexts/UserContext";
 import { refreshPage } from "../../helpers";
 import { toast } from "react-toastify";
 import "./SignoutModal.css";

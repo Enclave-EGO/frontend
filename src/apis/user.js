@@ -1,4 +1,4 @@
-import httpRequest from "./axiosConfig";
+import httpRequest from "../configs/axiosConfig";
 
 export const signupApi = (user) => {
   return httpRequest.post("/users", JSON.stringify(user));
