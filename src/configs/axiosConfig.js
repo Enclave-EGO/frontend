@@ -1,5 +1,7 @@
 import axios from "axios";
-import { BASE_URL } from "../constants";
+
+// const BASE_URL = "http://localhost:4001";
+const BASE_URL = "http://54.199.5.109:4001";
 
 const httpRequest = axios.create({
   baseURL: BASE_URL,
