@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { getTestDetailApi } from "../../apis/test";
 import { toast } from "react-toastify";
+import Header from "../../components/Header";
 import Question from "../../components/Question";
 import styles from "./TestTeacher.module.css";
 
