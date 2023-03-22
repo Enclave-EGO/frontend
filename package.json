@@ -2,7 +2,6 @@
   "name": "frontend",
   "version": "1.0.0",
   "private": true,
-  "proxy": "http://54.199.5.109:4001",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

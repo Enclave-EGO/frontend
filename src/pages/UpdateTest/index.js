@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getTestDetailApi, updateTestApi } from "../../apis/test";
 import { toast } from "react-toastify";
+import Header from "../../components/Header";
 import styles from "./UpdateTest.module.css";
 
 const UpdateTest = () => {
@@ -90,6 +91,7 @@ const UpdateTest = () => {
 
   return (
     <div className="mt-4">
+      <Header />
       <h2 className="bold">Update Test</h2>
       <div className="mt-4 ">{renderUpdateTestForm()}</div>
     </div>

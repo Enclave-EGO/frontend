@@ -4,6 +4,7 @@ import { getCourseApi } from "../../apis/course";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useQuery from "../../hooks/useQuery";
+import Header from "../../components/Header";
 import styles from "./CreateLesson.module.css";
 
 const CreateLesson = () => {
@@ -106,6 +107,7 @@ const CreateLesson = () => {
 
   return (
     <div className="mt-4">
+      <Header />
       <h2>Course: {course && course.name}</h2>
       <h2 className="bold">Create Lesson</h2>
       <div className="mt-4 ">{renderCreateLessonForm()}</div>
