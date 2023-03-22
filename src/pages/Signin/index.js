@@ -22,7 +22,7 @@ function Signin() {
     signinApi(values)
       .then((res) => {
         const { error, data } = res.data;
-        if (error) toast.error("Sign In Failed");
+        if (error) toast.error(error);
         else {
           localStorage.setItem("signin_token", JSON.stringify(data.token));
           localStorage.setItem("userId", JSON.stringify(data._id));
