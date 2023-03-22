@@ -4,6 +4,7 @@ import { getTestDetailApi } from "../../apis/test";
 import { getTestResultApi } from "../../apis/testResult";
 import { toast } from "react-toastify";
 import { BsCheck2, BsX } from "react-icons/bs";
+import Header from "../../components/Header";
 import QuestionResult from "../../components/QuestionResult";
 import styles from "./TestResult.module.css";
 
@@ -40,6 +41,7 @@ function TestResult() {
 
   return (
     <div className={styles.home}>
+      <Header />
       <section className={`container ${styles.homeSlider}`}>
         <h2>Test Result</h2>
         <div className={styles.formScore}>

@@ -66,7 +66,7 @@ const Header = () => {
       <header className={`container ${styles.header}`}>
         <Link to="/">
           <div className={styles.headerLogo}>
-            <img alt="" src={logo}></img>
+            <img alt="" src={logo} className={styles.logoImage}/>
           </div>
         </Link>
         {role === 1 && <div>{renderLearnerHeader()}</div>}

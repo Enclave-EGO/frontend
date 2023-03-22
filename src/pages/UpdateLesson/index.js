@@ -118,6 +118,7 @@ const UpdateLesson = () => {
 
   return (
     <div className="mt-4">
+      <Header />
       <h2>Course: {course?.name}</h2>
       <h2 className="bold">Update Lesson</h2>
       <div className="mt-4 ">{renderUpdateLessonForm()}</div>

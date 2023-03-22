@@ -137,3 +137,9 @@ cartBadge:hover {
   background-color: rgb(79, 82, 115);
   color: white;
 }
+
+.logoImage {
+  margin: 8px 28px;
+  width: 80px;
+  border-radius: 50%;
+}

@@ -44,6 +44,7 @@ function TestTeacher() {
 
   return (
     <div className={styles.home}>
+      <Header />
       <section className={`container ${styles.homeSlider}`}>
         <h2>Test</h2>
         <div className={styles.row}>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { createCourseApi } from "../../apis/course";
 import { useNavigate } from "react-router-dom";
+import Header from "../../components/Header";
 import styles from "./CreateCourse.module.css";
 
 const CreateCourse = () => {
@@ -100,6 +101,7 @@ const CreateCourse = () => {
 
   return (
     <div className="mt-4">
+      <Header />
       <h2 className="bold">Create New Course</h2>
       <div className="mt-4 ">{renderCreateCourseForm()}</div>
     </div>
