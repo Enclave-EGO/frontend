@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getCourseApi, updateCourseApi } from "../../apis/course";
 import { toast } from "react-toastify";
+import Header from "../../components/Header";
 import styles from "./UpdateCourse.module.css";
 
 const UpdateCourse = () => {
