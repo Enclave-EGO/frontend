@@ -1,7 +1,9 @@
 import axios from "axios";
 
-// const BASE_URL = "http://localhost:4001";
-const BASE_URL = "http://54.199.5.109:4001";
+const NODE_ENV = process.env.NODE_ENV;
+const DEVELOPMENT_URL = process.env.REACT_APP_DEVELOPMENT_URL;
+const PRODUCTION_URL = process.env.REACT_APP_PRODUCTION_URL;
+const BASE_URL = NODE_ENV === "production" ? PRODUCTION_URL : DEVELOPMENT_URL;
 
 const httpRequest = axios.create({
   baseURL: BASE_URL,
